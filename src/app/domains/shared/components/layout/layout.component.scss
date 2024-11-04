@@ -107,7 +107,7 @@
   transition: left 0.3s ease, transform 0.3s ease;
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1024px) {
 
   #header-mobile {
     display: none;
@@ -140,10 +140,10 @@
   }
 
   .main-content {
-    margin-top: 1em;
-    margin-right: 1em;
-    margin-bottom: 1em;
-    border-radius: 1.5em;
+    margin-top: 1.5rem;
+    margin-right: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 1.6rem;
     height: auto;
     margin-left: 0;
   }

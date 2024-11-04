@@ -13,23 +13,22 @@
   justify-content: space-between;
 }
 
-.sidebar-header img {
-  margin-left: 2em;
-  transition: margin-left 0.5s ease;
-}
-
 #logo-mobile {
+  font-family: "Trebuchet MS", sans-serif;
   display: block;
   text-decoration: none;
   font-size: 3rem;
   color: var(--cream-color);
   margin: 1rem 2rem;
+  font-weight: 700;
 }
 
 #logo-full {
+  font-family: "Trebuchet MS", sans-serif;
   display: none;
   text-decoration: none;
   font-size: 3rem;
+  font-weight: 700;
   margin: 1rem;
   color: var(--cream-color);
 }
@@ -123,7 +122,7 @@
   overflow: hidden !important;
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1024px) {
   .sidebar-container {
     width: 250px;
     transition: width 0.3s ease;
@@ -139,6 +138,8 @@
 
   #logo-full {
     display: block;
+    width: 100%;
+    text-align: center;
   }
 
   #btn-cerrar {
