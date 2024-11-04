@@ -32,6 +32,8 @@
               }
             ],
             "styles": [
+              "node_modules/normalize.css/normalize.css",
+              "src/styles/theme.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -46,8 +48,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"

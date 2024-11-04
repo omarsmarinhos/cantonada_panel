@@ -1,0 +1,116 @@
+@use '@angular/material' as mat;
+
+$m2-primary: (
+    50 : #e5eef4,
+    100 : #bdd5e4,
+    200 : #92b9d3,
+    300 : #669dc1,
+    400 : #4588b3,
+    500 : #2473a6,
+    600 : #206b9e,
+    700 : #1b6095,
+    800 : #16568b,
+    900 : #0d437b,
+    A100 : #b9e7ff,
+    A200 : #86d6ff,
+    A400 : #53c5ff,
+    A700 : #3abcff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$m2-accent: (
+    50 : #f9f7fc,
+    100 : #f1ecf8,
+    200 : #e8dff3,
+    300 : #dfd2ee,
+    400 : #d8c9eb,
+    500 : #d1bfe7,
+    600 : #ccb9e4,
+    700 : #c6b1e0,
+    800 : #c0a9dd,
+    900 : #b59bd7,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$m2-error: (
+    50 : #ffebee,
+    100 : #ffcdd2,
+    200 : #ef9a9a,
+    300 : #e57373,
+    400 : #ef5350,
+    500 : #f44336,
+    600 : #e53935,
+    700 : #d32f2f,
+    800 : #c62828,
+    900 : #b71c1c,
+    A100 : #ff8a80,
+    A200 : #ff5252,
+    A400 : #ff1744,
+    A700 : #d50000,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+
+$my-primary: mat.m2-define-palette($m2-primary);
+$my-accent: mat.m2-define-palette($m2-accent);
+$my-warn: mat.m2-define-palette($m2-error);
+
+$my-theme: mat.m2-define-light-theme((color: (primary: $my-primary,
+        accent: $my-primary,
+        warn: $my-warn )));
+
+$custom-typography: mat.m2-define-typography-config($font-family: 'PingFang SC, sans-serif'
+  );
+
+@include mat.core();
+@include mat.all-component-themes($my-theme);
+@include mat.all-component-typographies($custom-typography);

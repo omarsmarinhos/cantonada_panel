@@ -1,1 +1,77 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #2473A6;
+  --secondary-color: #ECF8FF;
+  --red-color: #FF0000;
+  --cream-color: #F3EBE2;
+  --black-color: #000;
+  --white-color: #fff;
+  --success-color: #49BB8D;
+  --error-color: #FF815A;
+  --warning-color: #FCAF17;
+  --border-color: #CFD5E6;
+  --background-content-color: #F7FAFB;
+
+  --mdc-snackbar-container-shape: 1rem;
+}
+
+html,
+body {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+html {
+  font-size: 62.5%;
+  letter-spacing: 0.5px;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.95;
+    transform: scale(1.01);
+  }
+}
+
+mat-icon {
+  color: var(--black-color);
+}
+
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent;
+  list-style: none;
+}
+
+input[type="number"] {
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &::-moz-inner-spin-button,
+  &::-moz-outer-spin-button {
+    -moz-appearance: none;
+    margin: 0;
+  }
+}
+
+.container {
+  max-width: 1359px;
+  margin: 0 auto;
+}
+
+.mdc-snackbar__label {
+  padding: 0 !important;
+}
+
+.mdc-snackbar__surface {
+  padding: 0 !important;
+}

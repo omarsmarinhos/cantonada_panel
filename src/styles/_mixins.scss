@@ -1,0 +1,31 @@
+/* Mixin para teléfonos (grandes) */
+@mixin phone-large {
+    @media (min-width: 425px) {
+      @content;
+    }
+}
+
+/* Mixin para tabletas */
+@mixin tablet {
+    @media (min-width: 768px) {
+      @content;
+    }
+}
+
+@mixin laptop {
+    @media (min-width: 1024px) {
+      @content;
+    }
+}
+
+@mixin laptop-large {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+    @media (min-width: 1440px) {
+      @content;
+    }
+}

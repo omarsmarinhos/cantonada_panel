@@ -1,0 +1,38 @@
+<div class="sidebar-container" [ngClass]="{ collapsed: isCollapsed() }">
+  <div class="sidebar-header">
+    <a id="logo-mobile">PANEL</a>
+    <a id="logo-full"> {{ !isCollapsed() ? 'PANEL' : 'P' }} </a>
+    <button id="btn-cerrar" (click)="toggleSidebar()" mat-icon-button>
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+  <div class="sidebar-content">
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="categorias" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+          <mat-icon>category</mat-icon>
+          <span class="nav-text">Categorías</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="productos" routerLinkActive="active" class="nav-link">
+          <mat-icon>shopping_cart</mat-icon>
+          <span class="nav-text">Productos</span>
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-profile">
+      <button class="btn-logout" [matMenuTriggerFor]="menu">
+        A
+      </button>
+      <span class="profile-text">
+        {{ perfil }}
+      </span>
+      <mat-menu #menu="matMenu">
+        <button (click)="logout()" mat-menu-item>Cerrar Sesión</button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
