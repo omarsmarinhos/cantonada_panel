@@ -73,16 +73,15 @@
 
 .burger-button {
   border: none;
-  background-color: var(--background-color);
   color: var(--white-color);
 }
 
 .main-content {
+  box-sizing: border-box;
   border: 1px solid var(--border-color);
-  border-radius: 1.5em;
-  background-color: var(--background-content-color);
+  border-radius: 2rem;
+  background-color: var(--white-color);
   margin-bottom: 1em;
-  height: auto;
 }
 
 #btn-menor {
@@ -90,7 +89,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 57px;
+  top: 37px;
   left: calc(250px - 17px);
   z-index: 11;
   width: 36px;
@@ -143,8 +142,6 @@
     margin-top: 1.5rem;
     margin-right: 1.5rem;
     margin-bottom: 1rem;
-    border-radius: 1.6rem;
-    height: auto;
     margin-left: 0;
   }
 

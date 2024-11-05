@@ -1,0 +1,20 @@
+<div class="categories container">
+  <div class="categories__header">
+    <span class="title">CATEGORÍAS</span>
+    <button>
+      <mat-icon>add</mat-icon>
+      <span>Agregar</span>
+    </button>
+  </div>
+  <div class="categories__content">
+    <div class="main">
+      <div class="main__grid">
+        @for (category of categories(); track $index) {
+        <div class="main__card">
+          <app-category-card [category]="category" (edit)="onEditCategory($event)" (delete)="onDeleteCategory($event)"></app-category-card>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

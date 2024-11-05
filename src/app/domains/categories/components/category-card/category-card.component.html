@@ -1,0 +1,18 @@
+<div class="category__card">
+  <div class="category__card__img">
+    <img [src]="category.tImagenUrl" alt="{{category.tNombre}} img" loading="lazy">
+  </div>
+  <div class="category__card__content">
+    <div class="category__card__title">
+      <span>{{ category.tNombre | uppercase  }}</span>
+    </div>
+    <div class="category__card__actions">
+      <div class="category__card__actions__button category__card__actions__button--edit" (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+      </div>
+      <div class="category__card__actions__button category__card__actions__button--delete" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+.actions {
+  display: flex;
+  gap: 2rem;
+}
+
+.cancel {
+  color: var(--black-color);
+  background-color: var(--border-color);
+  padding: 1rem;
+  border-radius: .5rem;
+
+}
+
+.delete {
+  color: var(--white-color);
+  background-color: var(--red-color);
+  padding: 1rem;
+  border-radius: .5rem;
+}
