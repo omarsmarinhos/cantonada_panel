@@ -18,11 +18,13 @@ export class CategoryService {
   }
 
   addCategory(tNombre: string, imagen: File, lPrincipal: boolean) {
+    console.log(tNombre);
+    console.log(imagen);
+    console.log(lPrincipal);
     const formData = new FormData();
     formData.append('tNombre', tNombre);
     formData.append('imagen', imagen);
     formData.append('lPrincipal', String(lPrincipal));
-
     return this.http.post<any>(`${this.baseUrl}/Categoria`, formData);
   }
 

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '../shared/services/alert.service';
+import { CategoryAddModalComponent } from './components/category-add-modal/category-add-modal.component';
 
 @Component({
   selector: 'app-categories',
@@ -38,6 +39,32 @@ export default class CategoriesComponent {
       },
       error: (err) => {
 
+      }
+    })
+  }
+
+  onAddCategory() {
+    const dialogRef = this.dialog.open(CategoryAddModalComponent, {
+      width: '600px'
+    }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.categoryService.addCategory(result.tNombre, result.imagen, result.lPrincipal).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess("Categoría agregada");
+            this.loadCategories();
+          },
+          error: (err) => {
+            console.log(err);
+            if (err.error.detalles) {
+              this.alertService.showWarning(err.error.detalles);
+            } else {
+              this.alertService.showError("Ocurrió un error");
+              console.error(err);
+            }
+          }
+        })
       }
     })
   }
