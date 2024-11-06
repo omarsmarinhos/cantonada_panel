@@ -1,1 +1,34 @@
-<p>products works!</p>
+<div class="products container">
+  <div class="products__header">
+    <span class="title">PRODUCTOS</span>
+    <button (click)="onAddProduct()">
+      <mat-icon>add</mat-icon>
+      <span>Agregar</span>
+    </button>
+  </div>
+  <div class="products__content">
+    <div class="cateogories main">
+      <span class="subtitle">Lista de Categorías</span>
+      <div class="categories__grid">
+        <div class="categories__grid__item" [class.active]="selectedCategory==='TODOS'"
+          (click)="changeCategory('TODOS')">TODOS</div>
+        @for (category of categories(); track $index) {
+        <div class="categories__grid__item" [class.active]="selectedCategory===category.tNombre"
+          (click)="changeCategory(category.tNombre)">
+          {{ category.tNombre | uppercase }}
+        </div>
+        }
+      </div>
+    </div>
+    <div class="products main">
+      <span class="subtitle">Lista de productos</span>
+      <div class="products__grid">
+        @for (product of products(); track $index) {
+        <div class="products__grid__item">
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

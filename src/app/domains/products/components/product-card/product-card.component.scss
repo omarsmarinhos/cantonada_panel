@@ -1,0 +1,81 @@
+.product__card {
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+
+  &__img {
+    overflow: hidden;
+    border-radius: 1rem 1rem 0 0;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+  }
+
+  &__title {
+    span {
+      font-weight: 600;
+      font-size: 2rem;
+      display: inline-block;
+      text-align: center;
+    }
+  }
+
+  &__desc {
+    margin: 0 1rem;
+
+    span {
+      display: inline-block;
+    }
+  }
+
+  &__price {
+    width: 100%;
+
+    span {
+      margin: 0 1rem;
+      display: block;
+      text-align: right;
+      font-weight: 600;
+      font-size: 2rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+
+    &__button {
+      border-radius: .5rem;
+      width: 50px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &--edit {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+      }
+
+      &--delete {
+        color: var(--white-color);
+        background-color: var(--red-color);
+      }
+    }
+  }
+}

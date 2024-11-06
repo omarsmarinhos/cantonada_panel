@@ -1,0 +1,24 @@
+<div class="product__card">
+  <div class="product__card__img">
+    <img [src]="product.tImagenUrl" alt="{{product.tNombre}} img" loading="lazy">
+  </div>
+  <div class="product__card__content">
+    <div class="product__card__title">
+      <span>{{ product.tNombre | uppercase }}</span>
+    </div>
+    <div class="product__card__desc">
+      <span>{{ product.tDescripcion }}</span>
+    </div>
+    <div class="product__card__price">
+      <span>{{ product.dPrecio | currency: 'S/ ': 'symbol':'1.2' }}</span>
+    </div>
+    <div class="product__card__actions">
+      <div class="product__card__actions__button product__card__actions__button--edit" (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+      </div>
+      <div class="product__card__actions__button product__card__actions__button--delete" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
