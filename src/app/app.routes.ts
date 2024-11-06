@@ -3,14 +3,18 @@ import LayoutComponent from './domains/shared/components/layout/layout.component
 
 export const routes: Routes = [
   {
-    path:'',
+    path: '',
     component: LayoutComponent,
     // loadComponent: () => import('./domains/shared/components/layout/layout.component'),
     children: [
       {
         path: 'categorias',
-        loadComponent: ()=> import('./domains/categories/categories.component')
-      }
+        loadComponent: () => import('./domains/categories/categories.component')
+      },
+      {
+        path: 'orden-categorias',
+        loadComponent: () => import('./domains/order-categories/order-categories.component')
+      },
     ]
   }
 ];

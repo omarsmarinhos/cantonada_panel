@@ -17,11 +17,17 @@
         </a>
       </li>
       <li class="nav-item">
-        <a (click)="openSideBar()" routerLink="productos" routerLinkActive="active" class="nav-link">
-          <mat-icon>shopping_cart</mat-icon>
-          <span class="nav-text">Productos</span>
+        <a (click)="openSideBar()" routerLink="orden-categorias" routerLinkActive="active" class="nav-link">
+          <mat-icon>drag_indicator</mat-icon>
+          <span class="nav-text">Ordenar Categorías</span>
         </a>
       </li>
+      <!-- <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="order-categorias" routerLinkActive="active" class="nav-link">
+          <mat-icon>shopping_cart</mat-icon>
+          <span class="nav-text">Ordenar Categorías</span>
+        </a>
+      </li> -->
     </ul>
     <div class="sidebar-profile">
       <button class="btn-logout" [matMenuTriggerFor]="menu">

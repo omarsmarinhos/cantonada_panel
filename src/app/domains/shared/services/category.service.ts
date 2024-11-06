@@ -18,9 +18,6 @@ export class CategoryService {
   }
 
   addCategory(tNombre: string, imagen: File, lPrincipal: boolean) {
-    console.log(tNombre);
-    console.log(imagen);
-    console.log(lPrincipal);
     const formData = new FormData();
     formData.append('tNombre', tNombre);
     formData.append('imagen', imagen);
@@ -28,7 +25,23 @@ export class CategoryService {
     return this.http.post<any>(`${this.baseUrl}/Categoria`, formData);
   }
 
+  editCategory(categoryData: any) {
+    const formData = new FormData();
+    formData.append('iIdCategoria', categoryData.iIdCategoria);
+    formData.append('tNombre', categoryData.tNombre);
+    formData.append('lPrincipal', String(categoryData.lPrincipal));
+    formData.append('imageChanged', String(categoryData.imageChanged));
+    if (categoryData.imageChanged && categoryData.imagen) {
+      formData.append('imagen', categoryData.imagen);
+    }
+    return this.http.put<any>(`${this.baseUrl}/Categoria`, formData);
+  }
+
   deleteCategory(iIdCategoria: number) {
     return this.http.delete<any>(`${this.baseUrl}/Categoria/${iIdCategoria}`);
+  }
+
+  orderCategories(ordenCategorias: { iIdCategoria: number; nOrden: number }[]) {
+    return this.http.post<any>(`${this.baseUrl}/Categoria/Ordenar`, ordenCategorias);
   }
 }

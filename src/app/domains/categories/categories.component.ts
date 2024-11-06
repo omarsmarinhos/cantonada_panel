@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '../shared/services/alert.service';
 import { CategoryAddModalComponent } from './components/category-add-modal/category-add-modal.component';
+import { CategoryEditModalComponent } from './components/category-edit-modal/category-edit-modal.component';
 
 @Component({
   selector: 'app-categories',
@@ -66,12 +67,33 @@ export default class CategoriesComponent {
           }
         })
       }
-    })
+    });
   }
 
   onEditCategory(category: Category) {
-    console.log(category)
-    alert('edit ' + category.iIdCategoria);
+    const dialogRef = this.dialog.open(CategoryEditModalComponent, {
+      width: '600px',
+      data: category
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.categoryService.editCategory(result).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess(res.mensaje);
+            this.loadCategories();
+          },
+          error: (err) => {
+            console.log(err);
+            if (err.error.detalles) {
+              this.alertService.showWarning(err.error.detalles);
+            } else {
+              this.alertService.showError("Ocurrió un error");
+              console.error(err);
+            }
+          }
+        })
+      }
+    });
   }
 
   onDeleteCategory(iIdCategoria: number) {
