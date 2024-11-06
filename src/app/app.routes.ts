@@ -15,6 +15,14 @@ export const routes: Routes = [
         path: 'orden-categorias',
         loadComponent: () => import('./domains/order-categories/order-categories.component')
       },
+      {
+        path: 'productos',
+        loadComponent: () => import('./domains/products/products.component')
+      },
+      {
+        path: 'orden-productos',
+        loadComponent: () => import('./domains/order-productos/order-productos.component')
+      },
     ]
   }
 ];
