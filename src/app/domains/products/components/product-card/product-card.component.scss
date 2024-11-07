@@ -23,6 +23,7 @@
   }
 
   &__title {
+    margin-top: 1rem;
     span {
       font-weight: 600;
       font-size: 2rem;
@@ -35,7 +36,13 @@
     margin: 0 1rem;
 
     span {
-      display: inline-block;
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
     }
   }
 
