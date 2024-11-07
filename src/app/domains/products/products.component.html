@@ -10,21 +10,21 @@
     <div class="cateogories main">
       <span class="subtitle">Lista de Categorías</span>
       <div class="categories__grid">
-        <div class="categories__grid__item" [class.active]="selectedCategory==='TODOS'"
-          (click)="changeCategory('TODOS')">TODOS</div>
+        <div class="categories__grid__item" [class.active]="selectedCategory==='Todos'"
+          (click)="changeCategory('TODOS')">Todos</div>
         @for (category of categories(); track $index) {
         <div class="categories__grid__item" [class.active]="selectedCategory===category.tNombre"
           (click)="changeCategory(category.tNombre)">
-          {{ category.tNombre | uppercase }}
+          {{ category.tNombre | capitalize }}
         </div>
         }
       </div>
     </div>
-    <div class="products main">
+    <div class="products-list main">
       <span class="subtitle">Lista de productos</span>
-      <div class="products__grid">
+      <div class="products-list__grid">
         @for (product of products(); track $index) {
-        <div class="products__grid__item">
+        <div class="products-list__grid__item">
           <app-product-card [product]="product" (edit)="onEditProduct($event)" (delete)="onDeleteProduct($event)"></app-product-card>
         </div>
         }

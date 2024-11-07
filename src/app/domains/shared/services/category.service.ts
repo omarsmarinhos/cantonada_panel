@@ -41,7 +41,7 @@ export class CategoryService {
     return this.http.delete<any>(`${this.baseUrl}/Categoria/${iIdCategoria}`);
   }
 
-  orderCategories(ordenCategorias: { iIdCategoria: number; nOrden: number }[]) {
+  orderCategories(ordenCategorias: { iId: number; nOrden: number }[]) {
     return this.http.post<any>(`${this.baseUrl}/Categoria/Ordenar`, ordenCategorias);
   }
 }

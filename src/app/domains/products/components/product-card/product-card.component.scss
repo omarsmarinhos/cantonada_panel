@@ -1,7 +1,8 @@
 .product__card {
   box-sizing: border-box;
-  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
+  position: relative;
 
   &__img {
     overflow: hidden;
@@ -24,6 +25,7 @@
 
   &__title {
     margin-top: 1rem;
+
     span {
       font-weight: 600;
       font-size: 2rem;
@@ -43,6 +45,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
+      color: gray;
     }
   }
 
@@ -55,6 +58,7 @@
       text-align: right;
       font-weight: 600;
       font-size: 2rem;
+      color: #2a505a;
     }
   }
 

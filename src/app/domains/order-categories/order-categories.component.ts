@@ -44,11 +44,9 @@ export default class OrderCategoriesComponent {
 
   onSaveChanges() {
     const orderedCategories = this.categories().map((category, index) => ({
-      iIdCategoria: category.iIdCategoria,
-      nOrden: index // el nuevo orden después de arrastrar
+      iId: category.iIdCategoria,
+      nOrden: index
     }));
-
-    console.log(orderedCategories);
 
     this.categoryService.orderCategories(orderedCategories).subscribe({
       next: (res) => {

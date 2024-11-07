@@ -62,7 +62,6 @@ export default class CategoriesComponent {
               this.alertService.showWarning(err.error.detalles);
             } else {
               this.alertService.showError("Ocurrió un error");
-              console.error(err);
             }
           }
         })

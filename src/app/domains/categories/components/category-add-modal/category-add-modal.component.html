@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Agregar una Categoría</h2>
 <mat-dialog-content>
   <form [formGroup]="form" class="my-form">
-    <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
       <mat-label>Nombre</mat-label>
       <input matInput formControlName="tNombre">
     </mat-form-field>
@@ -10,7 +10,7 @@
     </mat-slide-toggle>
 
     <ngx-file-drop
-  [accept]="'.png,.jpg,.jpeg,.gif'"
+  [accept]="'.png,.jpg,.jpeg'"
   (onFileDrop)="onFileDrop($event)"
   dropZoneClassName="drop-zone"
   contentClassName="drop-content"
