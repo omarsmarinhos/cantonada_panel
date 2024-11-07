@@ -61,8 +61,13 @@ export class ProductAddModalComponent {
   constructor() {
     this.form = this.fb.group({
       tNombre: ['', [Validators.required, Validators.pattern(/\S+/)]],
-      dPrecio: ['', [Validators.required]],
-      tDescripcion: ['', [Validators.required]],
+      dPrecio: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(9999.99),
+        Validators.pattern(/^\d+(\.\d{1,2})?$/)
+      ]],
+      tDescripcion: ['', [Validators.required, Validators.pattern(/\S+/)]],
       lDelivery: [true, [Validators.required]],
       lRecoger: [true, [Validators.required]],
       lConsumir: [true, [Validators.required]],
@@ -70,7 +75,7 @@ export class ProductAddModalComponent {
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.loadCategoriesInSelect();
     this.loadBranchesChecks();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 1024px)']).subscribe((state: BreakpointState) => {
@@ -114,8 +119,15 @@ export class ProductAddModalComponent {
     this.dialogRef.close();
   }
 
+
   onSubmit() {
     if (this.form.invalid) {
+
+      if (this.form.get('dPrecio')?.hasError('pattern')) {
+        this.alertService.showWarning("Formato incorrecto en el precio");
+        return;
+      }
+
       this.form.markAllAsTouched();
       this.alertService.showWarning("Debe llenar todos los campos.");
       return;

@@ -51,7 +51,7 @@ export default class CategoriesComponent {
     );
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.categoryService.addCategory(result.tNombre, result.imagen, result.lPrincipal).subscribe({
+        this.categoryService.addCategory(result.tNombre.trim(), result.imagen, result.lPrincipal).subscribe({
           next: (res) => {
             this.alertService.showSuccess("Categoría agregada");
             this.loadCategories();

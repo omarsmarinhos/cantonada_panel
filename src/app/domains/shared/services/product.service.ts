@@ -19,9 +19,9 @@ export class ProductService {
 
   addCategory(product: any) {
     const formData = new FormData();
-    formData.append('tNombre', product.tNombre);
-    formData.append('tDescripcion', product.tDescripcion);
-    formData.append('dPrecio', product.dPrecio.toString());
+    formData.append('tNombre', product.tNombre.toString().trim());
+    formData.append('tDescripcion', product.tDescripcion.toString().trim());
+    formData.append('dPrecio', product.dPrecio.toString().trim());
     formData.append('lDelivery', String(product.lDelivery));
     formData.append('lRecoger', String(product.lRecoger));
     formData.append('lConsumir', String(product.lConsumir));
