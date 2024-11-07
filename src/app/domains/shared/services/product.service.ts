@@ -17,7 +17,7 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.baseUrl}/Producto?tCategoria=${tCategoria}`);
   }
 
-  addCategory(product: any) {
+  addProduct(product: any) {
     const formData = new FormData();
     formData.append('tNombre', product.tNombre.toString().trim());
     formData.append('tDescripcion', product.tDescripcion.toString().trim());

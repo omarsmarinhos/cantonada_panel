@@ -9,7 +9,7 @@
       ¿Mostrar en la página principal?
     </mat-slide-toggle>
 
-    <ngx-file-drop [accept]="'.png,.jpg,.jpeg,.gif'" (onFileDrop)="onFileDrop($event)" dropZoneClassName="drop-zone"
+    <ngx-file-drop [accept]="'.png,.jpg,.jpeg'" (onFileDrop)="onFileDrop($event)" dropZoneClassName="drop-zone"
       contentClassName="drop-content">
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
         <div class="upload-container">

@@ -10,6 +10,7 @@ import { ProductAddModalComponent } from './components/product-add/product-add.c
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { ProductService } from '../shared/services/product.service';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
+import { ProductEditComponent } from './components/product-edit/product-edit.component';
 
 @Component({
   selector: 'app-products',
@@ -69,7 +70,7 @@ export default class ProductsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.productService.addCategory(result).subscribe({
+        this.productService.addProduct(result).subscribe({
           next: (res) => {
             this.alertService.showSuccess("Producto agregado");
             this.loadProducts();
@@ -88,7 +89,29 @@ export default class ProductsComponent {
   }
 
   onEditProduct(product: Product) {
-
+    const dialogRef = this.dialog.open(ProductEditComponent, {
+      width: '900px',
+      data: product
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.productService.editProduct(result).subscribe({
+        //   next: (res) => {
+        //     this.alertService.showSuccess(res.mensaje);
+        //     this.loadProducts();
+        //   },
+        //   error: (err) => {
+        //     console.log(err);
+        //     if (err.error.detalles) {
+        //       this.alertService.showWarning(err.error.detalles);
+        //     } else {
+        //       this.alertService.showError("Ocurrió un error");
+        //       console.error(err);
+        //     }
+        //   }
+        // })
+      }
+    });
   }
 
   onDeleteProduct(iIdProducto: number) {
