@@ -1,1 +1,32 @@
-<p>order-productos works!</p>
+<div class="products container">
+  <div class="products__header">
+    <span class="title">ORDENAR PRODUCTOS</span>
+  </div>
+  <div class="products__content">
+    <div class="main">
+      <div class="main__select">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Seleccione una categoría</mat-label>
+          <mat-select (valueChange)="onSelectChange($event)">
+            @for (category of categories(); track $index) {
+              <mat-option [value]="category.tNombre">{{category.tNombre | capitalize}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div cdkDropList cdkDropListOrientation="mixed" class="example-list" (cdkDropListDropped)="drop($event)">
+        @for (product of products(); track $index) {
+        <div class="example-box" cdkDrag>
+          {{product.tNombre | uppercase}}
+        </div>
+        }
+      </div>
+      <div class="main__button">
+        <button (click)="onSaveChanges()">
+          <mat-icon>save</mat-icon>
+          <span>Guardar Cambios</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

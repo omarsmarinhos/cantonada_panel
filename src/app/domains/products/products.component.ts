@@ -8,7 +8,7 @@ import { ProductCardComponent } from "./components/product-card/product-card.com
 import { MatDialog } from '@angular/material/dialog';
 import { ProductAddModalComponent } from './components/product-add/product-add.component';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
-import { ProductoService } from '../shared/services/product.service';
+import { ProductService } from '../shared/services/product.service';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -25,7 +25,7 @@ import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/conf
 export default class ProductsComponent {
 
   readonly categoryService = inject(CategoryService);
-  readonly productService = inject(ProductoService);
+  readonly productService = inject(ProductService);
   readonly alertService = inject(AlertService);
   readonly dialog = inject(MatDialog);
 

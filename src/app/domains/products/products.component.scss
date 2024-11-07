@@ -36,6 +36,11 @@
     flex-direction: column;
     border-radius: 0 0 2rem 2rem;
     padding-bottom: 6rem;
+    min-height: calc(100dvh - 18rem);
+
+    @include m.laptop {
+      min-height: calc(100dvh - 15rem);
+    }
   }
 }
 
@@ -46,7 +51,7 @@
   border-radius: 1rem;
   margin: 1rem 0 0 0;
   padding: 1rem;
-  flex: 1;
+  height: fit-content;
   display: flex;
   flex-direction: column;
 
@@ -102,10 +107,9 @@
 }
 
 .products-list {
-  min-height: 25rem;
   &__grid {
     display: grid;
-    gap: 1rem;
+    gap: 2rem 1rem;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     margin: 2rem;
 

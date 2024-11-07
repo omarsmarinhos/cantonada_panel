@@ -6,7 +6,7 @@ import { Product } from '../models/Product.model';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductoService {
+export class ProductService {
 
   readonly baseUrl = API_URL;
   readonly http = inject(HttpClient);
@@ -39,7 +39,7 @@ export class ProductoService {
     return this.http.delete<any>(`${this.baseUrl}/Producto/${iIdProducto}`);
   }
 
-  // orderCategories(ordenCategorias: { iIdCategoria: number; nOrden: number }[]) {
-  //   return this.http.post<any>(`${this.baseUrl}/Categoria/Ordenar`, ordenCategorias);
-  // }
+  orderProducts(ordenProducts: { iId: number; nOrden: number }[]) {
+    return this.http.post<any>(`${this.baseUrl}/Producto/Ordenar`, ordenProducts);
+  }
 }

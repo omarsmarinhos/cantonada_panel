@@ -82,6 +82,11 @@
   border-radius: 2rem;
   background-color: var(--white-color);
   margin-bottom: 1em;
+  min-height: calc(100dvh - 6rem);
+
+  @include m.laptop {
+    min-height: calc(100dvh - 3rem);
+  }
 }
 
 #btn-menor {
