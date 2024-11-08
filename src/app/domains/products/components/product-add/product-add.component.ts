@@ -71,6 +71,8 @@ export class ProductAddModalComponent {
       lDelivery: [true, [Validators.required]],
       lRecoger: [true, [Validators.required]],
       lConsumir: [true, [Validators.required]],
+      lPopular: [false, [Validators.required]],
+      lNovedad: [false, [Validators.required]],
       iIdCategoria: ['', [Validators.required]]
     });
   }
@@ -145,6 +147,8 @@ export class ProductAddModalComponent {
       lDelivery: this.form.get('lDelivery')?.value,
       lRecoger: this.form.get('lRecoger')?.value,
       lConsumir: this.form.get('lConsumir')?.value,
+      lPopular: this.form.get('lPopular')?.value,
+      lNovedad: this.form.get('lNovedad')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imagen: this.selectedFile,

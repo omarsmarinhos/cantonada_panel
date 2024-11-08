@@ -75,6 +75,8 @@ export class ProductEditComponent {
       lDelivery: [this.product.lDelivery, [Validators.required]],
       lRecoger: [this.product.lRecoger, [Validators.required]],
       lConsumir: [this.product.lConsumir, [Validators.required]],
+      lPopular: [this.product.lPopular, [Validators.required]],
+      lNovedad: [this.product.lNovedad, [Validators.required]],
       iIdCategoria: [this.product.categoria.iIdCategoria, [Validators.required]]
     });
     this.previewUrl = this.product.tImagenUrl;
@@ -151,6 +153,8 @@ export class ProductEditComponent {
       lDelivery: this.form.get('lDelivery')?.value,
       lRecoger: this.form.get('lRecoger')?.value,
       lConsumir: this.form.get('lConsumir')?.value,
+      lPopular: this.form.get('lPopular')?.value,
+      lNovedad: this.form.get('lNovedad')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imageChanged: this.imageChanged,

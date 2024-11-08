@@ -15,6 +15,7 @@ form {
 }
 
 .image-preview {
+  padding: 2rem 0 0 0;
   @include m.tablet {
     padding: 4rem 10rem 0 10rem;
   }
@@ -113,4 +114,8 @@ form {
       margin-top: 1rem;
     }
   }
+}
+
+.actions {
+  padding: 3rem 2rem 1rem 2rem;
 }

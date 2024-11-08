@@ -9,6 +9,8 @@ export interface Product {
   lDelivery: boolean;
   lRecoger: boolean;
   lConsumir: boolean;
+  lPopular: boolean;
+  lNovedad: boolean;
   categoria: Category;
   jSucursales: string;
 }

@@ -25,6 +25,8 @@ export class ProductService {
     formData.append('lDelivery', String(product.lDelivery));
     formData.append('lRecoger', String(product.lRecoger));
     formData.append('lConsumir', String(product.lConsumir));
+    formData.append('lPopular', String(product.lPopular));
+    formData.append('lNovedad', String(product.lNovedad));
     formData.append('iIdCategoria', product.iIdCategoria.toString());
     if (product.sucursales && product.sucursales.length > 0) {
       formData.append('jSucursales', JSON.stringify(product.sucursales));
@@ -44,6 +46,8 @@ export class ProductService {
     formData.append('lDelivery', String(product.lDelivery));
     formData.append('lRecoger', String(product.lRecoger));
     formData.append('lConsumir', String(product.lConsumir));
+    formData.append('lPopular', String(product.lPopular));
+    formData.append('lNovedad', String(product.lNovedad));
     formData.append('iIdCategoria', product.iIdCategoria.toString());
     if (product.sucursales && product.sucursales.length > 0) {
       formData.append('jSucursales', JSON.stringify(product.sucursales));
