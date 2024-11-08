@@ -75,9 +75,10 @@ export class ProductEditComponent {
       lDelivery: [this.product.lDelivery, [Validators.required]],
       lRecoger: [this.product.lRecoger, [Validators.required]],
       lConsumir: [this.product.lConsumir, [Validators.required]],
-      iIdCategoria: [this.product.category?.tNombre, [Validators.required]]
+      iIdCategoria: [this.product.categoria.iIdCategoria, [Validators.required]]
     });
     this.previewUrl = this.product.tImagenUrl;
+    this.selectedBranchIds = JSON.parse(this.product.jSucursales);
   }
 
   ngOnInit() {
@@ -140,10 +141,7 @@ export class ProductEditComponent {
       return;
     }
 
-    if (!this.selectedFile) {
-      this.alertService.showWarning("Debe agregar una imagen.");
-      return;
-    }
+    console.log(this.selectedBranchIds)
 
     this.dialogRef.close({
       iIdProducto: this.product.iIdProducto,

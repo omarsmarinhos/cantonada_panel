@@ -35,6 +35,26 @@ export class ProductService {
     return this.http.post<any>(`${this.baseUrl}/Producto`, formData);
   }
 
+  editProduct(product: any) {
+    const formData = new FormData();
+    formData.append('iIdProducto', product.iIdProducto.toString());
+    formData.append('tNombre', product.tNombre.toString().trim());
+    formData.append('tDescripcion', product.tDescripcion.toString().trim());
+    formData.append('dPrecio', product.dPrecio.toString().trim());
+    formData.append('lDelivery', String(product.lDelivery));
+    formData.append('lRecoger', String(product.lRecoger));
+    formData.append('lConsumir', String(product.lConsumir));
+    formData.append('iIdCategoria', product.iIdCategoria.toString());
+    if (product.sucursales && product.sucursales.length > 0) {
+      formData.append('jSucursales', JSON.stringify(product.sucursales));
+    } else {
+      formData.append('jSucursales', '[]');
+    }
+    formData.append('imagen', product.imagen);
+    formData.append('imageChanged', String(product.imageChanged));
+    return this.http.put<any>(`${this.baseUrl}/Producto`, formData);
+  }
+
   deleteProduct(iIdProducto: number) {
     return this.http.delete<any>(`${this.baseUrl}/Producto/${iIdProducto}`);
   }

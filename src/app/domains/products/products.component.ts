@@ -95,21 +95,20 @@ export default class ProductsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.productService.editProduct(result).subscribe({
-        //   next: (res) => {
-        //     this.alertService.showSuccess(res.mensaje);
-        //     this.loadProducts();
-        //   },
-        //   error: (err) => {
-        //     console.log(err);
-        //     if (err.error.detalles) {
-        //       this.alertService.showWarning(err.error.detalles);
-        //     } else {
-        //       this.alertService.showError("Ocurrió un error");
-        //       console.error(err);
-        //     }
-        //   }
-        // })
+        this.productService.editProduct(result).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess(res.mensaje);
+            this.loadProducts();
+          },
+          error: (err) => {
+            console.log(err);
+            if (err.error.detalles) {
+              this.alertService.showWarning(err.error.detalles);
+            } else {
+              this.alertService.showError("Ocurrió un error");
+            }
+          }
+        })
       }
     });
   }
