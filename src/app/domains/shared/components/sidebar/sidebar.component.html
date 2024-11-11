@@ -40,6 +40,12 @@
           <span class="nav-text">Ordenar Productos</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="configuracion" routerLinkActive="active" class="nav-link">
+          <mat-icon>settings</mat-icon>
+          <span class="nav-text">Configuración</span>
+        </a>
+      </li>
     </ul>
     <div class="sidebar-profile">
       <button class="btn-logout" [matMenuTriggerFor]="menu">

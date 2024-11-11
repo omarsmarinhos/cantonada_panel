@@ -27,6 +27,10 @@ export const routes: Routes = [
         path: 'orden-productos',
         loadComponent: () => import('./domains/order-productos/order-productos.component')
       },
+      {
+        path: 'configuracion',
+        loadComponent: () => import('./domains/configurations/configurations.component')
+      },
     ]
   }
 ];
