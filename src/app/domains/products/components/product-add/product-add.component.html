@@ -48,7 +48,8 @@
       <div class="features__column">
         <span class="features__label">Producto disponible en:</span>
         @for (branch of branchesChecks(); track $index) {
-        <mat-checkbox [checked]="selectedBranchIds.includes(branch.iIdSucursal)" (change)="onBranchChange(branch.iIdSucursal, $event.checked)">{{ branch.tNombre }}</mat-checkbox>
+        <mat-checkbox [checked]="selectedBranchIds.includes(branch.iIdSucursal)"
+          (change)="onBranchChange(branch.iIdSucursal, $event.checked)">{{ branch.tNombre }}</mat-checkbox>
         }
       </div>
     </div>
@@ -59,7 +60,9 @@
         <div class="upload-container">
           <div *ngIf="!selectedFile">
             <mat-icon class="upload-icon">cloud_upload</mat-icon>
-            <p>Arrastra y suelta aquí tu archivo de imagen</p>
+            <p>Arrastra y suelta aquí tu imagen</p>
+            <p style="font-size: 1rem;">(Tamaño máximo: {{maxWidth}}x{{maxHeight}} px, Proporción
+              {{aspectRatioWidth}}:{{aspectRatioHeight}})</p>
             <p>o</p>
             <button class="select-file" (click)="openFileSelector()">
               Seleccione un archivo

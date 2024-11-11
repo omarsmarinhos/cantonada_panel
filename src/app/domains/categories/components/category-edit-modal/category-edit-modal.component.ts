@@ -38,6 +38,10 @@ export class CategoryEditModalComponent {
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   imageChanged: boolean = false;
+  maxWidth = 900;
+  maxHeight = 900;
+  aspectRatioWidth = 1;
+  aspectRatioHeight = 1;
 
   constructor() {
     this.form = this.fb.group({
@@ -59,14 +63,40 @@ export class CategoryEditModalComponent {
             return;
           }
 
-          this.selectedFile = file;
-          this.imageChanged = true;
+          const img = new Image();
+          const objectUrl = URL.createObjectURL(file);
+          img.src = objectUrl;
 
-          const reader = new FileReader();
-          reader.onload = () => {
-            this.previewUrl = reader.result;
+          img.onload = () => {
+            const width = img.width;
+            const height = img.height;
+
+            if (width > this.maxWidth || height > this.maxHeight) {
+              this.alertService.showError(`La imagen excede las dimensiones permitidas de ${this.maxWidth}x${this.maxHeight} píxeles.`);
+              URL.revokeObjectURL(objectUrl);
+              return;
+            }
+
+            const aspectRatio = width / height;
+            const expectedAspectRatio = this.aspectRatioWidth / this.aspectRatioHeight;
+
+            if (Math.abs(aspectRatio - expectedAspectRatio) > 0.01) {
+              this.alertService.showError(`La imagen debe tener una proporción de ${this.aspectRatioWidth}:${this.aspectRatioHeight}.`);
+              URL.revokeObjectURL(objectUrl);
+              return;
+            }
+
+            this.selectedFile = file;
+            this.imageChanged = true;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+              this.previewUrl = reader.result;
+            };
+            reader.readAsDataURL(file);
+
+            URL.revokeObjectURL(objectUrl);
           };
-          reader.readAsDataURL(file);
         });
       }
     }
