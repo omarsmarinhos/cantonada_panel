@@ -26,6 +26,11 @@
       </mat-grid-tile>
     </mat-grid-list>
 
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="tDescripcion"></textarea>
+    </mat-form-field>
+
     <div class="features">
       <div class="features__column">
         <span class="features__label">Producto se puede: </span>
@@ -86,11 +91,6 @@
         </div>
       </ng-template>
     </ngx-file-drop>
-
-    <mat-form-field appearance="outline" style="width: 100%;">
-      <mat-label>Descripción</mat-label>
-      <textarea matInput formControlName="tDescripcion"></textarea>
-    </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end" class="actions">
