@@ -1,0 +1,18 @@
+<div class="branch__card">
+  <div class="branch__card__img">
+    <img [src]="branch.tImagenUrl" alt="{{branch.tNombre}} img" loading="lazy">
+  </div>
+  <div class="branch__card__content">
+    <div class="branch__card__title">
+      <span>{{ branch.tNombre | uppercase }}</span>
+    </div>
+    <div class="branch__card__actions">
+      <div class="branch__card__actions__button branch__card__actions__button--edit" (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+      </div>
+      <div class="branch__card__actions__button branch__card__actions__button--delete" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

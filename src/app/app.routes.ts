@@ -8,6 +8,10 @@ export const routes: Routes = [
     // loadComponent: () => import('./domains/shared/components/layout/layout.component'),
     children: [
       {
+        path: 'sucursales',
+        loadComponent: () => import('./domains/branches/branches.component')
+      },
+      {
         path: 'categorias',
         loadComponent: () => import('./domains/categories/categories.component')
       },

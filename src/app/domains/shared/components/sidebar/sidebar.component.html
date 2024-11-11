@@ -10,6 +10,12 @@
   <div class="sidebar-content">
     <ul class="sidebar-nav">
       <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="sucursales" routerLinkActive="active" class="nav-link">
+          <mat-icon>store</mat-icon>
+          <span class="nav-text">Sucursales</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a (click)="openSideBar()" routerLink="categorias" routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
           <mat-icon>category</mat-icon>

@@ -15,8 +15,8 @@ import { CapitalizePipe } from '../../../shared/pipes/capitalize.pipe';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import { SucursalService } from '../../../shared/services/sucursal.service';
-import { Sucursal } from '../../../shared/models/Sucursal.model';
+import { BranchService } from '../../../shared/services/branch.service';
+import { Branch } from '../../../shared/models/Branch.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
@@ -46,7 +46,7 @@ export class ProductAddModalComponent {
   readonly dialogRef = inject(MatDialogRef<ProductAddModalComponent>);
   readonly alertService = inject(AlertService);
   readonly categoryService = inject(CategoryService);
-  readonly sucursalService = inject(SucursalService);
+  readonly branchService = inject(BranchService);
   readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
@@ -54,7 +54,7 @@ export class ProductAddModalComponent {
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   categoriesSelect = signal<Category[]>([]);
-  branchesChecks = signal<Sucursal[]>([]);
+  branchesChecks = signal<Branch[]>([]);
   colspan: number = 12;
   selectedBranchIds: number[] = [];
   maxWidth = 900;
@@ -197,7 +197,7 @@ export class ProductAddModalComponent {
   }
 
   loadBranchesChecks() {
-    this.sucursalService.getSucursal().subscribe({
+    this.branchService.getSucursal().subscribe({
       next: (res) => {
         this.branchesChecks.set(res);
       },

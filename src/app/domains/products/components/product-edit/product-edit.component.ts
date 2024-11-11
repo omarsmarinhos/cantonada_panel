@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { ProductAddModalComponent } from '../product-add/product-add.component';
 import { AlertService } from '../../../shared/services/alert.service';
 import { CategoryService } from '../../../shared/services/category.service';
-import { SucursalService } from '../../../shared/services/sucursal.service';
+import { BranchService } from '../../../shared/services/branch.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CapitalizePipe } from '../../../shared/pipes/capitalize.pipe';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Category } from '../../../shared/models/Category.model';
-import { Sucursal } from '../../../shared/models/Sucursal.model';
+import { Branch
+ } from '../../../shared/models/Branch.model';
 import { Product } from '../../../shared/models/Product.model';
 
 @Component({
@@ -48,7 +49,7 @@ export class ProductEditComponent {
   readonly dialogRef = inject(MatDialogRef<ProductAddModalComponent>);
   readonly alertService = inject(AlertService);
   readonly categoryService = inject(CategoryService);
-  readonly sucursalService = inject(SucursalService);
+  readonly branchService = inject(BranchService);
   readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
   readonly product = inject<Product>(MAT_DIALOG_DATA);
@@ -57,7 +58,7 @@ export class ProductEditComponent {
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   categoriesSelect = signal<Category[]>([]);
-  branchesChecks = signal<Sucursal[]>([]);
+  branchesChecks = signal<Branch[]>([]);
   colspan: number = 12;
   selectedBranchIds: number[] = [];
   imageChanged: boolean = false;
@@ -204,7 +205,7 @@ export class ProductEditComponent {
   }
 
   loadBranchesChecks() {
-    this.sucursalService.getSucursal().subscribe({
+    this.branchService.getSucursal().subscribe({
       next: (res) => {
         this.branchesChecks.set(res);
       },

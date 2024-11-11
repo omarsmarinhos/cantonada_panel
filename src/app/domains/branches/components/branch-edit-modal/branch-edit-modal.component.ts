@@ -5,13 +5,12 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 import { AlertService } from '../../../shared/services/alert.service';
-import { Category } from '../../../shared/models/Category.model';
+import { Branch } from '../../../shared/models/Branch.model';
 
 @Component({
-  selector: 'app-category-edit-modal',
+  selector: 'app-branch-edit-modal',
   standalone: true,
   imports: [
     CommonModule,
@@ -20,35 +19,34 @@ import { Category } from '../../../shared/models/Category.model';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSlideToggleModule,
     NgxFileDropModule,
     MatIconModule
   ],
-  templateUrl: './category-edit-modal.component.html',
-  styleUrl: './category-edit-modal.component.scss'
+  templateUrl: './branch-edit-modal.component.html',
+  styleUrl: './branch-edit-modal.component.scss'
 })
-export class CategoryEditModalComponent {
+export class BranchEditModalComponent {
 
   readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<CategoryEditModalComponent>);
+  readonly dialogRef = inject(MatDialogRef<BranchEditModalComponent>);
   readonly alertService = inject(AlertService);
-  readonly category = inject<Category>(MAT_DIALOG_DATA);
+  readonly branch = inject<Branch>(MAT_DIALOG_DATA);
 
   form: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   imageChanged: boolean = false;
   maxWidth = 900;
-  maxHeight = 900;
-  aspectRatioWidth = 1;
-  aspectRatioHeight = 1;
+  maxHeight = 675;
+  aspectRatioWidth = 4;
+  aspectRatioHeight = 3;
 
   constructor() {
     this.form = this.fb.group({
-      tNombre: [this.category.tNombre, [Validators.required, Validators.pattern(/\S+/)]],
-      lPrincipal: [this.category.lPrincipal, [Validators.required]]
+      tNombre: [this.branch.tNombre, [Validators.required, Validators.pattern(/\S+/)]],
+      tDireccion: [this.branch.tDireccion, [Validators.required, Validators.pattern(/\S+/)]],
     });
-    this.previewUrl = this.category.tImagenUrl;
+    this.previewUrl = this.branch.tImagenUrl;
   }
 
   onFileDrop(files: NgxFileDropEntry[]): void {
@@ -103,7 +101,7 @@ export class CategoryEditModalComponent {
 
   removeFile(): void {
     this.selectedFile = null;
-    this.previewUrl = this.category.tImagenUrl;
+    this.previewUrl = this.branch.tImagenUrl;
     this.imageChanged = false;
   }
 
@@ -118,9 +116,9 @@ export class CategoryEditModalComponent {
     }
 
     this.dialogRef.close({
-      iIdCategoria: this.category.iIdCategoria,
+      iIdSucursal: this.branch.iIdSucursal,
       tNombre: this.form.get('tNombre')?.value,
-      lPrincipal: this.form.get('lPrincipal')?.value,
+      tDireccion: this.form.get('tDireccion')?.value,
       imageChanged: this.imageChanged,
       imagen: this.selectedFile,
     });

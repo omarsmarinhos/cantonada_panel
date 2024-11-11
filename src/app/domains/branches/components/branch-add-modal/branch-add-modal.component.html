@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Agregar una Sucursal</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="my-form">
+    <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="tNombre">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="tDireccion">
+    </mat-form-field>
+
+    <ngx-file-drop [accept]="'.png,.jpg,.jpeg'" (onFileDrop)="onFileDrop($event)" dropZoneClassName="drop-zone"
+      contentClassName="drop-content">
+      <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+        <div class="upload-container">
+          <div *ngIf="!selectedFile">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <p>Arrastra y suelta aquí tu imagen</p>
+            <p style="font-size: 1rem;">(Tamaño máximo: {{maxWidth}}x{{maxHeight}} px, Proporción
+              {{aspectRatioWidth}}:{{aspectRatioHeight}})</p>
+            <p>o</p>
+            <button class="select-file" (click)="openFileSelector()">
+              Seleccione un archivo
+            </button>
+          </div>
+          <div *ngIf="selectedFile">
+            <div class="file-selected">
+              <mat-icon class="file-icon">description</mat-icon>
+              <div class="file-info">
+                <h4>{{ selectedFile.name }}</h4>
+                <p>{{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
+              </div>
+              <button mat-icon-button color="warn" (click)="removeFile()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            <div class="image-preview" *ngIf="previewUrl">
+              <img [src]="previewUrl" alt="Vista previa" />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngx-file-drop>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions">
+  <button class="btn-modal cancel" (click)="onCancel()">Cancelar</button>
+  <button class="btn-modal edit" (click)="onSubmit()">Editar</button>
+</mat-dialog-actions>

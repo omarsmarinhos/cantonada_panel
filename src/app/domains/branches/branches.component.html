@@ -1,0 +1,21 @@
+<div class="branches container">
+  <div class="branches__header">
+    <span class="title">SUCURSALES</span>
+    <button (click)="onAddBranch()">
+      <mat-icon>add</mat-icon>
+      <span>Agregar</span>
+    </button>
+  </div>
+  <div class="branches__content">
+    <div class="main">
+      <div class="main__grid">
+        @for (branch of branches(); track $index) {
+        <div class="main__card">
+          <app-branch-card [branch]="branch" (edit)="onEditBranch($event)"
+            (delete)="onDeleteBranch($event)"></app-branch-card>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

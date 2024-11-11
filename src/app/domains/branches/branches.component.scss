@@ -1,6 +1,6 @@
 @use './../../../styles/mixins' as m;
 
-.categories {
+.branches {
   &__header {
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -49,6 +49,7 @@
   border-radius: 1rem;
   margin: 1rem 0 1rem 0;
   width: 100%;
+  height: fit-content;
 
   @include m.tablet {
     margin: 1rem;
