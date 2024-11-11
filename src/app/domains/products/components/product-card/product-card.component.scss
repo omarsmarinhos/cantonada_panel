@@ -28,7 +28,7 @@
 
     span {
       font-weight: 600;
-      font-size: 2rem;
+      font-size: 1.6rem;
       display: inline-block;
       text-align: center;
     }
@@ -38,6 +38,7 @@
     margin: 0 1rem;
 
     span {
+      font-size: 1.4rem;
       display: -webkit-box;
       line-clamp: 3;
       -webkit-line-clamp: 3;
@@ -57,7 +58,7 @@
       display: block;
       text-align: right;
       font-weight: 600;
-      font-size: 2rem;
+      font-size: 1.8rem;
       color: #2a505a;
     }
   }

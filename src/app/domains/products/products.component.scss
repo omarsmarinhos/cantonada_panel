@@ -56,7 +56,6 @@
   flex-direction: column;
 
   .subtitle {
-    font-size: 1.8rem;
     display: block;
     font-weight: 600;
     color: var(--primary-color);
@@ -88,6 +87,7 @@
       color: var(--primary-color);
       border-radius: .5rem;
       user-select: none;
+      font-size: 1.4rem;
 
       &:hover {
         border: none;
