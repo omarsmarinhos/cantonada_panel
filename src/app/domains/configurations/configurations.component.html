@@ -3,12 +3,12 @@
     <span class="title">CONFIGURACIÓN</span>
   </div>
   <div class="configuration__content">
-    <div class="general main">
+    <div class="main">
       <span class="subtitle">General</span>
       <form [formGroup]="form" class="my-form">
         <mat-grid-list cols="10" rowHeight="60px" gutterSize="10px">
           <mat-grid-tile [colspan]="colspan">
-            <mat-form-field appearance="outline" style="width: 100%;" class="h-50" >
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>% IGV</mat-label>
               <input matInput [disabled]="isDisabled" formControlName="igv">
             </mat-form-field>
@@ -32,21 +32,20 @@
       </form>
       <button class="btn" [class.isDisabled]="isDisabled" (click)="toggleBtn()">
         @if (isDisabled) {
-          Editar
+        Editar
         }@else {
-          Guardar
+        Guardar
         }
       </button>
     </div>
-
-    <div class="img main">
-      <span class="subtitle">Imágenes</span>
-      @for (ci of configuration.configImagenes; track $index) {
-      <p>
+    @for (ci of configuration.configImagenes; track $index) {
+    <div class="main">
+      <span class="subtitle">Imagen de {{ ci.tTipoImagen }}</span>
+      <!-- <p>
         Imagen de {{ ci.tTipoImagen }} - Tamaño: {{ ci.maxWidth }}x{{ ci.maxHeight }} px y Relación de aspecto: {{
         ci.aspectRatioWidth }}x{{ ci.aspectRatioHeight }}
-      </p>
-      }
+      </p> -->
     </div>
+    }
   </div>
 </div>
