@@ -5,12 +5,12 @@
   <div class="configuration__content">
     <div class="main">
       <span class="subtitle">General</span>
-      <form [formGroup]="form" class="my-form">
+      <form [formGroup]="formGeneral" class="my-form">
         <mat-grid-list cols="10" rowHeight="60px" gutterSize="10px">
           <mat-grid-tile [colspan]="colspan">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>% IGV</mat-label>
-              <input matInput [disabled]="isDisabled" formControlName="igv">
+              <input matInput formControlName="igv">
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="colspan">
@@ -19,33 +19,146 @@
               <input matInput formControlName="recargoConsumo">
             </mat-form-field>
           </mat-grid-tile>
-          <!-- <mat-grid-tile [colspan]="colspan">
-            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
-              <mat-label>Sincronización con Fast</mat-label>
-              <mat-select formControlName="lFast">
-                <mat-option [value]="true">Si</mat-option>
-                <mat-option [value]="false">No</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-grid-tile> -->
         </mat-grid-list>
       </form>
-      <button class="btn" [class.isDisabled]="isDisabled" (click)="toggleBtn()">
-        @if (isDisabled) {
-        Editar
-        }@else {
-        Guardar
-        }
-      </button>
+      <div class="main__buttons" [class.isDisabled]="isDisabledGeneral">
+        <button class="cancel" (click)="cancelGeneral()">
+          Cancelar
+        </button>
+        <button class="btn" (click)="toggleBtnGeneral()">
+          @if (isDisabledGeneral) {
+          Editar
+          }@else {
+          Guardar
+          }
+        </button>
+      </div>
     </div>
-    @for (ci of configuration.configImagenes; track $index) {
+
     <div class="main">
-      <span class="subtitle">Imagen de {{ ci.tTipoImagen }}</span>
-      <!-- <p>
-        Imagen de {{ ci.tTipoImagen }} - Tamaño: {{ ci.maxWidth }}x{{ ci.maxHeight }} px y Relación de aspecto: {{
-        ci.aspectRatioWidth }}x{{ ci.aspectRatioHeight }}
-      </p> -->
+      <span class="subtitle">Imagen de {{ configuration.configImagenes[0].tTipoImagen }}</span>
+      <form [formGroup]="formCategoria" class="my-form">
+        <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Relación de aspecto</mat-label>
+              <mat-select formControlName="aspectRatio">
+                @for (ar of aspectRatios; track $index) {
+                <mat-option [value]="ar">{{ar}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Ancho (px)</mat-label>
+              <input matInput formControlName="maxWidth">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Alto (px)</mat-label>
+              <input matInput formControlName="maxHeight">
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+      <div class="main__buttons" [class.isDisabled]="isDisabledCategoria">
+        <button class="cancel" (click)="cancelCategoria()">
+          Cancelar
+        </button>
+        <button class="btn" (click)="toggleBtnCategoria()">
+          @if (isDisabledCategoria) {
+          Editar
+          }@else {
+          Guardar
+          }
+        </button>
+      </div>
     </div>
-    }
+
+    <div class="main">
+      <span class="subtitle">Imagen de {{ configuration.configImagenes[1].tTipoImagen }}</span>
+      <form [formGroup]="formProducto" class="my-form">
+        <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Relación de aspecto</mat-label>
+              <mat-select formControlName="aspectRatio">
+                @for (ar of aspectRatios; track $index) {
+                <mat-option [value]="ar">{{ar}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Ancho (px)</mat-label>
+              <input matInput formControlName="maxWidth">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Alto (px)</mat-label>
+              <input matInput formControlName="maxHeight">
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+      <div class="main__buttons" [class.isDisabled]="isDisabledProducto">
+        <button class="cancel" (click)="cancelProducto()">
+          Cancelar
+        </button>
+        <button class="btn" (click)="toggleBtnProducto()">
+          @if (isDisabledProducto) {
+          Editar
+          }@else {
+          Guardar
+          }
+        </button>
+      </div>
+    </div>
+
+    <div class="main">
+      <span class="subtitle">Imagen de {{ configuration.configImagenes[2].tTipoImagen }}</span>
+      <form [formGroup]="formSucursal" class="my-form">
+        <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Relación de aspecto</mat-label>
+              <mat-select formControlName="aspectRatio">
+                @for (ar of aspectRatios; track $index) {
+                <mat-option [value]="ar">{{ar}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Ancho (px)</mat-label>
+              <input matInput formControlName="maxWidth">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspanImg">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Alto (px)</mat-label>
+              <input matInput formControlName="maxHeight">
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+      <div class="main__buttons" [class.isDisabled]="isDisabledSucursal">
+        <button class="cancel" (click)="cancelSucursal()">
+          Cancelar
+        </button>
+        <button class="btn" (click)="toggleBtnSucursal()">
+          @if (isDisabledSucursal) {
+          Editar
+          }@else {
+          Guardar
+          }
+        </button>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,33 @@
+<div class="main">
+  <span class="subtitle">Imagen de {{ titulo }}</span>
+  <form [formGroup]="formGroup" class="my-form">
+    <mat-grid-list [cols]="12" rowHeight="60px" gutterSize="10px">
+      <mat-grid-tile [colspan]="colspan">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Relación de aspecto</mat-label>
+          <mat-select formControlName="aspectRatio">
+            <mat-option *ngFor="let ar of aspectRatios" [value]="ar">{{ ar }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Ancho (px)</mat-label>
+          <input matInput formControlName="maxWidth">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Alto (px)</mat-label>
+          <input matInput formControlName="maxHeight">
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+  <div class="main__buttons" [class.isDisabled]="isDisabled">
+    <button class="cancel" (click)="onCancel()">Cancelar</button>
+    <button class="btn" (click)="toggleButton()">
+      {{ isDisabled ? 'Editar' : 'Guardar' }}
+    </button>
+  </div>
+</div>

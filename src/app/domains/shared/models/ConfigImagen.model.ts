@@ -3,6 +3,5 @@ export interface ConfigImagen {
     tTipoImagen: string;
     maxWidth: number;
     maxHeight: number;
-    aspectRatioWidth: number;
-    aspectRatioHeight: number;
+    aspectRatio: string;
 }

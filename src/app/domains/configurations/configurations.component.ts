@@ -41,66 +41,185 @@ export default class ConfigurationsComponent {
     configImagenes: []
   };
 
-  form: FormGroup;
-  colspan: number = 5;
-  isDisabled: boolean = true;
+  formGeneral: FormGroup;
+  formCategoria: FormGroup;
+  formProducto: FormGroup;
+  formSucursal: FormGroup;
+  colspan: number = 10;
+  colspanImg: number = 12;
+  isDisabledGeneral: boolean = true;
+  isDisabledCategoria: boolean = true;
+  isDisabledProducto: boolean = true;
+  isDisabledSucursal: boolean = true;
+
+  aspectRatios: string[] = ['1:1', '4:3', '3:2', '16:9']
 
   constructor() {
-    this.form = this.fb.group({
-      igv: [{ value: '', disabled: this.isDisabled }, [Validators.required]],
-      recargoConsumo: [{ value: '', disabled: this.isDisabled }, [Validators.required]],
+    this.formGeneral = this.fb.group({
+      igv: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required]],
+      recargoConsumo: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required]],
       // lFast: [{ value: '', disabled: this.isDisabled }, [Validators.required]],
+    });
+    this.formCategoria = this.fb.group({
+      maxWidth: [{ value: '', disabled: this.isDisabledCategoria }, [Validators.required]],
+      maxHeight: [{ value: '', disabled: this.isDisabledCategoria }, [Validators.required]],
+      aspectRatio: [{ value: '', disabled: this.isDisabledProducto }, [Validators.required]]
+    });
+    this.formProducto = this.fb.group({
+      maxWidth: [{ value: '', disabled: this.isDisabledProducto }, [Validators.required]],
+      maxHeight: [{ value: '', disabled: this.isDisabledProducto }, [Validators.required]],
+      aspectRatio: [{ value: '', disabled: this.isDisabledProducto }, [Validators.required]]
+    });
+    this.formSucursal = this.fb.group({
+      maxWidth: [{ value: '', disabled: this.isDisabledSucursal }, [Validators.required]],
+      maxHeight: [{ value: '', disabled: this.isDisabledSucursal }, [Validators.required]],
+      aspectRatio: [{ value: '', disabled: this.isDisabledProducto }, [Validators.required]]
     });
   }
 
   ngOnInit() {
+    this.loadConfiguration();
+    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
+      if (state.matches) {
+        this.colspan = 5;
+        this.colspanImg = 4;
+      } else {
+        this.colspan = 10;
+        this.colspanImg = 12;
+      }
+    });
+  }
+
+  loadConfiguration() {
     this.configurationService.getConfiguration().subscribe({
       next: (res) => {
         this.configuration = res;
-        this.form.patchValue({
+        this.formGeneral.patchValue({
           igv: res.configuracion.igv,
           recargoConsumo: res.configuracion.recargoConsumo,
           // lFast: res.configuracion.lFast
+        });
+        this.formCategoria.patchValue({
+          maxWidth: res.configImagenes[0].maxWidth,
+          maxHeight: res.configImagenes[0].maxHeight,
+          aspectRatio: res.configImagenes[0].aspectRatio
+        });
+        this.formProducto.patchValue({
+          maxWidth: res.configImagenes[1].maxWidth,
+          maxHeight: res.configImagenes[1].maxHeight,
+          aspectRatio: res.configImagenes[1].aspectRatio
+        });
+        this.formSucursal.patchValue({
+          maxWidth: res.configImagenes[2].maxWidth,
+          maxHeight: res.configImagenes[2].maxHeight,
+          aspectRatio: res.configImagenes[2].aspectRatio
         });
       },
       error: (err) => {
         console.log(err);
       }
     });
-    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
-      if (state.matches) {
-        this.colspan = 5;
-      } else {
-        this.colspan = 10;
-      }
-    });
-  }
-
-  toggleBtn() {
-    this.isDisabled = !this.isDisabled;
-    this.setFieldsDisabled(this.isDisabled);
-    if (!this.isDisabled) {
-      this.onEditGeneralSettings();
-    }
   }
 
   onEditGeneralSettings() {
 
   }
 
-  ngOnDestroy() {
-    if (this.breakpointSubscription) {
-      this.breakpointSubscription.unsubscribe();
+  toggleBtnGeneral() {
+    this.isDisabledGeneral = !this.isDisabledGeneral;
+    this.setFieldsDisabledGeneral(this.isDisabledGeneral);
+    if (!this.isDisabledGeneral) {
+      this.onEditGeneralSettings();
     }
   }
 
-  setFieldsDisabled(disabled: boolean) {
-    const fields = ['igv', 'recargoConsumo', 'lFast'];
+  cancelGeneral() {
+    this.isDisabledGeneral = true;
+    this.setFieldsDisabledGeneral(this.isDisabledGeneral);
+  }
+
+  toggleBtnCategoria() {
+    this.isDisabledCategoria = !this.isDisabledCategoria;
+    this.setFieldsDisabledCategoria(this.isDisabledCategoria);
+    if (!this.isDisabledCategoria) {
+      this.onEditGeneralSettings();
+    }
+  }
+
+  cancelCategoria() {
+    this.isDisabledCategoria = true;
+    this.setFieldsDisabledCategoria(this.isDisabledCategoria);
+  }
+
+  toggleBtnProducto() {
+    this.isDisabledProducto = !this.isDisabledProducto;
+    this.setFieldsDisabledProducto(this.isDisabledProducto);
+    if (!this.isDisabledProducto) {
+      this.onEditGeneralSettings();
+    }
+  }
+
+  cancelProducto() {
+    this.isDisabledProducto = true;
+    this.setFieldsDisabledProducto(this.isDisabledProducto);
+  }
+
+  toggleBtnSucursal() {
+    this.isDisabledSucursal = !this.isDisabledSucursal;
+    this.setFieldsDisabledSucursal(this.isDisabledSucursal);
+    if (!this.isDisabledSucursal) {
+      this.onEditGeneralSettings();
+    }
+  }
+
+  cancelSucursal() {
+    this.isDisabledSucursal = true;
+    this.setFieldsDisabledSucursal(this.isDisabledSucursal);
+  }
+
+  setFieldsDisabledGeneral(disabled: boolean) {
+    const fields = ['igv', 'recargoConsumo'];
     fields.forEach(field => {
-      const control = this.form.get(field);
+      const control = this.formGeneral.get(field);
       if (control) {
         disabled ? control.disable() : control.enable();
       }
     });
+  }
+
+  setFieldsDisabledCategoria(disabled: boolean) {
+    const fields = ['maxWidth', 'maxHeight', 'aspectRatio'];
+    fields.forEach(field => {
+      const control = this.formCategoria.get(field);
+      if (control) {
+        disabled ? control.disable() : control.enable();
+      }
+    });
+  }
+
+  setFieldsDisabledProducto(disabled: boolean) {
+    const fields = ['maxWidth', 'maxHeight', 'aspectRatio'];
+    fields.forEach(field => {
+      const control = this.formProducto.get(field);
+      if (control) {
+        disabled ? control.disable() : control.enable();
+      }
+    });
+  }
+
+  setFieldsDisabledSucursal(disabled: boolean) {
+    const fields = ['maxWidth', 'maxHeight', 'aspectRatio'];
+    fields.forEach(field => {
+      const control = this.formSucursal.get(field);
+      if (control) {
+        disabled ? control.disable() : control.enable();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.breakpointSubscription) {
+      this.breakpointSubscription.unsubscribe();
+    }
   }
 }
