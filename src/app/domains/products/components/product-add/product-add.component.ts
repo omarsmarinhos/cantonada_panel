@@ -74,7 +74,6 @@ export class ProductAddModalComponent {
       tDescripcion: ['', [Validators.required, Validators.pattern(/\S+/)]],
       lDelivery: [true, [Validators.required]],
       lRecoger: [true, [Validators.required]],
-      lConsumir: [true, [Validators.required]],
       lPopular: [false, [Validators.required]],
       lNovedad: [false, [Validators.required]],
       iIdCategoria: ['', [Validators.required]]
@@ -176,7 +175,6 @@ export class ProductAddModalComponent {
       dPrecio: this.form.get('dPrecio')?.value,
       lDelivery: this.form.get('lDelivery')?.value,
       lRecoger: this.form.get('lRecoger')?.value,
-      lConsumir: this.form.get('lConsumir')?.value,
       lPopular: this.form.get('lPopular')?.value,
       lNovedad: this.form.get('lNovedad')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,

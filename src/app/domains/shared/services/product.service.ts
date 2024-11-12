@@ -24,7 +24,6 @@ export class ProductService {
     formData.append('dPrecio', product.dPrecio.toString().trim());
     formData.append('lDelivery', String(product.lDelivery));
     formData.append('lRecoger', String(product.lRecoger));
-    formData.append('lConsumir', String(product.lConsumir));
     formData.append('lPopular', String(product.lPopular));
     formData.append('lNovedad', String(product.lNovedad));
     formData.append('iIdCategoria', product.iIdCategoria.toString());
@@ -45,7 +44,6 @@ export class ProductService {
     formData.append('dPrecio', product.dPrecio.toString().trim());
     formData.append('lDelivery', String(product.lDelivery));
     formData.append('lRecoger', String(product.lRecoger));
-    formData.append('lConsumir', String(product.lConsumir));
     formData.append('lPopular', String(product.lPopular));
     formData.append('lNovedad', String(product.lNovedad));
     formData.append('iIdCategoria', product.iIdCategoria.toString());

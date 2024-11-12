@@ -8,7 +8,6 @@ export interface Product {
   tImagenUrl: string;
   lDelivery: boolean;
   lRecoger: boolean;
-  lConsumir: boolean;
   lPopular: boolean;
   lNovedad: boolean;
   categoria: Category;
