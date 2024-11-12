@@ -17,5 +17,11 @@ export class ConfigurationService {
     return this.http.get<ConfigurationResponse>(`${this.baseUrl}/Configuracion`);
   }
 
-  
+  editConfigGeneral(data: any) {
+    return this.http.put<any>(`${this.baseUrl}/Configuracion/General`, data);
+  }
+
+  editConfigImagen(data: any) {
+    return this.http.put<any>(`${this.baseUrl}/Configuracion/Imagen`, data);
+  }
 }

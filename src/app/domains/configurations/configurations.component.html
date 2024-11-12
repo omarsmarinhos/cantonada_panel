@@ -10,13 +10,13 @@
           <mat-grid-tile [colspan]="colspan">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>% IGV</mat-label>
-              <input matInput formControlName="igv">
+              <input matInput type="number" formControlName="igv">
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="colspan">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>% Recargo de Consumo</mat-label>
-              <input matInput formControlName="recargoConsumo">
+              <input matInput type="number" formControlName="recargoConsumo">
             </mat-form-field>
           </mat-grid-tile>
         </mat-grid-list>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="main">
-      <span class="subtitle">Imagen de {{ configuration.configImagenes[0].tTipoImagen }}</span>
+      <span class="subtitle">Imagen de Categoría</span>
       <form [formGroup]="formCategoria" class="my-form">
         <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
           <mat-grid-tile [colspan]="colspanImg">
@@ -52,13 +52,13 @@
           <mat-grid-tile [colspan]="colspanImg">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Ancho (px)</mat-label>
-              <input matInput formControlName="maxWidth">
+              <input matInput type="number" formControlName="maxWidth">
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="colspanImg">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Alto (px)</mat-label>
-              <input matInput formControlName="maxHeight">
+              <input matInput type="number" formControlName="maxHeight">
             </mat-form-field>
           </mat-grid-tile>
         </mat-grid-list>
@@ -78,7 +78,7 @@
     </div>
 
     <div class="main">
-      <span class="subtitle">Imagen de {{ configuration.configImagenes[1].tTipoImagen }}</span>
+      <span class="subtitle">Imagen de Producto</span>
       <form [formGroup]="formProducto" class="my-form">
         <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
           <mat-grid-tile [colspan]="colspanImg">
@@ -94,13 +94,13 @@
           <mat-grid-tile [colspan]="colspanImg">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Ancho (px)</mat-label>
-              <input matInput formControlName="maxWidth">
+              <input matInput type="number" formControlName="maxWidth">
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="colspanImg">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Alto (px)</mat-label>
-              <input matInput formControlName="maxHeight">
+              <input matInput type="number" formControlName="maxHeight">
             </mat-form-field>
           </mat-grid-tile>
         </mat-grid-list>
@@ -120,7 +120,7 @@
     </div>
 
     <div class="main">
-      <span class="subtitle">Imagen de {{ configuration.configImagenes[2].tTipoImagen }}</span>
+      <span class="subtitle">Imagen de Sucursal</span>
       <form [formGroup]="formSucursal" class="my-form">
         <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
           <mat-grid-tile [colspan]="colspanImg">
@@ -136,13 +136,13 @@
           <mat-grid-tile [colspan]="colspanImg">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Ancho (px)</mat-label>
-              <input matInput formControlName="maxWidth">
+              <input matInput type="number" formControlName="maxWidth">
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="colspanImg">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Alto (px)</mat-label>
-              <input matInput formControlName="maxHeight">
+              <input matInput type="number" formControlName="maxHeight">
             </mat-form-field>
           </mat-grid-tile>
         </mat-grid-list>
