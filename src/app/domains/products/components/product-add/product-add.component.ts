@@ -76,6 +76,7 @@ export class ProductAddModalComponent {
       lRecoger: [true, [Validators.required]],
       lPopular: [false, [Validators.required]],
       lNovedad: [false, [Validators.required]],
+      lAdicional: [false, [Validators.required]],
       iIdCategoria: ['', [Validators.required]]
     });
   }
@@ -83,11 +84,11 @@ export class ProductAddModalComponent {
   ngOnInit() {
     this.loadCategoriesInSelect();
     this.loadBranchesChecks();
-    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 1024px)']).subscribe((state: BreakpointState) => {
+    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
-        this.colspan = 4;
+        this.colspan = 6;
       } else {
-        this.colspan = 12;
+        this.colspan = 10;
       }
     });
   }
@@ -177,6 +178,7 @@ export class ProductAddModalComponent {
       lRecoger: this.form.get('lRecoger')?.value,
       lPopular: this.form.get('lPopular')?.value,
       lNovedad: this.form.get('lNovedad')?.value,
+      lAdicional: this.form.get('lAdicional')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imagen: this.selectedFile,

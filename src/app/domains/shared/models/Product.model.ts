@@ -10,6 +10,7 @@ export interface Product {
   lRecoger: boolean;
   lPopular: boolean;
   lNovedad: boolean;
+  lAdicional: boolean;
   categoria: Category;
   jSucursales: string;
 }

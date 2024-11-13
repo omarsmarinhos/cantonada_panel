@@ -1,7 +1,11 @@
 @use './../../../../../styles/modal';
 @use './../../../../../styles/mixins' as m;
 
-w
+::ng-deep {
+  .my-form .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
 
 form {
   margin-top: 0.75rem !important;

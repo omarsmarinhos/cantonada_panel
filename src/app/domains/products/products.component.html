@@ -11,13 +11,15 @@
       <span class="subtitle">Lista de Categorías</span>
       <div class="categories__grid">
         <div class="categories__grid__item" [class.active]="selectedCategory==='Todos'"
-          (click)="changeCategory('TODOS')">Todos</div>
+          (click)="changeCategory('Todos')">Todos</div>
         @for (category of categories(); track $index) {
         <div class="categories__grid__item" [class.active]="selectedCategory===category.tNombre"
           (click)="changeCategory(category.tNombre)">
           {{ category.tNombre | capitalize }}
         </div>
         }
+        <div class="categories__grid__item" [class.active]="selectedCategory==='Adicionales'"
+          (click)="changeCategory('Adicionales')">Adicionales</div>
       </div>
     </div>
     <div class="products-list main">

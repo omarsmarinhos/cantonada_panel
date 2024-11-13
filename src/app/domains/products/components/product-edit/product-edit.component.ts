@@ -81,6 +81,7 @@ export class ProductEditComponent {
       lRecoger: [this.product.lRecoger, [Validators.required]],
       lPopular: [this.product.lPopular, [Validators.required]],
       lNovedad: [this.product.lNovedad, [Validators.required]],
+      lAdicional: [this.product.lAdicional, [Validators.required]],
       iIdCategoria: [this.product.categoria.iIdCategoria, [Validators.required]]
     });
     this.previewUrl = this.product.tImagenUrl;
@@ -90,9 +91,9 @@ export class ProductEditComponent {
   ngOnInit() {
     this.loadCategoriesInSelect();
     this.loadBranchesChecks();
-    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 1024px)']).subscribe((state: BreakpointState) => {
+    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
-        this.colspan = 4;
+        this.colspan = 6;
       } else {
         this.colspan = 12;
       }
@@ -184,6 +185,7 @@ export class ProductEditComponent {
       lRecoger: this.form.get('lRecoger')?.value,
       lPopular: this.form.get('lPopular')?.value,
       lNovedad: this.form.get('lNovedad')?.value,
+      lAdicional: this.form.get('lAdicional')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imageChanged: this.imageChanged,

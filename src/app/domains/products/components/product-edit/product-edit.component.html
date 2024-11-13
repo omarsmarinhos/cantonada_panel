@@ -11,7 +11,7 @@
       <mat-grid-tile [colspan]="colspan">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Precio</mat-label>
-          <input matInput formControlName="dPrecio">
+          <input matInput type="number" formControlName="dPrecio">
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile [colspan]="colspan">
@@ -21,6 +21,15 @@
             @for (category of categoriesSelect(); track $index) {
             <mat-option [value]="category.iIdCategoria">{{ category.tNombre | capitalize }}</mat-option>
             }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>¿Es Adicional?</mat-label>
+          <mat-select formControlName="lAdicional">
+            <mat-option [value]="true">Si</mat-option>
+            <mat-option [value]="false">No</mat-option>
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>
