@@ -13,10 +13,18 @@
       <span>{{ product.dPrecio | currency: 'S/ ': 'symbol':'1.2' }}</span>
     </div>
     <div class="product__card__actions">
-      <div class="product__card__actions__button product__card__actions__button--edit" (click)="onEdit()">
+      @if (product.lAdicional === false) {
+      <div class="product__card__actions__button product__card__actions__button--add" matTooltip="Agregar adicionales"
+        (click)="onAddAdditional()">
+        <mat-icon>add</mat-icon>
+      </div>
+      }
+      <div class="product__card__actions__button product__card__actions__button--edit" matTooltip="Editar"
+        (click)="onEdit()">
         <mat-icon>edit</mat-icon>
       </div>
-      <div class="product__card__actions__button product__card__actions__button--delete" (click)="onDelete()">
+      <div class="product__card__actions__button product__card__actions__button--delete" matTooltip="Eliminar"
+        (click)="onDelete()">
         <mat-icon>delete</mat-icon>
       </div>
     </div>

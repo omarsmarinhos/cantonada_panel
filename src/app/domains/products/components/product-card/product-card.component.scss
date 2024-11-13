@@ -65,7 +65,7 @@
 
   &__actions {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     margin-bottom: 1rem;
 
     &__button {
@@ -77,6 +77,11 @@
       justify-content: center;
       box-sizing: border-box;
       cursor: pointer;
+
+      &--add {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+      }
 
       &--edit {
         background-color: var(--secondary-color);
