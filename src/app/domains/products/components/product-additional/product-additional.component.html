@@ -1,30 +1,43 @@
 <h2 mat-dialog-title>Adicionales para {{ product.tNombre }}</h2>
-<mat-dialog-content class="content-container">
-  <div class="example-container">
-    <h3>Lista de adicionales</h3>
+<mat-dialog-content>
+  <p class="helper-text">Arrastra y suelta los adicionales para asignarlos.</p>
 
-    <div cdkDropList #notAssignedList="cdkDropList" [cdkDropListData]="notAssignedAdditional"
-      [cdkDropListConnectedTo]="[assignedList]" class="example-list" (cdkDropListDropped)="drop($event)">
-      @for (item of notAssignedAdditional; track item) {
-      <div class="example-box" cdkDrag>{{item.tNombre}}</div>
-      }
-    </div>
-  </div>
-
-  <div class="example-container">
-    <h3>Adicionales agregados</h3>
-
-    <div cdkDropList #assignedList="cdkDropList" [cdkDropListData]="assignedAdditional"
-      [cdkDropListConnectedTo]="[notAssignedList]" class="example-list" (cdkDropListDropped)="drop($event)">
-      @for (item of assignedAdditional; track item) {
-      <div class="example-box additional" cdkDrag>
-        <span>{{ item.tNombre }}</span>
-        <mat-checkbox [name]="item.tNombre" [(ngModel)]="item.lObligatorio" color="primary"
-          [checked]="item.lObligatorio">
-          Obligatorio
-        </mat-checkbox>
+  <div class="content-container">
+    <div class="example-container">
+      <h4>Lista de adicionales</h4>
+      <div cdkDropList #notAssignedList="cdkDropList" [cdkDropListData]="notAssignedAdditional"
+        [cdkDropListConnectedTo]="[assignedList]" class="example-list" (cdkDropListDropped)="drop($event)">
+        @for (item of notAssignedAdditional; track item.iIdProductoAdicional) {
+        <div class="example-box" cdkDrag>
+          <span>{{item.tNombre}}</span>
+          <button class="btn-icon" (click)="addToAssigned(item)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        }
       </div>
-      }
+    </div>
+
+    <div class="example-container">
+      <h4>Adicionales agregados</h4>
+
+      <div cdkDropList #assignedList="cdkDropList" [cdkDropListData]="assignedAdditional"
+        [cdkDropListConnectedTo]="[notAssignedList]" class="example-list" (cdkDropListDropped)="drop($event)">
+        @for (item of assignedAdditional; track item.iIdProductoAdicional) {
+        <div class="example-box additional" cdkDrag>
+          <span>{{ item.tNombre }}</span>
+          <div class="additional__actions">
+            <mat-checkbox [name]="item.tNombre" [(ngModel)]="item.lObligatorio" color="primary"
+              [checked]="item.lObligatorio">
+              Obligatorio
+            </mat-checkbox>
+            <button class="btn-icon" (click)="removeFromAssigned(item)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+        </div>
+        }
+      </div>
     </div>
   </div>
 

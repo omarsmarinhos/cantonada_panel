@@ -91,4 +91,20 @@ export class ProductAdditionalComponent {
       );
     }
   }
+
+  addToAssigned(item: ProductAdditional): void {
+    const index = this.notAssignedAdditional.indexOf(item);
+    if (index !== -1) {
+      this.notAssignedAdditional.splice(index, 1);
+      this.assignedAdditional.push({ ...item, lObligatorio: false });
+    }
+  }
+  
+  removeFromAssigned(item: ProductAdditional): void {
+    const index = this.assignedAdditional.indexOf(item);
+    if (index !== -1) {
+      this.assignedAdditional.splice(index, 1);
+      this.notAssignedAdditional.push(item);
+    }
+  }
 }
