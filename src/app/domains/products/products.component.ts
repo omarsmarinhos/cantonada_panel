@@ -11,6 +11,8 @@ import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { ProductService } from '../shared/services/product.service';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
+import { ProductAdditionalComponent } from './components/product-additional/product-additional.component';
+import { ProductAdditionalService } from '../shared/services/additional.service';
 
 @Component({
   selector: 'app-products',
@@ -27,6 +29,7 @@ export default class ProductsComponent {
 
   readonly categoryService = inject(CategoryService);
   readonly productService = inject(ProductService);
+  readonly additionalService = inject(ProductAdditionalService);
   readonly alertService = inject(AlertService);
   readonly dialog = inject(MatDialog);
 
@@ -76,7 +79,7 @@ export default class ProductsComponent {
             this.loadProducts();
           },
           error: (err) => {
-            console.log(err);
+            console.error(err);
             if (err.error.detalles) {
               this.alertService.showWarning(err.error.detalles);
             } else {
@@ -101,7 +104,7 @@ export default class ProductsComponent {
             this.loadProducts();
           },
           error: (err) => {
-            console.log(err);
+            console.error(err);
             if (err.error.detalles) {
               this.alertService.showWarning(err.error.detalles);
             } else {
@@ -121,6 +124,30 @@ export default class ProductsComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadProducts();
+          }
+        })
+      }
+    });
+  }
+
+  onAddAdditional(product: Product) {
+    const dialogRef = this.dialog.open(ProductAdditionalComponent, {
+      width: '900px',
+      data: product
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.additionalService.assign(result).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess(res.mensaje);
+          },
+          error: (err) => {
+            console.error(err);
+            if (err.error.detalles) {
+              this.alertService.showWarning(err.error.detalles);
+            } else {
+              this.alertService.showError("Ocurrió un error");
+            }
           }
         })
       }

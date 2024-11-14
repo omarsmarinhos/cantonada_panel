@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { ProductAddModalComponent } from '../product-add/product-add.component';
 import { AlertService } from '../../../shared/services/alert.service';
 import { CategoryService } from '../../../shared/services/category.service';
 import { BranchService } from '../../../shared/services/branch.service';
@@ -46,7 +45,7 @@ import { Product } from '../../../shared/models/Product.model';
 export class ProductEditComponent {
 
   readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<ProductAddModalComponent>);
+  readonly dialogRef = inject(MatDialogRef<ProductEditComponent>);
   readonly alertService = inject(AlertService);
   readonly categoryService = inject(CategoryService);
   readonly branchService = inject(BranchService);
@@ -160,7 +159,6 @@ export class ProductEditComponent {
     this.dialogRef.close();
   }
 
-
   onSubmit() {
     if (this.form.invalid) {
 
@@ -173,8 +171,6 @@ export class ProductEditComponent {
       this.alertService.showWarning("Debe llenar todos los campos.");
       return;
     }
-
-    console.log(this.selectedBranchIds)
 
     this.dialogRef.close({
       iIdProducto: this.product.iIdProducto,

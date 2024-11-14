@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Adicionales para {{ product.tNombre }}</h2>
+<mat-dialog-content class="content-container">
+  <div class="example-container">
+    <h3>Lista de adicionales</h3>
+
+    <div cdkDropList #notAssignedList="cdkDropList" [cdkDropListData]="notAssignedAdditional"
+      [cdkDropListConnectedTo]="[assignedList]" class="example-list" (cdkDropListDropped)="drop($event)">
+      @for (item of notAssignedAdditional; track item) {
+      <div class="example-box" cdkDrag>{{item.tNombre}}</div>
+      }
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h3>Adicionales agregados</h3>
+
+    <div cdkDropList #assignedList="cdkDropList" [cdkDropListData]="assignedAdditional"
+      [cdkDropListConnectedTo]="[notAssignedList]" class="example-list" (cdkDropListDropped)="drop($event)">
+      @for (item of assignedAdditional; track item) {
+      <div class="example-box additional" cdkDrag>
+        <span>{{ item.tNombre }}</span>
+        <mat-checkbox [name]="item.tNombre" [(ngModel)]="item.lObligatorio" color="primary"
+          [checked]="item.lObligatorio">
+          Obligatorio
+        </mat-checkbox>
+      </div>
+      }
+    </div>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions">
+  <button class="btn-modal cancel" (click)="onCancel()">Cancelar</button>
+  <button class="btn-modal add" (click)="onSubmit()">Guardar</button>
+</mat-dialog-actions>

@@ -27,7 +27,7 @@
       <div class="products-list__grid">
         @for (product of products(); track $index) {
         <div class="products-list__grid__item">
-          <app-product-card [product]="product" (edit)="onEditProduct($event)" (delete)="onDeleteProduct($event)"></app-product-card>
+          <app-product-card [product]="product" (addAdditional)="onAddAdditional($event)" (edit)="onEditProduct($event)" (delete)="onDeleteProduct($event)"></app-product-card>
         </div>
         }
       </div>
