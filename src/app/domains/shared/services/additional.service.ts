@@ -1,8 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { API_URL } from '../../../apiUrl';
 import { HttpClient } from '@angular/common/http';
-import { Product } from '../models/Product.model';
-import { ProductAdditional } from '../models/ProductAdditional.model';
 import { AdditionalResponse } from '../models/AdditionalResponse.model';
 
 @Injectable({
