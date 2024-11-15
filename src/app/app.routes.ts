@@ -28,6 +28,10 @@ export const routes: Routes = [
         loadComponent: () => import('./domains/order-productos/order-productos.component')
       },
       {
+        path: 'menu',
+        loadComponent: () => import('./domains/menus/menus.component')
+      },
+      {
         path: 'configuracion',
         loadComponent: () => import('./domains/configurations/configurations.component')
       },

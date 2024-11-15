@@ -88,7 +88,7 @@ export class ProductAddModalComponent {
       if (state.matches) {
         this.colspan = 6;
       } else {
-        this.colspan = 10;
+        this.colspan = 12;
       }
     });
   }
