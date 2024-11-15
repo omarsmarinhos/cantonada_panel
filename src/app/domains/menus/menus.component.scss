@@ -51,6 +51,8 @@
   width: 100%;
   height: fit-content;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   @include m.tablet {
     margin: 1rem;
@@ -61,8 +63,9 @@
   }
 
   &__table {
-    
-    &__actions{
+    border-bottom: 1px solid var(--border-color);
+
+    &__actions {
       display: flex;
       justify-content: space-between;
 
@@ -78,7 +81,49 @@
           color: var(--red-color);
         }
       }
+
+      &__button-min {
+        height: 4rem;
+        padding: 0;
+        color: black;
+
+        &.disabled {
+          color: #c0c0c0;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+      }
     }
   }
 
+  &__buttons {
+    display: flex;
+    margin: 0 0 0 auto;
+    gap: 2rem;
+    padding: 1rem 2rem;
+
+    .cancel {
+      display: block;
+      padding: 1rem 2rem;
+      color: var(--black-color);
+      background-color: var(--border-color);
+      border-radius: .5rem;
+    }
+
+    .btn {
+      box-sizing: border-box;
+      display: block;
+      padding: 1rem 2rem;
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      border-radius: .5rem;
+    }
+
+    &.isSorting .btn {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      border: none;
+    }
+  }
 }

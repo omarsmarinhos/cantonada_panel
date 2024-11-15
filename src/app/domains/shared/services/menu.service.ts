@@ -28,4 +28,8 @@ export class MenuService {
   deleteMenu(iIdMenu: number) {
     return this.http.delete<any>(`${this.baseUrl}/Menu/${iIdMenu}`);
   }
+
+  sortMenu(ordenMenus: { iId: number | undefined; nOrden: number }[]) {
+    return this.http.post<any>(`${this.baseUrl}/Menu/Ordenar`, ordenMenus);
+  }
 }

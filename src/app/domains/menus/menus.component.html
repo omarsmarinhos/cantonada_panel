@@ -46,14 +46,33 @@
               }">{{ element.lVisible === true ? 'Si' : 'No' }}</span>
             </td>
           </ng-container>
-          <ng-container matColumnDef="actions">
+          @if (isSorting) {
+          <ng-container matColumnDef="sorting" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef class="center" style="max-width: 100px"></th>
+            <td mat-cell *matCellDef="let element; let i = index" style="max-width: 100px">
+              <div class="main__table__actions">
+                <button class="main__table__actions__button-min" (click)="moveUp(i)" [ngClass]="{ 'disabled': i === 0 }"
+                  [disabled]="i === 0">
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                </button>
+                <button class="main__table__actions__button-min" (click)="moveDown(i)"
+                  [ngClass]="{ 'disabled': i === menus().length - 1 }" [disabled]="i === menus().length - 1">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          }
+          <ng-container matColumnDef="actions" [stickyEnd]="!isSorting">
             <th mat-header-cell *matHeaderCellDef class="center" style="width: 120px">Actions</th>
             <td mat-cell *matCellDef="let element">
               <div class="main__table__actions">
-                <button class="main__table__actions__button main__table__actions__button--edit" (click)="onEditMenu(element)">
+                <button class="main__table__actions__button main__table__actions__button--edit"
+                  (click)="onEditMenu(element)">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button class="main__table__actions__button main__table__actions__button--delete" (click)="onDeleteMenu(element.iIdMenu)">
+                <button class="main__table__actions__button main__table__actions__button--delete"
+                  (click)="onDeleteMenu(element.iIdMenu)">
                   <mat-icon>delete_outline</mat-icon>
                 </button>
               </div>
@@ -62,6 +81,20 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+      </div>
+      <div class="main__buttons" [class.isSorting]="isSorting">
+        @if (isSorting) {
+        <button class="cancel" (click)="cancelSorting()">
+          Cancelar
+        </button>
+        }
+        <button class="btn" (click)="toggleSorting()">
+          @if (isSorting) {
+          Guardar
+          }@else {
+          Ordenar
+          }
+        </button>
       </div>
     </div>
   </div>

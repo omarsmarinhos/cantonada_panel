@@ -9,6 +9,9 @@ import { CommonModule } from '@angular/common';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 import { MenuAddModalComponent } from './components/menu-add-modal/menu-add-modal.component';
 import { MenuEditModalComponent } from './components/menu-edit-modal/menu-edit-modal.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-menus',
@@ -16,7 +19,10 @@ import { MenuEditModalComponent } from './components/menu-edit-modal/menu-edit-m
   imports: [
     CommonModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule
   ],
   templateUrl: './menus.component.html',
   styleUrl: './menus.component.scss'
@@ -32,6 +38,7 @@ export default class MenusComponent {
     new MatTableDataSource<Menu>()
   );
   displayedColumns: string[] = ['tNombre', 'tEnlace', 'tFragmento', 'lFragmentoRepetido', 'lVisible', 'actions'];
+  isSorting = false;
 
   constructor() {
     effect(() => {
@@ -55,6 +62,10 @@ export default class MenusComponent {
   }
 
   onAddMenu() {
+    if (this.isSorting) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(MenuAddModalComponent, {
       width: '900px'
     })
@@ -80,6 +91,10 @@ export default class MenusComponent {
   }
 
   onEditMenu(menu: Menu) {
+    if (this.isSorting) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(MenuEditModalComponent, {
       width: '900px',
       data: menu
@@ -106,6 +121,10 @@ export default class MenusComponent {
   }
 
   onDeleteMenu(iIdMenu: number) {
+    if (this.isSorting) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -118,4 +137,65 @@ export default class MenusComponent {
       }
     });
   }
+
+  onSortingMenu() {
+    const sortedMenus = this.menus().map((menu, index) => ({
+      iId: menu.iIdMenu,
+      nOrden: index
+    }));
+
+    this.menuService.sortMenu(sortedMenus).subscribe({
+      next: (res) => {
+        this.alertService.showSuccess(res.mensaje);
+      },
+      error: (err) => {
+        console.log(err);
+        if (err.error.detalles) {
+          this.alertService.showWarning(err.error.detalles);
+        } else {
+          this.alertService.showError("Ocurrió un error");
+          console.error(err);
+        }
+      }
+    });
+  }
+
+  toggleSorting() {
+    if (this.isSorting) {
+      this.onSortingMenu();
+    }
+    this.isSorting = !this.isSorting;
+    this.changeDisplayedColumns();
+  }
+
+  cancelSorting() {
+    this.isSorting = false;
+    this.changeDisplayedColumns();
+    this.loadMenus();
+  }
+
+  changeDisplayedColumns() {
+    if (this.isSorting) {
+      this.displayedColumns = [...this.displayedColumns, 'sorting'];
+    } else {
+      this.displayedColumns = this.displayedColumns.filter(col => col !== 'sorting');
+    }
+  }
+
+  moveUp(index: number) {
+    if (index > 0) {
+      const menus = [...this.menus()]; // Crea una nueva referencia
+      [menus[index - 1], menus[index]] = [menus[index], menus[index - 1]];
+      this.menus.set(menus); // Actualiza la señal
+    }
+  }
+
+  moveDown(index: number) {
+    if (index < this.menus().length - 1) {
+      const menus = [...this.menus()]; // Crea una nueva referencia
+      [menus[index + 1], menus[index]] = [menus[index], menus[index + 1]];
+      this.menus.set(menus); // Actualiza la señal
+    }
+  }
+
 }
