@@ -8,9 +8,23 @@
   </div>
   <div class="branches__content">
     <div class="main">
-      <div class="main__grid">
+      <div class="main__buttons" [class.isSorting]="isSorting">
+        @if (isSorting) {
+        <button class="cancel" (click)="cancelSorting()">
+          Cancelar
+        </button>
+        }
+        <button class="btn" (click)="toggleSorting()">
+          @if (isSorting) {
+          Guardar
+          }@else {
+          Ordenar
+          }
+        </button>
+      </div>
+      <div class="main__grid" cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)">
         @for (branch of branches(); track $index) {
-        <div class="main__card">
+        <div class="main__card" cdkDrag [cdkDragDisabled]="!isSorting">
           <app-branch-card [branch]="branch" (edit)="onEditBranch($event)"
             (delete)="onDeleteBranch($event)"></app-branch-card>
         </div>

@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/conf
 import { AlertService } from '../shared/services/alert.service';
 import { BranchEditModalComponent } from './components/branch-edit-modal/branch-edit-modal.component';
 import { BranchAddModalComponent } from './components/branch-add-modal/branch-add-modal.component';
+import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-branches',
@@ -16,8 +17,10 @@ import { BranchAddModalComponent } from './components/branch-add-modal/branch-ad
   imports: [
     CommonModule,
     MatIconModule,
-    BranchCardComponent
-],
+    BranchCardComponent,
+    CdkDropList,
+    CdkDrag
+  ],
   templateUrl: './branches.component.html',
   styleUrl: './branches.component.scss'
 })
@@ -28,6 +31,7 @@ export default class BranchesComponent {
   readonly alertService = inject(AlertService);
 
   branches = signal<Branch[]>([]);
+  isSorting: boolean = false;
 
   ngOnInit() {
     this.loadBranches();
@@ -45,8 +49,13 @@ export default class BranchesComponent {
   }
 
   onAddBranch() {
+    if (this.isSorting) {
+      this.alertService.showWarning("No puede realizar esta acción mientras ordena.")
+      return;
+    }
+
     const dialogRef = this.dialog.open(BranchAddModalComponent, {
-      width: '600px',
+      width: '900px',
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -66,12 +75,17 @@ export default class BranchesComponent {
           }
         })
       }
-    }); 
+    });
   }
 
   onEditBranch(branch: Branch) {
+    if (this.isSorting) {
+      this.alertService.showWarning("No puede realizar esta acción mientras ordena.")
+      return;
+    }
+
     const dialogRef = this.dialog.open(BranchEditModalComponent, {
-      width: '600px',
+      width: '900px',
       data: branch
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -92,10 +106,15 @@ export default class BranchesComponent {
           }
         })
       }
-    }); 
+    });
   }
 
   onDeleteBranch(iIdSucursal: number) {
+    if (this.isSorting) {
+      this.alertService.showWarning("No puede realizar esta acción mientras ordena.")
+      return;
+    }
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -107,5 +126,44 @@ export default class BranchesComponent {
         })
       }
     });
+  }
+
+  onSortingBranches() {
+    const sortedBranches = this.branches().map((branch, index) => ({
+      iId: branch.iIdSucursal,
+      nOrden: index
+    }));
+
+    this.branchService.sortBranch(sortedBranches).subscribe({
+      next: (res) => {
+        this.alertService.showSuccess(res.mensaje);
+      },
+      error: (err) => {
+        console.log(err);
+        if (err.error.detalles) {
+          this.alertService.showWarning(err.error.detalles);
+        } else {
+          this.alertService.showError("Ocurrió un error");
+          console.error(err);
+        }
+      }
+    });
+  }
+
+  drop(event: CdkDragDrop<Branch[]>) {
+    moveItemInArray(this.branches(), event.previousIndex, event.currentIndex);
+    this.branches.set([...this.branches()]);
+  }
+
+  toggleSorting() {
+    if (this.isSorting) {
+      this.onSortingBranches();
+    }
+    this.isSorting = !this.isSorting;
+  }
+
+  cancelSorting() {
+    this.isSorting = false;
+    this.loadBranches();
   }
 }
