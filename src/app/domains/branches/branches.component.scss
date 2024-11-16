@@ -70,6 +70,12 @@
 
   &__card {
     border-radius: 8px;
+    &.drag-enabled {
+      cursor: move;
+    }
+    &:active {
+      cursor: grabbing;
+    }
   }
 
   &__buttons {
