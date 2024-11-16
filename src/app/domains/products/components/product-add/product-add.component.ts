@@ -171,8 +171,8 @@ export class ProductAddModalComponent {
     }
 
     this.dialogRef.close({
-      tNombre: this.form.get('tNombre')?.value,
-      tDescripcion: this.form.get('tDescripcion')?.value,
+      tNombre: this.form.get('tNombre')?.value.trim(),
+      tDescripcion: this.form.get('tDescripcion')?.value.trim(),
       dPrecio: this.form.get('dPrecio')?.value,
       lDelivery: this.form.get('lDelivery')?.value,
       lRecoger: this.form.get('lRecoger')?.value,
