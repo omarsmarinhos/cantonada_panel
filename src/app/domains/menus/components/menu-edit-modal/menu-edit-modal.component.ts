@@ -29,13 +29,13 @@ import { Menu } from '../../../shared/models/Menu.model';
 })
 export class MenuEditModalComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<this>);
-  readonly alertService = inject(AlertService);
-  readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<this>);
+  private readonly alertService = inject(AlertService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
   private lFragmentoRepetidoSubscription: Subscription | undefined;
-  readonly menu = inject<Menu>(MAT_DIALOG_DATA);
+  private readonly menu = inject<Menu>(MAT_DIALOG_DATA);
 
   form: FormGroup;
   colspan = 12;

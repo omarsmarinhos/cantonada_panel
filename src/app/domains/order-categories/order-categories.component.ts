@@ -5,6 +5,7 @@ import { CategoryService } from '../shared/services/category.service';
 import { Category } from '../shared/models/Category.model';
 import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AlertService } from '../shared/services/alert.service';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-order-categories',
@@ -20,8 +21,9 @@ import { AlertService } from '../shared/services/alert.service';
 })
 export default class OrderCategoriesComponent {
 
-  readonly categoryService = inject(CategoryService);
-  readonly alertService = inject(AlertService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
 
   categories = signal<Category[]>([]);
 
@@ -33,6 +35,9 @@ export default class OrderCategoriesComponent {
     this.categoryService.getCategories().subscribe({
       next: (res) => {
         this.categories.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
       }
     })
   }
@@ -53,13 +58,7 @@ export default class OrderCategoriesComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error");
-          console.error(err);
-        }
+        this.errorService.showError(err);
       }
     });
   }

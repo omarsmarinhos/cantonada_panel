@@ -29,10 +29,10 @@ import { Category } from '../../../shared/models/Category.model';
 })
 export class CategoryEditModalComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<CategoryEditModalComponent>);
-  readonly alertService = inject(AlertService);
-  readonly category = inject<Category>(MAT_DIALOG_DATA);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<CategoryEditModalComponent>);
+  private readonly alertService = inject(AlertService);
+  private readonly category = inject<Category>(MAT_DIALOG_DATA);
 
   form: FormGroup;
   selectedFile: File | null = null;

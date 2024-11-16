@@ -10,6 +10,7 @@ import { Product } from '../shared/models/Product.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-order-productos',
@@ -28,9 +29,10 @@ import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 })
 export default class OrderProductosComponent {
 
-  readonly categoryService = inject(CategoryService);
-  readonly productService = inject(ProductService)
-  readonly alertService = inject(AlertService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly productService = inject(ProductService)
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
 
   categories = signal<Category[]>([]);
   products = signal<Product[]>([]);
@@ -43,6 +45,9 @@ export default class OrderProductosComponent {
     this.categoryService.getCategories().subscribe({
       next: (res) => {
         this.categories.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
       }
     })
   }
@@ -51,6 +56,9 @@ export default class OrderProductosComponent {
     this.productService.getProducts(tCategoria).subscribe({
       next: (res) => {
         this.products.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
       }
     })
   }
@@ -71,12 +79,7 @@ export default class OrderProductosComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error");
-        }
+        this.errorService.showError(err);
       }
     });
   }
@@ -84,6 +87,4 @@ export default class OrderProductosComponent {
   onSelectChange(tCategory: string) {
     this.loadProducts(tCategory);
   }
-
-  
 }

@@ -12,6 +12,7 @@ import { MenuEditModalComponent } from './components/menu-edit-modal/menu-edit-m
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-menus',
@@ -29,9 +30,10 @@ import { FormsModule } from '@angular/forms';
 })
 export default class MenusComponent {
 
-  readonly menuService = inject(MenuService);
-  readonly dialog = inject(MatDialog);
-  readonly alertService = inject(AlertService);
+  private readonly menuService = inject(MenuService);
+  private readonly dialog = inject(MatDialog);
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
 
   menus = signal<Menu[]>([]);
   dataSourceMenus = signal<MatTableDataSource<Menu>>(
@@ -56,7 +58,7 @@ export default class MenusComponent {
         this.menus.set(res);
       },
       error: (err) => {
-        console.error(err);
+        this.errorService.showError(err);
       }
     });
   }
@@ -78,12 +80,7 @@ export default class MenusComponent {
             this.loadMenus();
           },
           error: (err) => {
-            console.error(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-            }
+            this.errorService.showError(err);
           }
         });
       }
@@ -108,12 +105,7 @@ export default class MenusComponent {
             this.loadMenus();
           },
           error: (err) => {
-            console.error(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-            }
+            this.errorService.showError(err);
           }
         });
       }
@@ -149,13 +141,7 @@ export default class MenusComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error");
-          console.error(err);
-        }
+        this.errorService.showError(err);
       }
     });
   }
@@ -184,17 +170,17 @@ export default class MenusComponent {
 
   moveUp(index: number) {
     if (index > 0) {
-      const menus = [...this.menus()]; // Crea una nueva referencia
+      const menus = [...this.menus()];
       [menus[index - 1], menus[index]] = [menus[index], menus[index - 1]];
-      this.menus.set(menus); // Actualiza la señal
+      this.menus.set(menus);
     }
   }
 
   moveDown(index: number) {
     if (index < this.menus().length - 1) {
-      const menus = [...this.menus()]; // Crea una nueva referencia
+      const menus = [...this.menus()];
       [menus[index + 1], menus[index]] = [menus[index], menus[index + 1]];
-      this.menus.set(menus); // Actualiza la señal
+      this.menus.set(menus);
     }
   }
 

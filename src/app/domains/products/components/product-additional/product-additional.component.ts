@@ -32,16 +32,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProductAdditionalComponent {
 
-  readonly dialogRef = inject(MatDialogRef<ProductAdditionalComponent>);
-  readonly product = inject<Product>(MAT_DIALOG_DATA);
-  readonly additionalService = inject(ProductAdditionalService);
+  private readonly dialogRef = inject(MatDialogRef<ProductAdditionalComponent>);
+  private readonly product = inject<Product>(MAT_DIALOG_DATA);
+  private readonly additionalService = inject(ProductAdditionalService);
 
   notAssignedAdditional: ProductAdditional[] = [];
   assignedAdditional: ProductAdditional[] = [];
 
-  constructor() {
-
-  }
+  constructor() { }
 
   ngOnInit() {
     this.loadAdditional();
@@ -55,8 +53,6 @@ export class ProductAdditionalComponent {
       }
     });
   }
-
-
 
   onCancel(): void {
     this.dialogRef.close();

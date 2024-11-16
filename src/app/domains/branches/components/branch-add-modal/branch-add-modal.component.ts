@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 import { AlertService } from '../../../shared/services/alert.service';
-import { Branch } from '../../../shared/models/Branch.model';
 
 @Component({
   selector: 'app-branch-add-modal',
@@ -27,9 +26,9 @@ import { Branch } from '../../../shared/models/Branch.model';
 })
 export class BranchAddModalComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<BranchAddModalComponent>);
-  readonly alertService = inject(AlertService);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<BranchAddModalComponent>);
+  private readonly alertService = inject(AlertService);
 
   form: FormGroup;
   selectedFile: File | null = null;

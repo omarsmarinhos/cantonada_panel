@@ -10,6 +10,7 @@ import { AlertService } from '../shared/services/alert.service';
 import { BranchEditModalComponent } from './components/branch-edit-modal/branch-edit-modal.component';
 import { BranchAddModalComponent } from './components/branch-add-modal/branch-add-modal.component';
 import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-branches',
@@ -26,9 +27,10 @@ import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk
 })
 export default class BranchesComponent {
 
-  readonly branchService = inject(BranchService);
-  readonly dialog = inject(MatDialog);
-  readonly alertService = inject(AlertService);
+  private readonly branchService = inject(BranchService);
+  private readonly dialog = inject(MatDialog);
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
 
   branches = signal<Branch[]>([]);
   isSorting: boolean = false;
@@ -43,7 +45,7 @@ export default class BranchesComponent {
         this.branches.set(res);
       },
       error: (err) => {
-        console.error(err);
+        this.errorService.showError(err);
       }
     })
   }
@@ -65,13 +67,7 @@ export default class BranchesComponent {
             this.loadBranches();
           },
           error: (err) => {
-            console.log(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-              console.error(err);
-            }
+            this.errorService.showError(err);
           }
         })
       }
@@ -96,13 +92,7 @@ export default class BranchesComponent {
             this.loadBranches();
           },
           error: (err) => {
-            console.log(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-              console.error(err);
-            }
+            this.errorService.showError(err);
           }
         })
       }
@@ -122,6 +112,9 @@ export default class BranchesComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadBranches();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
           }
         })
       }
@@ -139,13 +132,7 @@ export default class BranchesComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error");
-          console.error(err);
-        }
+        this.errorService.showError(err);
       }
     });
   }

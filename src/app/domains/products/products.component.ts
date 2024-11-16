@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/conf
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
 import { ProductAdditionalComponent } from './components/product-additional/product-additional.component';
 import { ProductAdditionalService } from '../shared/services/additional.service';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-products',
@@ -27,11 +28,12 @@ import { ProductAdditionalService } from '../shared/services/additional.service'
 })
 export default class ProductsComponent {
 
-  readonly categoryService = inject(CategoryService);
-  readonly productService = inject(ProductService);
-  readonly additionalService = inject(ProductAdditionalService);
-  readonly alertService = inject(AlertService);
-  readonly dialog = inject(MatDialog);
+  private readonly categoryService = inject(CategoryService);
+  private readonly productService = inject(ProductService);
+  private readonly additionalService = inject(ProductAdditionalService);
+  private readonly alertService = inject(AlertService);
+  private readonly dialog = inject(MatDialog);
+  private readonly errorService = inject(ErrorHandlerService);
 
   categories = signal<Category[]>([]);
   selectedCategory: string = 'Todos';
@@ -47,6 +49,9 @@ export default class ProductsComponent {
     this.categoryService.getCategories().subscribe({
       next: (res) => {
         this.categories.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
       }
     });
   }
@@ -62,7 +67,7 @@ export default class ProductsComponent {
         this.products.set(res);
       },
       error: (err) => {
-        console.error(err);
+        this.errorService.showError(err);
       }
     })
   }
@@ -79,12 +84,7 @@ export default class ProductsComponent {
             this.loadProducts();
           },
           error: (err) => {
-            console.error(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-            }
+            this.errorService.showError(err);
           }
         })
       }
@@ -104,12 +104,7 @@ export default class ProductsComponent {
             this.loadProducts();
           },
           error: (err) => {
-            console.error(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-            }
+            this.errorService.showError(err);
           }
         })
       }
@@ -124,6 +119,9 @@ export default class ProductsComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadProducts();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
           }
         })
       }
@@ -142,12 +140,7 @@ export default class ProductsComponent {
             this.alertService.showSuccess(res.mensaje);
           },
           error: (err) => {
-            console.error(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-            }
+            this.errorService.showError(err);
           }
         })
       }

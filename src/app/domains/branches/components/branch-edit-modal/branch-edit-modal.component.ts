@@ -27,10 +27,10 @@ import { Branch } from '../../../shared/models/Branch.model';
 })
 export class BranchEditModalComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<BranchEditModalComponent>);
-  readonly alertService = inject(AlertService);
-  readonly branch = inject<Branch>(MAT_DIALOG_DATA);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<BranchEditModalComponent>);
+  private readonly alertService = inject(AlertService);
+  private readonly branch = inject<Branch>(MAT_DIALOG_DATA);
 
   form: FormGroup;
   selectedFile: File | null = null;

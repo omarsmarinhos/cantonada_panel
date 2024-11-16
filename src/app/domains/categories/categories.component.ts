@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/conf
 import { AlertService } from '../shared/services/alert.service';
 import { CategoryAddModalComponent } from './components/category-add-modal/category-add-modal.component';
 import { CategoryEditModalComponent } from './components/category-edit-modal/category-edit-modal.component';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-categories',
@@ -23,9 +24,10 @@ import { CategoryEditModalComponent } from './components/category-edit-modal/cat
 })
 export default class CategoriesComponent {
 
-  readonly categoryService = inject(CategoryService);
-  readonly dialog = inject(MatDialog);
-  readonly alertService = inject(AlertService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly dialog = inject(MatDialog);
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
 
   categories = signal<Category[]>([]);
 
@@ -39,14 +41,14 @@ export default class CategoriesComponent {
         this.categories.set(res);
       },
       error: (err) => {
-
+        this.errorService.showError(err);
       }
     })
   }
 
   onAddCategory() {
     const dialogRef = this.dialog.open(CategoryAddModalComponent, {
-      width: '600px'
+      width: '900px'
     }
     );
     dialogRef.afterClosed().subscribe(result => {
@@ -57,12 +59,7 @@ export default class CategoriesComponent {
             this.loadCategories();
           },
           error: (err) => {
-            console.log(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-            }
+            this.errorService.showError(err);
           }
         })
       }
@@ -71,7 +68,7 @@ export default class CategoriesComponent {
 
   onEditCategory(category: Category) {
     const dialogRef = this.dialog.open(CategoryEditModalComponent, {
-      width: '600px',
+      width: '900px',
       data: category
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -82,13 +79,7 @@ export default class CategoriesComponent {
             this.loadCategories();
           },
           error: (err) => {
-            console.log(err);
-            if (err.error.detalles) {
-              this.alertService.showWarning(err.error.detalles);
-            } else {
-              this.alertService.showError("Ocurrió un error");
-              console.error(err);
-            }
+            this.errorService.showError(err);
           }
         })
       }
@@ -103,10 +94,12 @@ export default class CategoriesComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadCategories();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
           }
         })
       }
     });
   }
-
 }

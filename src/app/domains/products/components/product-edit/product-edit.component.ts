@@ -20,6 +20,7 @@ import { Category } from '../../../shared/models/Category.model';
 import { Branch
  } from '../../../shared/models/Branch.model';
 import { Product } from '../../../shared/models/Product.model';
+import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -44,14 +45,15 @@ import { Product } from '../../../shared/models/Product.model';
 })
 export class ProductEditComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<ProductEditComponent>);
-  readonly alertService = inject(AlertService);
-  readonly categoryService = inject(CategoryService);
-  readonly branchService = inject(BranchService);
-  readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<ProductEditComponent>);
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly branchService = inject(BranchService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
-  readonly product = inject<Product>(MAT_DIALOG_DATA);
+  private readonly product = inject<Product>(MAT_DIALOG_DATA);
 
   form: FormGroup;
   selectedFile: File | null = null;
@@ -195,7 +197,7 @@ export class ProductEditComponent {
         this.categoriesSelect.set(res);
       },
       error: (err) => {
-        console.error(err);
+        this.errorService.showError(err);
       }
     })
   }
@@ -206,7 +208,7 @@ export class ProductEditComponent {
         this.branchesChecks.set(res);
       },
       error: (err) => {
-        console.error(err);
+        this.errorService.showError(err);
       }
     })
   }

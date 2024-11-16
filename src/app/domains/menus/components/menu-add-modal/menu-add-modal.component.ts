@@ -28,10 +28,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 })
 export class MenuAddModalComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<this>);
-  readonly alertService = inject(AlertService);
-  readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<this>);
+  private readonly alertService = inject(AlertService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
   private lFragmentoRepetidoSubscription: Subscription | undefined;
 

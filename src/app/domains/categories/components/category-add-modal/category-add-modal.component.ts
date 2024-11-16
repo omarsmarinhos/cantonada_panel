@@ -28,9 +28,9 @@ import { AlertService } from '../../../shared/services/alert.service';
 })
 export class CategoryAddModalComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<CategoryAddModalComponent>);
-  readonly alertService = inject(AlertService);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<CategoryAddModalComponent>);
+  private readonly alertService = inject(AlertService);
 
   form: FormGroup;
   selectedFile: File | null = null;

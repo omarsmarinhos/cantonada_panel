@@ -10,6 +10,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { Subscription } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { AlertService } from '../shared/services/alert.service';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-configurations',
@@ -28,10 +29,11 @@ import { AlertService } from '../shared/services/alert.service';
 })
 export default class ConfigurationsComponent {
 
-  readonly configurationService = inject(ConfigurationService);
-  readonly fb = inject(FormBuilder);
-  readonly alertService = inject(AlertService);
-  readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly configurationService = inject(ConfigurationService);
+  private readonly fb = inject(FormBuilder);
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
   configuration: ConfigurationResponse = {
@@ -105,7 +107,7 @@ export default class ConfigurationsComponent {
         this.loadConfigurationSucursal();
       },
       error: (err) => {
-        console.log(err);
+        this.errorService.showError(err);
       }
     });
   }
@@ -152,12 +154,7 @@ export default class ConfigurationsComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error del servidor");
-        }
+        this.errorService.showError(err);
       }
     });
     return true;
@@ -211,12 +208,7 @@ export default class ConfigurationsComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error del servidor");
-        }
+        this.errorService.showError(err);
       }
     });
     return true;
@@ -249,12 +241,7 @@ export default class ConfigurationsComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error del servidor");
-        }
+        this.errorService.showError(err);
       }
     });
     return true;
@@ -286,12 +273,7 @@ export default class ConfigurationsComponent {
         this.alertService.showSuccess(res.mensaje);
       },
       error: (err) => {
-        console.log(err);
-        if (err.error.detalles) {
-          this.alertService.showWarning(err.error.detalles);
-        } else {
-          this.alertService.showError("Ocurrió un error del servidor");
-        }
+        this.errorService.showError(err);
       }
     });
     return true;

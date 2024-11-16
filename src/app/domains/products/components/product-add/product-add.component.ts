@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 import { BranchService } from '../../../shared/services/branch.service';
 import { Branch } from '../../../shared/models/Branch.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
 
 @Component({
   selector: 'app-product-add',
@@ -42,12 +43,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 export class ProductAddModalComponent {
 
-  readonly fb = inject(FormBuilder);
-  readonly dialogRef = inject(MatDialogRef<ProductAddModalComponent>);
-  readonly alertService = inject(AlertService);
-  readonly categoryService = inject(CategoryService);
-  readonly branchService = inject(BranchService);
-  readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<ProductAddModalComponent>);
+  private readonly alertService = inject(AlertService);
+  private readonly errorService = inject(ErrorHandlerService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly branchService = inject(BranchService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
   form: FormGroup;
@@ -191,7 +193,7 @@ export class ProductAddModalComponent {
         this.categoriesSelect.set(res);
       },
       error: (err) => {
-        console.error(err);
+        this.errorService.showError(err);
       }
     })
   }
@@ -202,7 +204,7 @@ export class ProductAddModalComponent {
         this.branchesChecks.set(res);
       },
       error: (err) => {
-        console.error(err);
+        this.errorService.showError(err);
       }
     })
   }
