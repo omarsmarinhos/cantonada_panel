@@ -117,7 +117,7 @@ export class CategoryAddModalComponent {
     }
 
     this.dialogRef.close({
-      tNombre: this.form.get('tNombre')?.value,
+      tNombre: this.form.get('tNombre')?.value.trim(),
       lPrincipal: this.form.get('lPrincipal')?.value,
       imagen: this.selectedFile,
     });

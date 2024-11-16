@@ -119,7 +119,7 @@ export class CategoryEditModalComponent {
 
     this.dialogRef.close({
       iIdCategoria: this.category.iIdCategoria,
-      tNombre: this.form.get('tNombre')?.value,
+      tNombre: this.form.get('tNombre')?.value.trim(),
       lPrincipal: this.form.get('lPrincipal')?.value,
       imageChanged: this.imageChanged,
       imagen: this.selectedFile,
