@@ -40,7 +40,13 @@ export class CategoryAddModalComponent {
   form: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
-  configImagen!: ConfigImagen;
+  configImagen: ConfigImagen = {
+    iIdConfigImagen: 0,
+    tTipoImagen: '',
+    maxWidth: 0,
+    maxHeight: 0,
+    aspectRatio: ''
+  };
   aspectRatioWidth: number = 0;
   aspectRatioHeight: number = 0;
 

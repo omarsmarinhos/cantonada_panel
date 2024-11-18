@@ -43,7 +43,13 @@ export class CategoryEditModalComponent {
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   imageChanged: boolean = false;
-  configImagen!: ConfigImagen;
+  configImagen: ConfigImagen = {
+    iIdConfigImagen: 0,
+    tTipoImagen: '',
+    maxWidth: 0,
+    maxHeight: 0,
+    aspectRatio: ''
+  };
   aspectRatioWidth: number = 0;
   aspectRatioHeight: number = 0;
 
