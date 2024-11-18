@@ -9,6 +9,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 import { AlertService } from '../../../shared/services/alert.service';
 import { Category } from '../../../shared/models/Category.model';
+import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
+import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
 
 @Component({
   selector: 'app-category-edit-modal',
@@ -33,15 +36,16 @@ export class CategoryEditModalComponent {
   private readonly dialogRef = inject(MatDialogRef<CategoryEditModalComponent>);
   private readonly alertService = inject(AlertService);
   private readonly category = inject<Category>(MAT_DIALOG_DATA);
+  private readonly errorService = inject(ErrorHandlerService);
+  private readonly configService = inject(ConfigurationService);
 
   form: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   imageChanged: boolean = false;
-  maxWidth = 900;
-  maxHeight = 900;
-  aspectRatioWidth = 1;
-  aspectRatioHeight = 1;
+  configImagen!: ConfigImagen;
+  aspectRatioWidth: number = 0;
+  aspectRatioHeight: number = 0;
 
   constructor() {
     this.form = this.fb.group({
@@ -49,6 +53,10 @@ export class CategoryEditModalComponent {
       lPrincipal: [this.category.lPrincipal, [Validators.required]]
     });
     this.previewUrl = this.category.tImagenUrl;
+  }
+
+  ngOnInit() {
+    this.loadConfigImagen();
   }
 
   onFileDrop(files: NgxFileDropEntry[]): void {
@@ -70,8 +78,8 @@ export class CategoryEditModalComponent {
             const width = img.width;
             const height = img.height;
 
-            if (width > this.maxWidth || height > this.maxHeight) {
-              this.alertService.showError(`La imagen excede las dimensiones permitidas de ${this.maxWidth}x${this.maxHeight} píxeles.`);
+            if (width > this.configImagen.maxWidth || height > this.configImagen.maxHeight) {
+              this.alertService.showError(`La imagen excede las dimensiones permitidas de ${this.configImagen.maxWidth}x${this.configImagen.maxHeight} píxeles.`);
               URL.revokeObjectURL(objectUrl);
               return;
             }
@@ -123,6 +131,20 @@ export class CategoryEditModalComponent {
       lPrincipal: this.form.get('lPrincipal')?.value,
       imageChanged: this.imageChanged,
       imagen: this.selectedFile,
+    });
+  }
+
+  loadConfigImagen() {
+    this.configService.getConfigImagen('Categoría').subscribe({
+      next: (res) => {
+        this.configImagen = res;
+        const parts = this.configImagen.aspectRatio.split(":");
+        this.aspectRatioWidth = parseInt(parts[0]);
+        this.aspectRatioHeight = parseInt(parts[1]);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
     });
   }
 }
