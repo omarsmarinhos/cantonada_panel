@@ -17,10 +17,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CapitalizePipe } from '../../../shared/pipes/capitalize.pipe';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Category } from '../../../shared/models/Category.model';
-import { Branch
- } from '../../../shared/models/Branch.model';
+import {
+  Branch
+} from '../../../shared/models/Branch.model';
 import { Product } from '../../../shared/models/Product.model';
 import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
+import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -51,6 +54,7 @@ export class ProductEditComponent {
   private readonly errorService = inject(ErrorHandlerService);
   private readonly categoryService = inject(CategoryService);
   private readonly branchService = inject(BranchService);
+  private readonly configService = inject(ConfigurationService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
   private readonly product = inject<Product>(MAT_DIALOG_DATA);
@@ -63,10 +67,15 @@ export class ProductEditComponent {
   colspan: number = 12;
   selectedBranchIds: number[] = [];
   imageChanged: boolean = false;
-  maxWidth = 900;
-  maxHeight = 675;
-  aspectRatioWidth = 4;
-  aspectRatioHeight = 3;
+  configImagen: ConfigImagen = {
+    iIdConfigImagen: 0,
+    tTipoImagen: '',
+    maxWidth: 0,
+    maxHeight: 0,
+    aspectRatio: ''
+  };
+  aspectRatioWidth: number = 0;
+  aspectRatioHeight: number = 0;
 
   constructor() {
     this.form = this.fb.group({
@@ -120,8 +129,8 @@ export class ProductEditComponent {
             const width = img.width;
             const height = img.height;
 
-            if (width > this.maxWidth || height > this.maxHeight) {
-              this.alertService.showError(`La imagen excede las dimensiones permitidas de ${this.maxWidth}x${this.maxHeight} píxeles.`);
+            if (width > this.configImagen.maxWidth || height > this.configImagen.maxHeight) {
+              this.alertService.showError(`La imagen excede las dimensiones permitidas de ${this.configImagen.maxWidth}x${this.configImagen.maxHeight} píxeles.`);
               URL.revokeObjectURL(objectUrl);
               return;
             }
@@ -227,5 +236,19 @@ export class ProductEditComponent {
     if (this.breakpointSubscription) {
       this.breakpointSubscription.unsubscribe();
     }
+  }
+
+  loadConfigImagen() {
+    this.configService.getConfigImagen('Producto').subscribe({
+      next: (res) => {
+        this.configImagen = res;
+        const parts = this.configImagen.aspectRatio.split(":");
+        this.aspectRatioWidth = parseInt(parts[0]);
+        this.aspectRatioHeight = parseInt(parts[1]);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
+    });
   }
 }

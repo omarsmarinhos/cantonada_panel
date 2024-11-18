@@ -72,7 +72,7 @@
           <div *ngIf="!selectedFile && !previewUrl">
             <mat-icon class="upload-icon">cloud_upload</mat-icon>
             <p>Arrastra y suelta aquí tu imagen</p>
-            <p style="font-size: 1rem;">(Tamaño máximo: {{maxWidth}}x{{maxHeight}} px, Proporción
+            <p style="font-size: 1rem;">(Tamaño máximo: {{configImagen.maxWidth}}x{{configImagen.maxHeight}} px, Proporción
               {{aspectRatioWidth}}:{{aspectRatioHeight}})</p>
             <p>o</p>
             <button class="select-file" (click)="openFileSelector()">
@@ -93,7 +93,7 @@
             <div *ngIf="!selectedFile && previewUrl">
               <mat-icon class="upload-icon">cloud_upload</mat-icon>
               <p>Arrastra y suelta aquí tu imagen</p>
-              <p style="font-size: 1rem;">(Tamaño máximo: {{maxWidth}}x{{maxHeight}} px, Proporción
+              <p style="font-size: 1rem;">(Tamaño máximo: {{configImagen.maxWidth}}x{{configImagen.maxHeight}} px, Proporción
                 {{aspectRatioWidth}}:{{aspectRatioHeight}})</p>
               <p>o</p>
               <button class="select-file" (click)="openFileSelector()">
