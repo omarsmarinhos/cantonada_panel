@@ -33,7 +33,7 @@ import { FormsModule } from '@angular/forms';
 export class ProductAdditionalComponent {
 
   private readonly dialogRef = inject(MatDialogRef<ProductAdditionalComponent>);
-  private readonly product = inject<Product>(MAT_DIALOG_DATA);
+  readonly product = inject<Product>(MAT_DIALOG_DATA);
   private readonly additionalService = inject(ProductAdditionalService);
 
   notAssignedAdditional: ProductAdditional[] = [];
