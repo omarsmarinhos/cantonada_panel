@@ -8,6 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 import { AlertService } from '../../../shared/services/alert.service';
 import { Branch } from '../../../shared/models/Branch.model';
+import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
+import { ConfigurationService } from '../../../shared/services/configuration.service';
+import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
 
 @Component({
   selector: 'app-branch-edit-modal',
@@ -31,15 +34,22 @@ export class BranchEditModalComponent {
   private readonly dialogRef = inject(MatDialogRef<BranchEditModalComponent>);
   private readonly alertService = inject(AlertService);
   private readonly branch = inject<Branch>(MAT_DIALOG_DATA);
+  private readonly errorService = inject(ErrorHandlerService);
+  private readonly configService = inject(ConfigurationService);
 
   form: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   imageChanged: boolean = false;
-  maxWidth = 900;
-  maxHeight = 675;
-  aspectRatioWidth = 4;
-  aspectRatioHeight = 3;
+  configImagen: ConfigImagen = {
+    iIdConfigImagen: 0,
+    tTipoImagen: '',
+    maxWidth: 0,
+    maxHeight: 0,
+    aspectRatio: ''
+  };
+  aspectRatioWidth: number = 0;
+  aspectRatioHeight: number = 0;
 
   constructor() {
     this.form = this.fb.group({
@@ -47,6 +57,10 @@ export class BranchEditModalComponent {
       tDireccion: [this.branch.tDireccion, [Validators.required, Validators.pattern(/\S+/)]],
     });
     this.previewUrl = this.branch.tImagenUrl;
+  }
+
+  ngOnInit() {
+    this.loadConfigImagen();
   }
 
   onFileDrop(files: NgxFileDropEntry[]): void {
@@ -68,8 +82,8 @@ export class BranchEditModalComponent {
             const width = img.width;
             const height = img.height;
 
-            if (width > this.maxWidth || height > this.maxHeight) {
-              this.alertService.showError(`La imagen excede las dimensiones permitidas de ${this.maxWidth}x${this.maxHeight} píxeles.`);
+            if (width > this.configImagen.maxWidth || height > this.configImagen.maxHeight) {
+              this.alertService.showError(`La imagen excede las dimensiones permitidas de ${this.configImagen.maxWidth}x${this.configImagen.maxHeight} píxeles.`);
               URL.revokeObjectURL(objectUrl);
               return;
             }
@@ -121,6 +135,20 @@ export class BranchEditModalComponent {
       tDireccion: this.form.get('tDireccion')?.value,
       imageChanged: this.imageChanged,
       imagen: this.selectedFile,
+    });
+  }
+
+  loadConfigImagen() {
+    this.configService.getConfigImagen('Sucursal').subscribe({
+      next: (res) => {
+        this.configImagen = res;
+        const parts = this.configImagen.aspectRatio.split(":");
+        this.aspectRatioWidth = parseInt(parts[0]);
+        this.aspectRatioHeight = parseInt(parts[1]);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
     });
   }
 }
