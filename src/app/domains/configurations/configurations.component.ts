@@ -61,8 +61,8 @@ export default class ConfigurationsComponent {
 
   constructor() {
     this.formGeneral = this.fb.group({
-      igv: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(1), this.numericValidator]],
-      recargoConsumo: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(1), this.numericValidator]],
+      igv: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.integerValidator]],
+      recargoConsumo: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.integerValidator]],
     });
     this.formCategoria = this.fb.group({
       iIdConfigImagen: [''],
