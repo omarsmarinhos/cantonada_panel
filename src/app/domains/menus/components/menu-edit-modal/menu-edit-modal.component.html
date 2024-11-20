@@ -5,21 +5,21 @@
       <mat-grid-tile [colspan]="colspan">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Nombre</mat-label>
-          <input matInput formControlName="tNombre">
+          <input matInput formControlName="tNombre" maxlength="45">
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="colspan">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Enlace</mat-label>
-          <input matInput formControlName="tEnlace" placeholder="/">
+          <input matInput formControlName="tEnlace" placeholder="/" maxlength="45">
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="colspan">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Fragmento</mat-label>
-          <input matInput formControlName="tFragmento">
+          <input matInput formControlName="tFragmento" maxlength="45">
         </mat-form-field>
       </mat-grid-tile>
 

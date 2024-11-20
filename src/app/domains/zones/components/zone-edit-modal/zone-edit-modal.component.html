@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Editar una Zona</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="my-form">
+    <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+      <mat-grid-tile [colspan]="colspan">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="tNombre" maxlength="100">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="colspan">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Precio</mat-label>
+          <input matInput type="number" formControlName="dPrecio">
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Polígono (GeoJSON)</mat-label>
+      <textarea matInput formControlName="jPoligono" rows="10"></textarea>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions">
+  <button class="btn-modal cancel" (click)="onCancel()">Cancelar</button>
+  <button class="btn-modal edit" (click)="onSubmit()">Editar</button>
+</mat-dialog-actions>

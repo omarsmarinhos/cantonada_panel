@@ -13,7 +13,7 @@ export class ErrorHandlerService {
   showError(err: any): void {
     console.error(err);
     if (err.error.mensaje) {
-      this.alertService.showError(`${err.error.mensaje}. Status: ${err.status}`);
+      this.alertService.showError(`${err.error.mensaje} Status: ${err.status}`);
     } else {
       this.alertService.showError(`Ocurrió un error inesperado. Status: ${err.status}`);
     }

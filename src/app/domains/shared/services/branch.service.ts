@@ -17,6 +17,10 @@ export class BranchService {
     return this.http.get<Branch[]>(`${this.baseUrl}/Sucursal`);
   }
 
+  getSucursalById(iIdSucursal: number) {
+    return this.http.get<Branch>(`${this.baseUrl}/Sucursal/${iIdSucursal}`);
+  }
+
   addBranch(sucursalData: any) {
     const formData = new FormData();
     formData.append('tNombre', sucursalData.tNombre);

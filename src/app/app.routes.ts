@@ -12,6 +12,10 @@ export const routes: Routes = [
         loadComponent: () => import('./domains/branches/branches.component')
       },
       {
+        path: 'zonas/:id',
+        loadComponent: () => import('./domains/zones/zones.component')
+      },
+      {
         path: 'categorias',
         loadComponent: () => import('./domains/categories/categories.component')
       },
@@ -35,6 +39,11 @@ export const routes: Routes = [
         path: 'configuracion',
         loadComponent: () => import('./domains/configurations/configurations.component')
       },
+      {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full'
+      }
     ]
   }
 ];

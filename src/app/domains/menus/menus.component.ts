@@ -75,7 +75,7 @@ export default class MenusComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.menuService.addMenu(result).subscribe({
-          next: (res) => {
+          next: (res) => {  
             this.alertService.showSuccess(res.mensaje);
             this.loadMenus();
           },
@@ -124,6 +124,9 @@ export default class MenusComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadMenus();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
           }
         })
       }

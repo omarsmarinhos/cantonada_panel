@@ -7,10 +7,13 @@
       <span>{{ branch.tNombre | uppercase }}</span>
     </div>
     <div class="branch__card__actions">
-      <div class="branch__card__actions__button branch__card__actions__button--edit" (click)="onEdit()">
+      <div class="branch__card__actions__button branch__card__actions__button--zone" (click)="onGoZone(branch.iIdSucursal)" matTooltip="Ver zonas">
+        <mat-icon>location_on</mat-icon>
+      </div>
+      <div class="branch__card__actions__button branch__card__actions__button--edit" (click)="onEdit()" matTooltip="Editar">
         <mat-icon>edit</mat-icon>
       </div>
-      <div class="branch__card__actions__button branch__card__actions__button--delete" (click)="onDelete()">
+      <div class="branch__card__actions__button branch__card__actions__button--delete" (click)="onDelete()" matTooltip="Eliminar">
         <mat-icon>delete</mat-icon>
       </div>
     </div>
