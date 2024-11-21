@@ -61,8 +61,8 @@ export default class ConfigurationsComponent {
 
   constructor() {
     this.formGeneral = this.fb.group({
-      igv: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.integerValidator]],
-      recargoConsumo: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.integerValidator]],
+      igv: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.numericValidator]],
+      recargoConsumo: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.numericValidator]],
     });
     this.formCategoria = this.fb.group({
       iIdConfigImagen: [''],
@@ -303,8 +303,8 @@ export default class ConfigurationsComponent {
 
   numericValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
-    if (value === null || value === '' || isNaN(value) || value < 0 || value > 1) {
-      return { numericError: 'El valor debe ser un número entre 0 y 1.' };
+    if (value === null || value === '' || isNaN(value) || value < 0 || value > 100) {
+      return { numericError: 'El valor debe ser un número entre 0 y 100.' };
     }
     return null;
   }

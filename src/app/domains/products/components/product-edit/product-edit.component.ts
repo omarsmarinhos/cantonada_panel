@@ -101,6 +101,7 @@ export class ProductEditComponent {
   ngOnInit() {
     this.loadCategoriesInSelect();
     this.loadBranchesChecks();
+    this.loadConfigImagen();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.colspan = 6;

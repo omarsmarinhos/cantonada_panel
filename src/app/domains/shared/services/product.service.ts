@@ -19,43 +19,48 @@ export class ProductService {
 
   addProduct(product: any) {
     const formData = new FormData();
-    formData.append('tNombre', product.tNombre.toString().trim());
-    formData.append('tDescripcion', product.tDescripcion.toString().trim());
-    formData.append('dPrecio', product.dPrecio.toString().trim());
-    formData.append('lDelivery', String(product.lDelivery));
-    formData.append('lRecoger', String(product.lRecoger));
-    formData.append('lPopular', String(product.lPopular));
-    formData.append('lNovedad', String(product.lNovedad));
-    formData.append('lAdicional', String(product.lAdicional));
-    formData.append('iIdCategoria', product.iIdCategoria.toString());
-    if (product.sucursales && product.sucursales.length > 0) {
-      formData.append('jSucursales', JSON.stringify(product.sucursales));
-    } else {
-      formData.append('jSucursales', '[]');
-    }
     formData.append('imagen', product.imagen);
+
+    const productData = {
+      tNombre: product.tNombre.trim(),
+      tDescripcion: product.tDescripcion.trim(),
+      dPrecio: product.dPrecio,
+      lDelivery: product.lDelivery,
+      lRecoger: product.lRecoger,
+      lPopular: product.lPopular,
+      lNovedad: product.lNovedad,
+      lAdicional: product.lAdicional,
+      iIdCategoria: product.iIdCategoria,
+      jSucursales: product.sucursales && product.sucursales.length > 0 
+        ? JSON.stringify(product.sucursales) 
+        : '[]',
+    };
+    formData.append('productData', JSON.stringify(productData));
     return this.http.post<any>(`${this.baseUrl}/Producto`, formData);
   }
 
   editProduct(product: any) {
     const formData = new FormData();
-    formData.append('iIdProducto', product.iIdProducto.toString());
-    formData.append('tNombre', product.tNombre.toString().trim());
-    formData.append('tDescripcion', product.tDescripcion.toString().trim());
-    formData.append('dPrecio', product.dPrecio.toString().trim());
-    formData.append('lDelivery', String(product.lDelivery));
-    formData.append('lRecoger', String(product.lRecoger));
-    formData.append('lPopular', String(product.lPopular));
-    formData.append('lNovedad', String(product.lNovedad));
-    formData.append('lAdicional', String(product.lAdicional));
-    formData.append('iIdCategoria', product.iIdCategoria.toString());
-    if (product.sucursales && product.sucursales.length > 0) {
-      formData.append('jSucursales', JSON.stringify(product.sucursales));
-    } else {
-      formData.append('jSucursales', '[]');
-    }
     formData.append('imagen', product.imagen);
-    formData.append('imageChanged', String(product.imageChanged));
+
+    const productData = {
+      iIdProducto: product.iIdProducto,
+      tNombre: product.tNombre.trim(),
+      tDescripcion: product.tDescripcion.trim(),
+      dPrecio: product.dPrecio,
+      lDelivery: product.lDelivery,
+      lRecoger: product.lRecoger,
+      lPopular: product.lPopular,
+      lNovedad: product.lNovedad,
+      lAdicional: product.lAdicional,
+      iIdCategoria: product.iIdCategoria,
+      jSucursales: product.sucursales && product.sucursales.length > 0 
+        ? JSON.stringify(product.sucursales) 
+        : '[]',
+      imageChanged: product.imageChanged
+    };
+
+    formData.append('productData', JSON.stringify(productData));
     return this.http.put<any>(`${this.baseUrl}/Producto`, formData);
   }
 
