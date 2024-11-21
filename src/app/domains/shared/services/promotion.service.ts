@@ -17,8 +17,8 @@ export class PromotionService {
     return this.http.get<Promotion[]>(`${this.baseUrl}/Promocion`);
   }
 
-  deletePromotion(iIdPromotion: number) {
-    return this.http.delete<any>(`${this.baseUrl}/Promocion/${iIdPromotion}`);
+  deletePromotion(iIdPromocion: number) {
+    return this.http.delete<any>(`${this.baseUrl}/Promocion/${iIdPromocion}`);
   }
 
 

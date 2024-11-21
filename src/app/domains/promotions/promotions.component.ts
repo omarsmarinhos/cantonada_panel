@@ -13,7 +13,9 @@ import { PromotionService } from '../shared/services/promotion.service';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TimeFormatPipe } from '../shared/pipes/time-format.pipe';
-import { FechaEspanolPipe } from '../shared/pipes/fecha-espanol.pipe';
+import { PromotionAddModalComponent } from './components/promotion-add-modal/promotion-add-modal.component';
+import { PromotionEditModalComponent } from './components/promotion-edit-modal/promotion-edit-modal.component';
+import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-promotions',
@@ -28,7 +30,6 @@ import { FechaEspanolPipe } from '../shared/pipes/fecha-espanol.pipe';
     CapitalizePipe,
     MatTooltipModule,
     TimeFormatPipe,
-    FechaEspanolPipe
   ],
   templateUrl: './promotions.component.html',
   styleUrl: './promotions.component.scss'
@@ -74,20 +75,66 @@ export default class PromotionsComponent {
   }
 
   onAddPromotion() {
-    
+    const dialogRef = this.dialog.open(PromotionAddModalComponent, {
+      width: '1100px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        // this.promotionService.ad(result).subscribe({
+        //   next: (res) => {
+        //     this.alertService.showSuccess("Producto agregado");
+        //     this.loadProducts();
+        //   },
+        //   error: (err) => {
+        //     this.errorService.showError(err);
+        //   }
+        // })
+      }
+    });
   }
 
   onEditPromotion(promotion: Promotion) {
+    const dialogRef = this.dialog.open(PromotionEditModalComponent, {
+      width: '1100px',
+      data: promotion
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.promotionService.ad(result).subscribe({
+        //   next: (res) => {
+        //     this.alertService.showSuccess("Producto agregado");
+        //     this.loadProducts();
+        //   },
+        //   error: (err) => {
+        //     this.errorService.showError(err);
+        //   }
+        // })
+      }
+    });
   }
 
-  onDeletePromotion(iIdZone: number) {
-    
+  onDeletePromotion(iIdPromotion: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.promotionService.deletePromotion(iIdPromotion).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess(res.mensaje);
+            this.loadPromotions();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
+          }
+        })
+      }
+    });
   }
 
   toggleRow(row: Promotion, event: MouseEvent) {
     const target = event.target as HTMLElement;
     const isActionButton = target.closest('.main__table__actions__button');
-    
+
     if (!isActionButton) {
       this.expandedElement = this.expandedElement === row ? null : row;
     }

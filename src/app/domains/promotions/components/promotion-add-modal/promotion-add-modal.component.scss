@@ -1,0 +1,91 @@
+@use './../../../../../styles/modal';
+@use './../../../../../styles/mixins' as m;
+
+::ng-deep {
+  .my-form .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+form {
+  margin-top: 0.75rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.image-preview {
+  @include m.tablet {
+    padding: 4rem 10rem 0 10rem;
+  }
+
+  img {
+    object-fit: cover;
+    width: -webkit-fill-available;
+  }
+}
+
+.upload-container {
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.upload-container:hover {
+  border-color: #3f51b5;
+}
+
+.upload-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #757575;
+}
+
+.upload-container p {
+  margin: 0.5rem 0;
+  color: #757575;
+}
+
+.upload-container button {
+  margin-top: 0.5rem;
+}
+
+.file-selected {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.file-icon {
+  font-size: 4rem;
+  height: 4rem;
+  width: 4rem;
+  color: #4caf50;
+}
+
+.file-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.file-info p {
+  margin: 0;
+  color: #757575;
+  font-size: 14px;
+}
+
+.file-selected button {
+  margin-left: auto;
+}
+
+.select-file {
+  color: var(--black-color);
+  background-color: var(--border-color);
+  padding: 1rem 2rem;
+  border-radius: .5rem;
+}

@@ -98,7 +98,7 @@
                   <mat-icon>visibility</mat-icon>
                 </button>
                 }
-                @if (element.tTipoAplicacion === 'categoria') {
+                @if (element.tTipoAplicacion === 'categoría') {
                 <button class="main__table__actions__button main__table__actions__button--view"
                   (click)="onViewDetails(element)" matTooltip="Ver categorías">
                   <mat-icon>visibility</mat-icon>
@@ -115,7 +115,7 @@
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button class="main__table__actions__button main__table__actions__button--delete"
-                  (click)="onDeletePromotion(element.iIdZona)" matTooltip="Eliminar">
+                  (click)="onDeletePromotion(element.iIdPromocion)" matTooltip="Eliminar">
                   <mat-icon>delete_outline</mat-icon>
                 </button>
               </div>
@@ -126,8 +126,8 @@
             <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
               <div class="expanded-content">
                 @if (row.lPorFecha) {
-                <p><strong>Fecha Inicio:</strong> {{ row.fFechaInicio | date: "EEEE, d 'de' MMMM 'del' y" | fechaEspanol }}</p>
-                <p><strong>Fecha Fin:</strong> {{ row.fFechaFin | date: "EEEE, d 'de' MMMM 'del' y" | fechaEspanol }}</p>
+                <p><strong>Fecha Inicio:</strong> {{ row.fFechaInicio | date: "EEEE, d 'de' MMMM 'del' y" | capitalize }}</p>
+                <p><strong>Fecha Fin:</strong> {{ row.fFechaFin | date: "EEEE, d 'de' MMMM 'del' y" | capitalize }}</p>
                 }
                 @if (row.lPorHora) {
                 <p><strong>Hora Inicio:</strong> {{ row.hHoraInicio | timeFormat }}</p>
