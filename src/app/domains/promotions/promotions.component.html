@@ -1,0 +1,161 @@
+<div class="promotions">
+  <div class="promotions__header">
+    <span class="title">PROMOCIONES</span>
+    <button (click)="onAddPromotion()">
+      <mat-icon>add</mat-icon>
+      <span>Agregar</span>
+    </button>
+  </div>
+  <div class="promotions__content">
+    <div class="main">
+      <div class="main__table table-responsive">
+        <table mat-table [dataSource]="dataSourcePromotions()" multiTemplateDataRows>
+
+          <ng-container matColumnDef="tNombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.tNombre | capitalize }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lPorFecha">
+            <th mat-header-cell *matHeaderCellDef class="center">Por Fecha</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="badge" [ngClass]="{
+                'badge-active': element.lPorFecha === true,
+                'badge-inactive': element.lPorFecha === false
+              }">{{ element.lPorFecha === true ? 'Si' : 'No' }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lPorHora">
+            <th mat-header-cell *matHeaderCellDef class="center">Por Hora</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="badge" [ngClass]="{
+                'badge-active': element.lPorHora === true,
+                'badge-inactive': element.lPorHora === false
+              }">{{ element.lPorHora === true ? 'Si' : 'No' }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lPorImporte">
+            <th mat-header-cell *matHeaderCellDef class="center">Por Importe</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="badge" [ngClass]="{
+                'badge-active': element.lPorImporte === true,
+                'badge-inactive': element.lPorImporte === false
+              }">{{ element.lPorImporte === true ? 'Si' : 'No' }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="tTipoAplicacion" sticky>
+            <th mat-header-cell *matHeaderCellDef class="nowrap">Aplica a</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.tTipoAplicacion | capitalize }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="tTipoAplicar" sticky>
+            <th mat-header-cell *matHeaderCellDef>Aplicar</th>
+            <td mat-cell *matCellDef="let element" class="nowrap">
+              {{ element.tTipoAplicar | capitalize }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dValorAplicar" sticky>
+            <th mat-header-cell *matHeaderCellDef>Valor</th>
+            <td mat-cell *matCellDef="let element" class="nowrap">
+              <ng-container [ngSwitch]="element.tTipoAplicar">
+                <span *ngSwitchCase="'descuento importe'">
+                  {{ element.dValorAplicar | currency: 'S/ ': 'symbol':'1.2-2' }}
+                </span>
+
+                <span *ngSwitchCase="'descuento porcentaje'">
+                  {{ element.dValorAplicar }}%
+                </span>
+
+                <span *ngSwitchCase="'delivery gratis'">
+                </span>
+
+                <span *ngSwitchCase="'delivery descuento'">
+                  {{ element.dValorAplicar | currency: 'S/ ': 'symbol':'1.2-2' }}
+                </span>
+
+                <span *ngSwitchDefault>
+                  {{ element.dValorAplicar }}
+                </span>
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef class="center" style="width: 120px">Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="main__table__actions">
+                @if (element.tTipoAplicacion === 'producto') {
+                <button class="main__table__actions__button main__table__actions__button--view"
+                  (click)="onViewDetails(element)" matTooltip="Ver productos">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                }
+                @if (element.tTipoAplicacion === 'categoria') {
+                <button class="main__table__actions__button main__table__actions__button--view"
+                  (click)="onViewDetails(element)" matTooltip="Ver categorías">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                }
+                @if (element.tTipoAplicacion === 'todo') {
+                <button class="main__table__actions__button main__table__actions__button--none"
+                  (click)="onViewDetails(element)">
+                  <mat-icon></mat-icon>
+                </button>
+                }
+                <button class="main__table__actions__button main__table__actions__button--edit"
+                  (click)="onEditPromotion(element)" matTooltip="Editar">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="main__table__actions__button main__table__actions__button--delete"
+                  (click)="onDeletePromotion(element.iIdZona)" matTooltip="Eliminar">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+              <div class="expanded-content">
+                @if (row.lPorFecha) {
+                <p><strong>Fecha Inicio:</strong> {{ row.fFechaInicio | date: "EEEE, d 'de' MMMM 'del' y" | fechaEspanol }}</p>
+                <p><strong>Fecha Fin:</strong> {{ row.fFechaFin | date: "EEEE, d 'de' MMMM 'del' y" | fechaEspanol }}</p>
+                }
+                @if (row.lPorHora) {
+                <p><strong>Hora Inicio:</strong> {{ row.hHoraInicio | timeFormat }}</p>
+                <p><strong>Hora Fin:</strong> {{ row.hHoraFin | timeFormat }}</p>
+                }
+                @if (row.lPorImporte) {
+                <p><strong>Importe Mínimo:</strong> {{ row.dImporteMin | currency: 'S/ ': 'symbol':'1.2-2'  }}</p>
+                <p><strong>Importe Máximo:</strong> {{ row.dImporteMax | currency: 'S/ ': 'symbol':'1.2-2' }}</p>
+                }
+                @if (row.tDescripcion) {
+                <p><strong>Descripción:</strong> {{ row.tDescripcion }}</p>
+                }
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="toggleRow(row, $event)"
+            class="example-element-row" [class.example-expanded-row]="expandedElement === row"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" [hidden]="expandedElement !== row"></tr>
+        </table>
+      </div>
+      @if (promotions().length === 0) {
+      <div class="main__empty">
+        <mat-icon>inbox</mat-icon>
+        <span>Aún no hay promociones registradas.</span>
+      </div>
+      }
+    </div>
+  </div>
+</div>

@@ -12,6 +12,10 @@ export const routes: Routes = [
         loadComponent: () => import('./domains/branches/branches.component')
       },
       {
+        path: 'promociones',
+        loadComponent: () => import('./domains/promotions/promotions.component')
+      },
+      {
         path: 'zonas/:id',
         loadComponent: () => import('./domains/zones/zones.component')
       },
