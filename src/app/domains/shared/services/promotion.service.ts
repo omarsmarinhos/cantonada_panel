@@ -21,5 +21,7 @@ export class PromotionService {
     return this.http.delete<any>(`${this.baseUrl}/Promocion/${iIdPromocion}`);
   }
 
-
+  search(value: string, tipo: string) {
+    return this.http.get<any[]>(`${this.baseUrl}/Promocion/Buscar?value=${value}&tipo=${tipo}`);
+  }
 }

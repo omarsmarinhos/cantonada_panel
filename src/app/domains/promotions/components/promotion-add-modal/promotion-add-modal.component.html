@@ -16,28 +16,14 @@
           <input matInput formControlName="tEnlace" maxlength="100">
         </mat-form-field>
       </mat-grid-tile>
+    </mat-grid-list>
 
-      <mat-grid-tile [colspan]="colspan">
-        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
-          <mat-label>Aplica a</mat-label>
-          <mat-select formControlName="tTipoAplicacion">
-            @for (aplicacion of aplicacionSelect; track $index) {
-            <mat-option [value]="aplicacion">{{ aplicacion | capitalize }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="tDescripcion" maxlength="255"></textarea>
+    </mat-form-field>
 
-      <mat-grid-tile [colspan]="colspan">
-        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
-          <mat-label>Aplicar</mat-label>
-          <mat-select formControlName="tTipoAplicar">
-            @for (aplicar of aplicarSelect; track $index) {
-            <mat-option [value]="aplicar">{{ aplicar | capitalize }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
+    <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
 
       <mat-grid-tile [colspan]="colspanBy">
         <mat-slide-toggle labelPosition="after" formControlName="lPorFecha" style="width: 100%;">
@@ -46,7 +32,7 @@
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="colspanBy">
-        <mat-form-field appearance="outline" style="width: 100%" class="h-50"> 
+        <mat-form-field appearance="outline" style="width: 100%" class="h-50">
           <mat-label>Fecha de inicio</mat-label>
           <input matInput [matDatepicker]="pickerInicio" formControlName="fFechaInicio">
           <mat-datepicker-toggle matIconSuffix [for]="pickerInicio"></mat-datepicker-toggle>
@@ -55,7 +41,7 @@
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="colspanBy">
-        <mat-form-field appearance="outline" style="width: 100%" class="h-50"> 
+        <mat-form-field appearance="outline" style="width: 100%" class="h-50">
           <mat-label>Fecha de fin</mat-label>
           <input matInput [matDatepicker]="pickerFin" formControlName="fFechaFin">
           <mat-datepicker-toggle matIconSuffix [for]="pickerFin"></mat-datepicker-toggle>
@@ -72,20 +58,14 @@
       <mat-grid-tile [colspan]="colspanBy">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Seleccionar hora</mat-label>
-          <input
-            type="text"
-            matInput
-            [matAutocomplete]="startTimeAuto"
-            formControlName="hHoraInicio"
-            (focus)="filterTimes('hHoraInicio')"
-            (input)="filterTimes('hHoraInicio')"
-          />
+          <input type="text" matInput [matAutocomplete]="startTimeAuto" formControlName="hHoraInicio"
+            (focus)="filterTimes('hHoraInicio')" (input)="filterTimes('hHoraInicio')" />
           <mat-icon matSuffix>schedule</mat-icon>
           <mat-autocomplete #startTimeAuto="matAutocomplete">
             @for (time of filteredStartTimes; track $index) {
-              <mat-option [value]="time">
-                {{ time }}
-              </mat-option>
+            <mat-option [value]="time">
+              {{ time }}
+            </mat-option>
             }
           </mat-autocomplete>
         </mat-form-field>
@@ -94,20 +74,14 @@
       <mat-grid-tile [colspan]="colspanBy">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Seleccionar hora</mat-label>
-          <input
-            type="text"
-            matInput
-            [matAutocomplete]="endTimeAuto"
-            formControlName="hHoraFin"
-            (focus)="filterTimes('hHoraFin')"
-            (input)="filterTimes('hHoraFin')"
-          />
+          <input type="text" matInput [matAutocomplete]="endTimeAuto" formControlName="hHoraFin"
+            (focus)="filterTimes('hHoraFin')" (input)="filterTimes('hHoraFin')" />
           <mat-icon matSuffix>schedule</mat-icon>
           <mat-autocomplete #endTimeAuto="matAutocomplete">
             @for (time of filteredEndTimes; track $index) {
-              <mat-option [value]="time">
-                {{ time }}
-              </mat-option>
+            <mat-option [value]="time">
+              {{ time }}
+            </mat-option>
             }
           </mat-autocomplete>
         </mat-form-field>
@@ -122,58 +96,117 @@
       <mat-grid-tile [colspan]="colspanBy">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Importe mínimo</mat-label>
-          <input matInput formControlName="dImporteMin" maxlength="100">
+          <input matInput type="number" formControlName="dImporteMin">
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="colspanBy">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Importe máximo</mat-label>
-          <input matInput formControlName="dImporteMin" maxlength="100">
+          <input matInput type="number" formControlName="dImporteMin">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="colspanBy">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Aplica a</mat-label>
+          <mat-select formControlName="tTipoAplicacion">
+            @for (aplicacion of aplicacionSelect; track $index) {
+            <mat-option [value]="aplicacion">{{ aplicacion | capitalize }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="colspanBy">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Aplicar</mat-label>
+          <mat-select formControlName="tTipoAplicar">
+            @for (aplicar of aplicarSelect; track $index) {
+            <mat-option [value]="aplicar">{{ aplicar | capitalize }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="colspanBy">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Valor a aplicar</mat-label>
+          <input matInput type="number" formControlName="dValorAplicar" />
+          <span matTextSuffix>{{ symbol }}</span>
         </mat-form-field>
       </mat-grid-tile>
 
     </mat-grid-list>
 
-    <mat-form-field appearance="outline" style="width: 100%;">
-      <mat-label>Descripción</mat-label>
-      <textarea matInput formControlName="tDescripcion" maxlength="255"></textarea>
-    </mat-form-field>
+  </form>
 
-    <ngx-file-drop [accept]="'.png,.jpg,.jpeg'" (onFileDrop)="onFileDrop($event)" dropZoneClassName="drop-zone"
-      contentClassName="drop-content">
-      <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-        <div class="upload-container">
-          <div *ngIf="!selectedFile">
-            <mat-icon class="upload-icon">cloud_upload</mat-icon>
-            <p>Arrastra y suelta aquí tu imagen</p>
-            <p style="font-size: 1rem;">(Tamaño máximo: {{configImagen.maxWidth}}x{{configImagen.maxHeight}} px,
-              Proporción
-              {{configImagen.aspectRatio}})</p>
-            <p>o</p>
-            <button class="select-file" (click)="openFileSelector()">
-              Seleccione un archivo
+  <div class="detalle">
+    <div class="detalle__header">
+      <div class="detalle__header__autocomplete my-form">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <input matInput [formControl]="searchControl" [matAutocomplete]="auto" placeholder="Buscar...">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            @for (option of filteredOptions(); track option.id) {
+            <mat-option [value]="option">
+              {{option.nombre | capitalize}}
+            </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <button class="detalle__header__btn" (click)="addItem()">
+        <mat-icon>playlist_add</mat-icon>Agregar item
+      </button>
+    </div>
+    <mat-selection-list>
+      @for (detail of details(); track $index) {
+      <mat-list-item>
+        <div class="detalle__item">
+          <div>
+            <span>{{detail.nombre | capitalize}}</span>
+          </div>
+          <button (click)="removeFromListDetails($index)"><mat-icon>delete</mat-icon></button>
+        </div>
+      </mat-list-item>
+      }
+    </mat-selection-list>
+  </div>
+
+
+  <ngx-file-drop [accept]="'.png,.jpg,.jpeg'" (onFileDrop)="onFileDrop($event)" dropZoneClassName="drop-zone"
+    contentClassName="drop-content">
+    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+      <div class="upload-container">
+        <div *ngIf="!selectedFile">
+          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+          <p>Arrastra y suelta aquí tu imagen</p>
+          <p style="font-size: 1rem;">(Tamaño máximo: {{configImagen.maxWidth}}x{{configImagen.maxHeight}} px,
+            Proporción
+            {{configImagen.aspectRatio}})</p>
+          <p>o</p>
+          <button class="select-file" (click)="openFileSelector()">
+            Seleccione un archivo
+          </button>
+        </div>
+        <div *ngIf="selectedFile">
+          <div class="file-selected">
+            <mat-icon class="file-icon">description</mat-icon>
+            <div class="file-info">
+              <h4>{{ selectedFile.name }}</h4>
+              <p>{{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeFile()">
+              <mat-icon>close</mat-icon>
             </button>
           </div>
-          <div *ngIf="selectedFile">
-            <div class="file-selected">
-              <mat-icon class="file-icon">description</mat-icon>
-              <div class="file-info">
-                <h4>{{ selectedFile.name }}</h4>
-                <p>{{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
-              </div>
-              <button mat-icon-button color="warn" (click)="removeFile()">
-                <mat-icon>close</mat-icon>
-              </button>
-            </div>
-            <div class="image-preview" *ngIf="previewUrl">
-              <img [src]="previewUrl" alt="Vista previa" />
-            </div>
+          <div class="image-preview" *ngIf="previewUrl">
+            <img [src]="previewUrl" alt="Vista previa" />
           </div>
         </div>
-      </ng-template>
-    </ngx-file-drop>
-  </form>
+      </div>
+    </ng-template>
+  </ngx-file-drop>
 </mat-dialog-content>
 <mat-dialog-actions align="end" class="actions">
   <button class="btn-modal cancel" (click)="onCancel()">Cancelar</button>
