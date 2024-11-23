@@ -81,15 +81,15 @@ export default class PromotionsComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
-        // this.promotionService.ad(result).subscribe({
-        //   next: (res) => {
-        //     this.alertService.showSuccess("Producto agregado");
-        //     this.loadProducts();
-        //   },
-        //   error: (err) => {
-        //     this.errorService.showError(err);
-        //   }
-        // })
+        this.promotionService.addPromotion(result).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess("Promoción agregado");
+            this.loadPromotions();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
+          }
+        })
       }
     });
   }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, HostListener, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,6 +21,10 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatListModule } from '@angular/material/list';
 import { PromotionService } from '../../../shared/services/promotion.service';
+import { ValidationService } from '../../../shared/services/promotion/validation.service';
+import { TimeService } from '../../../shared/services/promotion/time.service';
+
+const timePattern = /^(0[1-9]|1[0-2]):([0-5]\d)\s(AM|PM)$/;
 
 @Component({
   selector: 'app-promotion-add-modal',
@@ -53,11 +57,14 @@ export class PromotionAddModalComponent {
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
   private readonly configService = inject(ConfigurationService);
+  private readonly validationService = inject(ValidationService);
+  private readonly timeService = inject(TimeService);
   private readonly promotionService = inject(PromotionService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
   private tTipoAplicacionSubscription: Subscription | undefined;
   private tTipoAplicarSubscription: Subscription | undefined;
+  private searchControlSubscription: Subscription | undefined;
   private subscriptions: { [key: string]: Subscription | undefined } = {};
 
   form: FormGroup;
@@ -95,8 +102,8 @@ export class PromotionAddModalComponent {
       fFechaInicio: [{ value: '', disabled: true }, [Validators.required]],
       fFechaFin: [{ value: '', disabled: true }, [Validators.required]],
       lPorHora: [false, [Validators.required]],
-      hHoraInicio: [{ value: '', disabled: true }, [Validators.required]],
-      hHoraFin: [{ value: '', disabled: true }, [Validators.required]],
+      hHoraInicio: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(timePattern)]],
+      hHoraFin: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(timePattern)]],
       lPorImporte: [false, [Validators.required]],
       dImporteMin: [{ value: '', disabled: true }, [Validators.required]],
       dImporteMax: [{ value: '', disabled: true }, [Validators.required]],
@@ -104,12 +111,6 @@ export class PromotionAddModalComponent {
       tTipoAplicar: ['', [Validators.required]],
       dValorAplicar: [{ value: '', disabled: true }, [Validators.required]],
       tDescripcion: ['', [Validators.pattern(/\S+/)]],
-    });
-
-    this.searchControl.valueChanges.pipe(
-      debounceTime(300)
-    ).subscribe(value => {
-      this.searchTerm.set(value || '');
     });
 
     effect(() => {
@@ -141,13 +142,20 @@ export class PromotionAddModalComponent {
     });
     this.onChangesSlidesToggle();
 
-    this.searchControl.disable();
     this.tTipoAplicacionSubscription = this.form.get('tTipoAplicacion')?.valueChanges.subscribe(value => {
       this.handleTipoAplicacionChange(value);
     });
 
     this.tTipoAplicarSubscription = this.form.get('tTipoAplicar')?.valueChanges.subscribe(value => {
       this.handleTipoAplicarChange(value);
+    });
+
+    this.searchControl.disable();
+
+    this.searchControlSubscription = this.searchControl.valueChanges.pipe(
+      debounceTime(300)
+    ).subscribe(value => {
+      this.searchTerm.set(value || '');
     });
   }
 
@@ -197,16 +205,10 @@ export class PromotionAddModalComponent {
     if (value === 'descuento importe') {
       this.form.get('dValorAplicar')?.enable();
       this.symbol = 'S/';
-    } else if (value === 'descuento porcentaje') {
+    } else if (value === 'descuento porcentaje' || value === 'delivery descuento') {
       this.form.get('dValorAplicar')?.enable();
       this.symbol = '%';
     } else if (value === 'delivery gratis') {
-      this.form.get('dValorAplicar')?.disable();
-      this.symbol = '';
-    } else if (value === 'delivery descuento') {
-      this.form.get('dValorAplicar')?.enable();
-      this.symbol = 'S/';
-    } else {
       this.form.get('dValorAplicar')?.disable();
       this.symbol = '';
     }
@@ -267,62 +269,52 @@ export class PromotionAddModalComponent {
   }
 
   onSubmit() {
-    if (this.form.invalid) {
-      const tNombreError = this.form.get('tNombre')?.getError('pattern');
-      const tEnlaceError = this.form.get('tEnlace')?.getError('pattern');
-      const tDescripcionError = this.form.get('tDescripcion')?.getError('pattern');
-
-      if (tNombreError || tEnlaceError || tDescripcionError) {
-        this.alertService.showWarning("No debe ingresar solo espacios en blanco.");
-        return;
-      }
-
-      this.form.markAllAsTouched();
-      this.alertService.showWarning("Debe llenar todos los campos");
+    if (!this.validationService.validateForm(this.form)) {
       return;
     }
 
-    const lPorFecha = this.form.get('lPorFecha')?.value;
-    const lPorHora = this.form.get('lPorHora')?.value;
-    const lPorImporte = this.form.get('lPorImporte')?.value;
-
-    if (!lPorFecha && !lPorHora && !lPorImporte) {
+    if (!this.validationService.hasSelectedRanges(this.form)) {
       this.alertService.showWarning("Debe seleccionar por lo menos uno de los rangos.");
       return;
     }
 
-    if (lPorFecha) {
-      const dateInicio = new Date(this.form.get('fFechaInicio')?.value);
-      const dateFin = new Date(this.form.get('fFechaFin')?.value);
-      if (dateInicio.getTime() === dateFin.getTime() || dateFin.getTime() < dateInicio.getTime()) {
-        this.alertService.showWarning("La fecha de fin no puede ser igual o mayor a la fecha de inicio.");
-        return;
-      }
+    if (this.form.get('lPorFecha')?.value && !this.validationService.validateFecha(this.form)) {
+      return;
     }
 
-    if (lPorFecha) {
-      const dateInicio = new Date(this.form.get('fFechaInicio')?.value);
-      const dateFin = new Date(this.form.get('fFechaFin')?.value);
-      if (dateInicio.getTime() === dateFin.getTime() || dateFin.getTime() < dateInicio.getTime()) {
-        this.alertService.showWarning("La fecha de fin no puede ser igual o mayor a la fecha de inicio.");
-        return;
-      }
+    if (this.form.get('lPorHora')?.value && !this.validationService.validateHora(this.form, this.timeService.convertTo24HourFormat.bind(this.timeService))) {
+      return;
     }
 
-    this.alertService.showSuccess("OK");
+    if (this.form.get('lPorImporte')?.value && !this.validationService.validateImporte(this.form)) {
+      return;
+    }
+
+    if (!this.validationService.validateValorAplicar(this.form)) {
+      return;
+    }
+
+    if (!this.validationService.validateTipoAplicacion(this.form, this.details().length)) {
+      return;
+    }
+
     this.submit();
   }
 
   submit() {
-    const idsFromDetails = this.details().map(item => item.id);
+    const details = this.details().map(item => item.id);
     const imagen = this.selectedFile;
+    this.form.patchValue({
+      hHoraInicio: this.timeService.convertTo24HourFormat(this.form.get('hHoraInicio')?.value),
+      hHoraFin: this.timeService.convertTo24HourFormat(this.form.get('hHoraFin')?.value),
+    })
     const result = {
       ...this.form.value,
-      idsFromDetails,
+      details,
       imagen
     }
     console.log(result);
-    // this.dialogRef.close(result);
+    this.dialogRef.close(result);
   }
 
   onCancel(): void {
@@ -344,17 +336,7 @@ export class PromotionAddModalComponent {
   }
 
   generateTimes(): void {
-    const hours = Array.from({ length: 24 }, (_, i) => i);
-    const minutes = ['00'];
-    this.times = [];
-
-    hours.forEach((hour) => {
-      minutes.forEach((minute) => {
-        const formattedHour = String(hour % 12 || 12).padStart(2, '0');
-        const amPm = hour < 12 ? 'AM' : 'PM';
-        this.times.push(`${formattedHour}:${minute} ${amPm}`);
-      });
-    });
+    this.times = this.timeService.generateTimes();
   }
 
   filterTimes(controlName: string): void {
@@ -378,7 +360,7 @@ export class PromotionAddModalComponent {
   addItem() {
     const selectedItem = this.searchControl.value;
     if (!selectedItem) {
-      this.alertService.showWarning("Primero debe buscar un item.")
+      this.alertService.showWarning("Primero debe buscar un producto o categoría.")
       return;
     }
 
@@ -386,6 +368,11 @@ export class PromotionAddModalComponent {
 
     if (isDuplicate) {
       this.alertService.showWarning("Este item ya se encuentra agregado.")
+      return;
+    }
+
+    if (!selectedItem.id) {
+      this.alertService.showWarning("Este item no existe.")
       return;
     }
 
@@ -409,6 +396,9 @@ export class PromotionAddModalComponent {
     }
     if (this.tTipoAplicarSubscription) {
       this.tTipoAplicarSubscription.unsubscribe();
+    }
+    if (this.searchControlSubscription) {
+      this.searchControlSubscription.unsubscribe();
     }
     Object.values(this.subscriptions).forEach(subscription => {
       if (subscription) {
