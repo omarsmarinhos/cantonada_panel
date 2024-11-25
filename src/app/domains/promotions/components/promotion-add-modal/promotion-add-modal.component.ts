@@ -24,8 +24,6 @@ import { PromotionService } from '../../../shared/services/promotion.service';
 import { ValidationService } from '../../../shared/services/promotion/validation.service';
 import { TimeService } from '../../../shared/services/promotion/time.service';
 
-const timePattern = /^(0[1-9]|1[0-2]):([0-5]\d)\s(AM|PM)$/;
-
 @Component({
   selector: 'app-promotion-add-modal',
   standalone: true,
@@ -102,8 +100,8 @@ export class PromotionAddModalComponent {
       fFechaInicio: [{ value: '', disabled: true }, [Validators.required]],
       fFechaFin: [{ value: '', disabled: true }, [Validators.required]],
       lPorHora: [false, [Validators.required]],
-      hHoraInicio: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(timePattern)]],
-      hHoraFin: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(timePattern)]],
+      hHoraInicio: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(this.timeService.timePattern)]],
+      hHoraFin: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(this.timeService.timePattern)]],
       lPorImporte: [false, [Validators.required]],
       dImporteMin: [{ value: '', disabled: true }, [Validators.required]],
       dImporteMax: [{ value: '', disabled: true }, [Validators.required]],

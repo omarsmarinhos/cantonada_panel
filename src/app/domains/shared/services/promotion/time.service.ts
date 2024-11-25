@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class TimeService {
 
+  timePattern = /^(0[1-9]|1[0-2]):([0-5]\d)\s(AM|PM)$/;
+
+
   generateTimes(): string[] {
     const hours = Array.from({ length: 24 }, (_, i) => i);
     const minutes = ['00'];
@@ -34,4 +37,28 @@ export class TimeService {
 
     return `${String(convertedHour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
   }
+
+  convertTo12HourFormat(time: string | undefined): string {
+    if (!time) return '';
+    const [hourStr, minuteStr] = time.split(':');
+    let hour = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+
+    let amPm = 'AM';
+    if (hour >= 12) {
+        amPm = 'PM';
+    }
+
+    if (hour === 0) {
+        hour = 12;
+    } else if (hour > 12) {
+        hour -= 12;
+    }
+
+    const formattedHour = hour.toString();
+    const formattedMinute = minute.toString().padStart(2, '0');
+
+    return `${formattedHour}:${formattedMinute} ${amPm}`;
+}
+
 }

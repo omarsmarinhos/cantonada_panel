@@ -3,8 +3,8 @@ export interface Promotion {
   tNombre: string;
   tDescripcion?: string;
   lPorFecha: boolean;
-  dFechaInicio?: string;
-  dFechaFin?: string;
+  fFechaInicio?: string;
+  fFechaFin?: string;
   lPorHora: boolean;
   hHoraInicio?: string;
   hHoraFin?: string;
@@ -16,4 +16,5 @@ export interface Promotion {
   dValorAplicar: number;
   tImagenUrl: string;
   tEnlace?: string;
+  jDetalles: string;
 }

@@ -1,6 +1,10 @@
 {
     "cSpell.words": [
+        "aplicacion",
+        "aplicacionSelect",
+        "handleTipoAplicacionChange",
         "tDescripcion",
-        "tDireccion"
+        "tDireccion",
+        "validateTipoAplicacion"
     ]
 }
