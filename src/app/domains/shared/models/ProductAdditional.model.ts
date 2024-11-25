@@ -3,5 +3,6 @@ export interface ProductAdditional {
     tNombre: string;
     tImagenUrl: string;
     lObligatorio?: boolean;
+    lGratis?: boolean;
     dPrecio?: number;
 }

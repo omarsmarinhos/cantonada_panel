@@ -61,6 +61,7 @@ export class ProductAddModalComponent {
   categoriesSelect = signal<Category[]>([]);
   branchesChecks = signal<Branch[]>([]);
   colspan: number = 12;
+  colspan3: number = 12;
   selectedBranchIds: number[] = [];
   configImagen: ConfigImagen = {
     iIdConfigImagen: 0,
@@ -77,7 +78,7 @@ export class ProductAddModalComponent {
       tNombre: ['', [Validators.required, Validators.pattern(/\S+/)]],
       dPrecio: ['', [
         Validators.required,
-        Validators.min(0),
+        Validators.min(1),
         Validators.max(9999.99),
         Validators.pattern(/^\d+(\.\d{1,2})?$/)
       ]],
@@ -87,6 +88,7 @@ export class ProductAddModalComponent {
       lPopular: [false, [Validators.required]],
       lNovedad: [false, [Validators.required]],
       lAdicional: [false, [Validators.required]],
+      iAdicionalesGratis: [0, [Validators.required, Validators.min(0)]],
       iIdCategoria: ['', [Validators.required]]
     });
   }
@@ -98,8 +100,10 @@ export class ProductAddModalComponent {
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.colspan = 6;
+        this.colspan3 = 4
       } else {
         this.colspan = 12;
+        this.colspan3 = 12;
       }
     });
   }
@@ -176,6 +180,11 @@ export class ProductAddModalComponent {
         return;
       }
 
+      if (this.form.get('iAdicionalesGratis')?.hasError('min')) {
+        this.alertService.showWarning("Solo números positivos.");
+        return;
+      }
+
       this.form.markAllAsTouched();
       this.alertService.showWarning("Debe llenar todos los campos.");
       return;
@@ -195,6 +204,7 @@ export class ProductAddModalComponent {
       lPopular: this.form.get('lPopular')?.value,
       lNovedad: this.form.get('lNovedad')?.value,
       lAdicional: this.form.get('lAdicional')?.value,
+      iAdicionalesGratis: this.form.get('iAdicionalesGratis')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imagen: this.selectedFile,
@@ -216,6 +226,7 @@ export class ProductAddModalComponent {
     this.branchService.getSucursal().subscribe({
       next: (res) => {
         this.branchesChecks.set(res);
+        this.selectedBranchIds = res.map(branch => branch.iIdSucursal);
       },
       error: (err) => {
         this.errorService.showError(err);

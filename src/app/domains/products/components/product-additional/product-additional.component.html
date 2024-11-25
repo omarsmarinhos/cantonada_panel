@@ -1,7 +1,6 @@
 <h2 mat-dialog-title>Adicionales para {{ product.tNombre }}</h2>
 <mat-dialog-content>
   <p class="helper-text">Arrastra y suelta los adicionales para asignarlos.</p>
-
   <div class="content-container">
     <div class="example-container">
       <h4>Lista de adicionales</h4>
@@ -19,7 +18,7 @@
     </div>
 
     <div class="example-container">
-      <h4>Adicionales agregados</h4>
+      <h4> Adicionales agregados</h4>
 
       <div cdkDropList #assignedList="cdkDropList" [cdkDropListData]="assignedAdditional"
         [cdkDropListConnectedTo]="[notAssignedList]" class="example-list" (cdkDropListDropped)="drop($event)">
@@ -27,7 +26,11 @@
         <div class="example-box additional" cdkDrag>
           <span>{{ item.tNombre }}</span>
           <div class="additional__actions">
-            <mat-checkbox [name]="item.tNombre" [(ngModel)]="item.lObligatorio" color="primary"
+            <mat-checkbox name="adicional-gratis" [(ngModel)]="item.lGratis" color="primary" [checked]="item.lGratis"
+              [disabled]="!isAdditionalFreeAllowed(item)">
+              Gratis
+            </mat-checkbox>
+            <mat-checkbox name="adicional-obligatorio" [(ngModel)]="item.lObligatorio" color="primary"
               [checked]="item.lObligatorio">
               Obligatorio
             </mat-checkbox>

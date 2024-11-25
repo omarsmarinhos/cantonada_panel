@@ -65,6 +65,7 @@ export class ProductEditComponent {
   categoriesSelect = signal<Category[]>([]);
   branchesChecks = signal<Branch[]>([]);
   colspan: number = 12;
+  colspan3: number = 12;
   selectedBranchIds: number[] = [];
   imageChanged: boolean = false;
   configImagen: ConfigImagen = {
@@ -82,7 +83,7 @@ export class ProductEditComponent {
       tNombre: [this.product.tNombre, [Validators.required, Validators.pattern(/\S+/)]],
       dPrecio: [this.product.dPrecio, [
         Validators.required,
-        Validators.min(0),
+        Validators.min(1),
         Validators.max(9999.99),
         Validators.pattern(/^\d+(\.\d{1,2})?$/)
       ]],
@@ -92,6 +93,7 @@ export class ProductEditComponent {
       lPopular: [this.product.lPopular, [Validators.required]],
       lNovedad: [this.product.lNovedad, [Validators.required]],
       lAdicional: [this.product.lAdicional, [Validators.required]],
+      iAdicionalesGratis: [this.product.iAdicionalesGratis, [Validators.required, Validators.min(0)]],
       iIdCategoria: [this.product.categoria.iIdCategoria, [Validators.required]]
     });
     this.previewUrl = this.product.tImagenUrl;
@@ -105,8 +107,10 @@ export class ProductEditComponent {
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
         this.colspan = 6;
+        this.colspan3 = 4;
       } else {
         this.colspan = 12;
+        this.colspan3 = 12;
       }
     });
   }
@@ -179,6 +183,16 @@ export class ProductEditComponent {
         return;
       }
 
+      if (this.form.get('dPrecio')?.hasError('min') || this.form.get('dPrecio')?.hasError('max')) {
+        this.alertService.showWarning("El precio debe ser mayor que 0 y menor que 10000.00");
+        return;
+      }
+
+      if (this.form.get('iAdicionalesGratis')?.hasError('min')) {
+        this.alertService.showWarning("Solo números positivos.");
+        return;
+      }
+
       this.form.markAllAsTouched();
       this.alertService.showWarning("Debe llenar todos los campos.");
       return;
@@ -194,6 +208,7 @@ export class ProductEditComponent {
       lPopular: this.form.get('lPopular')?.value,
       lNovedad: this.form.get('lNovedad')?.value,
       lAdicional: this.form.get('lAdicional')?.value,
+      iAdicionalesGratis: this.form.get('iAdicionalesGratis')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imageChanged: this.imageChanged,

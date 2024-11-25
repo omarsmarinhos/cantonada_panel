@@ -14,6 +14,7 @@ import { ProductAdditionalService } from '../../../shared/services/additional.se
 import { ProductAdditional } from '../../../shared/models/ProductAdditional.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { AlertService } from '../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-product-additional',
@@ -35,6 +36,7 @@ export class ProductAdditionalComponent {
   private readonly dialogRef = inject(MatDialogRef<ProductAdditionalComponent>);
   readonly product = inject<Product>(MAT_DIALOG_DATA);
   private readonly additionalService = inject(ProductAdditionalService);
+  private readonly alertService = inject(AlertService);
 
   notAssignedAdditional: ProductAdditional[] = [];
   assignedAdditional: ProductAdditional[] = [];
@@ -59,12 +61,22 @@ export class ProductAdditionalComponent {
   }
 
   onSubmit() {
+    if (this.product.iAdicionalesGratis > 0) {
+      const hasFreeAdditional = this.assignedAdditional.some(additional => additional.lGratis === true);
+    
+    if (!hasFreeAdditional) {
+      this.alertService.showWarning("Debe marcar por lo menos un adicional como gratis.");
+      return;
+    }
+      
+    }
     this.dialogRef.close({
       iIdProducto: this.product.iIdProducto,
       jAdicionales: this.assignedAdditional.map(element => {
         return {
           iIdProductoAdicional: element.iIdProductoAdicional,
-          lObligatorio: element.lObligatorio
+          lObligatorio: element.lObligatorio,
+          lGratis: element.lGratis
         };
       })
     });
@@ -75,9 +87,9 @@ export class ProductAdditionalComponent {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       const movedItem = event.previousContainer.data[event.previousIndex];
-      if (movedItem.lObligatorio === null || movedItem.lObligatorio === undefined) {
-        movedItem.lObligatorio = false;
-      }
+
+      movedItem.lObligatorio = false;
+      movedItem.lGratis = false;
 
       transferArrayItem(
         event.previousContainer.data,
@@ -92,15 +104,19 @@ export class ProductAdditionalComponent {
     const index = this.notAssignedAdditional.indexOf(item);
     if (index !== -1) {
       this.notAssignedAdditional.splice(index, 1);
-      this.assignedAdditional.push({ ...item, lObligatorio: false });
+      this.assignedAdditional.push({ ...item, lObligatorio: false, lGratis: false });
     }
   }
-  
+
   removeFromAssigned(item: ProductAdditional): void {
     const index = this.assignedAdditional.indexOf(item);
     if (index !== -1) {
       this.assignedAdditional.splice(index, 1);
       this.notAssignedAdditional.push(item);
     }
+  }
+
+  isAdditionalFreeAllowed(item: ProductAdditional): boolean {
+    return this.product.iAdicionalesGratis > 0;
   }
 }

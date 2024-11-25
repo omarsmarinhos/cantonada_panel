@@ -15,6 +15,12 @@
   flex: 1;
   display: inline-block;
   vertical-align: top;
+
+  @include m.laptop {
+    &:last-child {
+      flex: 2;
+    }
+  }
 }
 
 .example-list {
@@ -42,12 +48,26 @@
 
 .additional {
   padding: 1.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+
+  @include m.tablet {
+    flex-direction: row;
+    align-items: center;
+  }
 
   &__actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: 1rem;
+    --mat-checkbox-label-text-size: 1rem;
+
+    @include m.tablet {
+      --mat-checkbox-label-text-size: 1.4rem;
+      gap: 2rem;
+    }
   }
 }
 

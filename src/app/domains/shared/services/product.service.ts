@@ -30,6 +30,7 @@ export class ProductService {
       lPopular: product.lPopular,
       lNovedad: product.lNovedad,
       lAdicional: product.lAdicional,
+      iAdicionalesGratis: product.iAdicionalesGratis,
       iIdCategoria: product.iIdCategoria,
       jSucursales: product.sucursales && product.sucursales.length > 0 
         ? JSON.stringify(product.sucursales) 
@@ -53,6 +54,7 @@ export class ProductService {
       lPopular: product.lPopular,
       lNovedad: product.lNovedad,
       lAdicional: product.lAdicional,
+      iAdicionalesGratis: product.iAdicionalesGratis,
       iIdCategoria: product.iIdCategoria,
       jSucursales: product.sucursales && product.sucursales.length > 0 
         ? JSON.stringify(product.sucursales) 
