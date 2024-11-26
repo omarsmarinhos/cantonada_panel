@@ -16,13 +16,15 @@
         </mat-form-field>
       </mat-grid-tile>
     </mat-grid-list>
-
-    <mat-form-field appearance="outline" style="width: 100%;">
-      <mat-label>Polígono (GeoJSON)</mat-label>
-      <textarea matInput formControlName="jPoligono" rows="10"></textarea>
-    </mat-form-field>
-
   </form>
+
+  <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa ">
+    <map-advanced-marker [position]="center()" [options]="markerOptions" />
+    @for(polygon of polygons; track $index) {
+    <map-polygon [paths]="polygon" />
+    }
+  </google-map>
+
 </mat-dialog-content>
 <mat-dialog-actions align="end" class="actions">
   <button class="btn-modal cancel" (click)="onCancel()">Cancelar</button>

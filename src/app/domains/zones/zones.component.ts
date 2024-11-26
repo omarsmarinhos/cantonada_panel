@@ -1,4 +1,4 @@
-import { Component, effect, inject, Input, signal } from '@angular/core';
+import { Component, computed, effect, inject, Input, signal } from '@angular/core';
 import { ZoneService } from '../shared/services/zone.service';
 import { Zone } from '../shared/models/Zone.model';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
@@ -17,6 +17,7 @@ import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/conf
 import { AlertService } from '../shared/services/alert.service';
 import { ZoneAddModalComponent } from './components/zone-add-modal/zone-add-modal.component';
 import { ZoneEditModalComponent } from './components/zone-edit-modal/zone-edit-modal.component';
+import { GeojsonService } from '../shared/services/zone/geojson.service';
 
 @Component({
   selector: 'app-zones',
@@ -43,8 +44,14 @@ export default class ZonesComponent {
   private readonly branchService = inject(BranchService);
   private readonly dialog = inject(MatDialog);
   private readonly alertService = inject(AlertService);
+  private readonly geojsonService = inject(GeojsonService);
 
   zones = signal<Zone[]>([]);
+  zonesPolygons = computed(() =>
+    this.zones().map(zone =>
+      JSON.parse(zone.jPoligono)
+    )
+  );
   branch: Branch = {
     iIdSucursal: 0,
     tNombre: '',
@@ -54,7 +61,7 @@ export default class ZonesComponent {
   dataSourceZones = signal<MatTableDataSource<Zone>>(
     new MatTableDataSource<Zone>()
   );
-  displayedColumns: string[] = ['tNombre', 'dPrecio', 'jPoligono', 'actions'];
+  displayedColumns: string[] = ['tNombre', 'dPrecio', 'actions'];
 
   constructor() {
     effect(() => {
@@ -95,11 +102,11 @@ export default class ZonesComponent {
   goToBranchesDomain() {
     this.router.navigate(["/sucursales"]);
   }
-  
+
   onAddZone() {
     const dialogRef = this.dialog.open(ZoneAddModalComponent, {
       width: '900px',
-      data: this.branch
+      data: { branch: this.branch, polygons: this.zonesPolygons() }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -114,13 +121,18 @@ export default class ZonesComponent {
           }
         });
       }
-    }); 
+    });
   }
 
   onEditZone(zone: Zone) {
+    const allPolygonsExceptCurrent = this.zonesPolygons().filter((_, index) => 
+      this.zones()[index].iIdZona !== zone.iIdZona
+    );
+
+
     const dialogRef = this.dialog.open(ZoneEditModalComponent, {
       width: '900px',
-      data: zone
+      data: { zone: zone, polygons: allPolygonsExceptCurrent }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -135,7 +147,7 @@ export default class ZonesComponent {
           }
         });
       }
-    }); 
+    });
   }
 
   onDeleteZone(iIdZone: number) {
