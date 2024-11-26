@@ -311,7 +311,6 @@ export class PromotionAddModalComponent {
       details,
       imagen
     }
-    console.log(result);
     this.dialogRef.close(result);
   }
 

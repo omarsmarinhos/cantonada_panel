@@ -1,4 +1,4 @@
-<div class="categories container">
+<div class="categories">
   <div class="categories__header">
     <span class="title">ORDENAR CATEGORÍAS</span>
   </div>
@@ -7,7 +7,6 @@
       <div cdkDropList cdkDropListOrientation="mixed" class="example-list" (cdkDropListDropped)="drop($event)">
         @for (category of categories(); track $index) {
         <div class="example-box" cdkDrag>
-          <!-- <img [src]="category.tImagenUrl" alt="" width="30"> -->
           {{category.tNombre | uppercase}}
         </div>
         }

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Detalles de {{ promotion.tNombre | capitalize }}</h2>
+<mat-dialog-content>
+  <p>{{ promotion.tTipoAplicacion === 'producto' ? 'Productos' : 'Categorías' }}</p>
+  <mat-selection-list>
+    @for (detail of details(); track $index) {
+    <mat-list-item>{{detail.nombre | capitalize}}</mat-list-item>
+    }
+  </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions">
+  <button class="btn-modal cancel" (click)="onCancel()">Cerrar</button>
+</mat-dialog-actions>

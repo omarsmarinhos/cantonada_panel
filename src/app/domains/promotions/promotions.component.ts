@@ -16,6 +16,7 @@ import { TimeFormatPipe } from '../shared/pipes/time-format.pipe';
 import { PromotionAddModalComponent } from './components/promotion-add-modal/promotion-add-modal.component';
 import { PromotionEditModalComponent } from './components/promotion-edit-modal/promotion-edit-modal.component';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
+import { PromotionDetailsModalComponent } from './components/promotion-details-modal/promotion-details-modal.component';
 
 @Component({
   selector: 'app-promotions',
@@ -71,7 +72,9 @@ export default class PromotionsComponent {
   }
 
   onViewDetails(promotion: Promotion) {
-
+    this.dialog.open(PromotionDetailsModalComponent, {
+      data: promotion
+    });
   }
 
   onAddPromotion() {
@@ -101,7 +104,7 @@ export default class PromotionsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.promotionService.ad(result).subscribe({
+        // this.promotionService.e(result).subscribe({
         //   next: (res) => {
         //     this.alertService.showSuccess("Producto agregado");
         //     this.loadProducts();

@@ -152,7 +152,7 @@ export class PromotionEditModalComponent {
     });
 
     this.searchControl.disable();
-    if (this.form.get('tTipoAplicacion')?.value !== 'todo') {
+    if (this.promotion.tTipoAplicacion !== 'todo') {
       this.searchControl.enable();
       this.details.set(JSON.parse(this.promotion.jDetalles));
     }
@@ -254,6 +254,7 @@ export class PromotionEditModalComponent {
             }
 
             this.selectedFile = file;
+            this.imageChanged = true;
 
             const reader = new FileReader();
             reader.onload = () => {
@@ -270,7 +271,8 @@ export class PromotionEditModalComponent {
 
   removeFile(): void {
     this.selectedFile = null;
-    this.previewUrl = null;
+    this.previewUrl = this.promotion.tImagenUrl;
+    this.imageChanged = false;
   }
 
   onSubmit() {
@@ -316,9 +318,9 @@ export class PromotionEditModalComponent {
     const result = {
       ...this.form.value,
       details,
-      imagen
+      imagen,
+      imageChanged: this.imageChanged
     }
-    console.log(result);
     this.dialogRef.close(result);
   }
 
