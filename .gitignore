@@ -40,3 +40,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Ignorar el archivo index.html
+src/index.html
+
+# Ignorar toda la carpeta environments
+src/environments/
