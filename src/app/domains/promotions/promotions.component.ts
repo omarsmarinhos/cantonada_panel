@@ -104,15 +104,15 @@ export default class PromotionsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.promotionService.e(result).subscribe({
-        //   next: (res) => {
-        //     this.alertService.showSuccess("Producto agregado");
-        //     this.loadProducts();
-        //   },
-        //   error: (err) => {
-        //     this.errorService.showError(err);
-        //   }
-        // })
+        this.promotionService.editPromotion(result).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess(res.mensaje);
+            this.loadPromotions();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
+          }
+        })
       }
     });
   }

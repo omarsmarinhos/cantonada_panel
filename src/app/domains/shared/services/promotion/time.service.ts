@@ -46,19 +46,18 @@ export class TimeService {
 
     let amPm = 'AM';
     if (hour >= 12) {
-        amPm = 'PM';
+      amPm = 'PM';
     }
 
     if (hour === 0) {
-        hour = 12;
+      hour = 12;
     } else if (hour > 12) {
-        hour -= 12;
+      hour -= 12;
     }
 
     const formattedHour = hour.toString();
     const formattedMinute = minute.toString().padStart(2, '0');
 
-    return `${formattedHour}:${formattedMinute} ${amPm}`;
-}
-
+    return `${String(formattedHour).padStart(2, '0')}:${String(formattedMinute).padStart(2, '0')} ${amPm}`;
+  }
 }

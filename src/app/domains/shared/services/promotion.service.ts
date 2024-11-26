@@ -19,13 +19,11 @@ export class PromotionService {
 
   addPromotion(dataPromotion: any) {
     const formData = new FormData();
-    if (dataPromotion) {
-      formData.append('imagen', dataPromotion.imagen);
-    }
+    formData.append('imagen', dataPromotion.imagen);
 
     const promocionData = {
       tNombre: dataPromotion.tNombre.trim(),
-      tDescripcion: dataPromotion.tDescripcion ? dataPromotion.tDescripcion.trim(): null,
+      tDescripcion: dataPromotion.tDescripcion ? dataPromotion.tDescripcion.trim() : null,
       lPorFecha: dataPromotion.lPorFecha,
       fFechaInicio: dataPromotion.fFechaInicio,
       fFechaFin: dataPromotion.fFechaFin,
@@ -38,7 +36,7 @@ export class PromotionService {
       tTipoAplicacion: dataPromotion.tTipoAplicacion,
       tTipoAplicar: dataPromotion.tTipoAplicar,
       dValorAplicar: dataPromotion.dValorAplicar,
-      tEnlace: dataPromotion.tEnlace ? dataPromotion.tEnlace.trim(): null,
+      tEnlace: dataPromotion.tEnlace ? dataPromotion.tEnlace.trim() : null,
       jDetalleIds: dataPromotion.details && dataPromotion.details.length > 0
         ? JSON.stringify(dataPromotion.details)
         : '[]',
@@ -46,6 +44,37 @@ export class PromotionService {
 
     formData.append('promocionData', JSON.stringify(promocionData));
     return this.http.post<any>(`${this.baseUrl}/Promocion`, formData);
+  }
+
+  editPromotion(dataPromotion: any) {
+    const formData = new FormData();
+    formData.append('imagen', dataPromotion.imagen);
+
+    const promocionData = {
+      iIdPromocion: dataPromotion.iIdPromocion,
+      tNombre: dataPromotion.tNombre.trim(),
+      tDescripcion: dataPromotion.tDescripcion ? dataPromotion.tDescripcion.trim() : null,
+      lPorFecha: dataPromotion.lPorFecha,
+      fFechaInicio: dataPromotion.fFechaInicio,
+      fFechaFin: dataPromotion.fFechaFin,
+      lPorHora: dataPromotion.lPorHora,
+      hHoraInicio: dataPromotion.hHoraInicio,
+      hHoraFin: dataPromotion.hHoraFin,
+      lPorImporte: dataPromotion.lPorImporte,
+      dImporteMin: dataPromotion.dImporteMin,
+      dImporteMax: dataPromotion.dImporteMax,
+      tTipoAplicacion: dataPromotion.tTipoAplicacion,
+      tTipoAplicar: dataPromotion.tTipoAplicar,
+      dValorAplicar: dataPromotion.dValorAplicar,
+      tEnlace: dataPromotion.tEnlace ? dataPromotion.tEnlace.trim() : null,
+      jDetalleIds: dataPromotion.details && dataPromotion.details.length > 0
+        ? JSON.stringify(dataPromotion.details)
+        : '[]',
+      imageChanged: dataPromotion.imageChanged
+    };
+
+    formData.append('promocionData', JSON.stringify(promocionData));
+    return this.http.put<any>(`${this.baseUrl}/Promocion`, formData);
   }
 
   deletePromotion(iIdPromocion: number) {

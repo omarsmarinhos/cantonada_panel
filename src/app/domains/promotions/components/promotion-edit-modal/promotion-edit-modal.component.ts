@@ -97,6 +97,7 @@ export class PromotionEditModalComponent {
 
   constructor() {
     this.form = this.fb.group({
+      iIdPromocion: [this.promotion.iIdPromocion],
       tNombre: [this.promotion.tNombre, [Validators.required, Validators.pattern(/\S+/)]],
       tEnlace: [this.promotion.tEnlace, [Validators.pattern(/\S+/)]],
       lPorFecha: [this.promotion.lPorFecha, [Validators.required]],
