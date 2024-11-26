@@ -20,7 +20,7 @@ import { CollapsedService } from '../../services/collapsed.service';
   styleUrl: './layout.component.scss'
 })
 export default class LayoutComponent {
-  private collapsedService = inject(CollapsedService);
+  private readonly collapsedService = inject(CollapsedService);
   isCollapsed = this.collapsedService.isCollapsed;
 
   toggleSizeSideBarContainer() {

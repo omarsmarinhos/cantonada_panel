@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { API_URL } from '../../../apiUrl';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/Product.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  readonly baseUrl = API_URL;
+  readonly baseUrl = environment.apiUrl;
   readonly http = inject(HttpClient);
 
   constructor() { }
