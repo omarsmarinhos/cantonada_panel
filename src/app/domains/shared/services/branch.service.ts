@@ -26,6 +26,8 @@ export class BranchService {
     formData.append('tNombre', sucursalData.tNombre);
     formData.append('imagen', sucursalData.imagen);
     formData.append('tDireccion', sucursalData.tDireccion);
+    formData.append('tDireccionGoogle', sucursalData.tDireccionGoogle);
+    formData.append('jLatLng', sucursalData.jLatLng);
     return this.http.post<any>(`${this.baseUrl}/Sucursal`, formData);
   }
 
@@ -35,6 +37,8 @@ export class BranchService {
     formData.append('tNombre', sucursalData.tNombre);
     formData.append('tDireccion', sucursalData.tDireccion);
     formData.append('imageChanged', String(sucursalData.imageChanged));
+    formData.append('tDireccionGoogle', sucursalData.tDireccionGoogle);
+    formData.append('jLatLng', sucursalData.jLatLng);
     if (sucursalData.imageChanged && sucursalData.imagen) {
       formData.append('imagen', sucursalData.imagen);
     }

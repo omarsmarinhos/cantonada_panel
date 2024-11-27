@@ -3,4 +3,6 @@ export interface Branch {
     tNombre: string;
     tImagenUrl: string;
     tDireccion: string;
+    tDireccionGoogle: string;
+    jLatLng: string;
 }

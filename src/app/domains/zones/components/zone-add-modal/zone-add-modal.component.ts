@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { GoogleMap, MapAdvancedMarker, MapPolygon, MapInfoWindow } from '@angular/google-maps';
+import { GoogleMap, MapAdvancedMarker, MapPolygon } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -58,6 +58,13 @@ export class ZoneAddModalComponent {
   isEditable = true;
 
   polygons: google.maps.LatLngLiteral[][] =[];
+  polygonOptions: google.maps.PolygonOptions = {
+    fillColor: '#afb3bf',
+    fillOpacity: 0.4,
+    strokeColor: '#7373a3',
+    strokeOpacity: 1,
+    strokeWeight: 3,
+  };
 
   constructor() {
     this.form = this.fb.group({

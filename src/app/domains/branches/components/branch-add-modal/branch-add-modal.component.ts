@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,7 @@ import { AlertService } from '../../../shared/services/alert.service';
 import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
+import { GoogleMap, MapAdvancedMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-branch-add-modal',
@@ -22,7 +23,9 @@ import { ErrorHandlerService } from '../../../shared/services/error-handler.serv
     MatFormFieldModule,
     MatInputModule,
     NgxFileDropModule,
-    MatIconModule
+    MatIconModule,
+    GoogleMap,
+    MapAdvancedMarker,
   ],
   templateUrl: './branch-add-modal.component.html',
   styleUrl: './branch-add-modal.component.scss'
@@ -48,10 +51,16 @@ export class BranchAddModalComponent {
   aspectRatioWidth: number = 0;
   aspectRatioHeight: number = 0;
 
+  center = signal<google.maps.LatLngLiteral>({lat: -9.100386565771842, lng: -78.54360101264027}); 
+  markerPosition: google.maps.LatLngLiteral = { ...this.center() };
+  geocoder = new google.maps.Geocoder();
+
   constructor() {
     this.form = this.fb.group({
       tNombre: ['', [Validators.required, Validators.pattern(/\S+/)]],
       tDireccion: ['', [Validators.required, Validators.pattern(/\S+/)]],
+      tDireccionGoogle: [''],
+      jLatLng: ['', [Validators.required]],
     });
   }
 
@@ -119,7 +128,8 @@ export class BranchAddModalComponent {
 
   onSubmit() {
     if (this.form.invalid) {
-      this.alertService.showWarning("Debe ingresar un nombre.");
+
+      this.alertService.showWarning("Debe llenar los campos.");
       return;
     }
 
@@ -128,11 +138,11 @@ export class BranchAddModalComponent {
       return;
     }
 
-    this.dialogRef.close({
-      tNombre: this.form.get('tNombre')?.value,
-      tDireccion: this.form.get('tDireccion')?.value,
-      imagen: this.selectedFile,
-    });
+    const result = {
+      ...this.form.value,
+      imagen: this.selectedFile
+    }
+    this.dialogRef.close(result);
   }
 
   loadConfigImagen() {
@@ -147,5 +157,57 @@ export class BranchAddModalComponent {
         this.errorService.showError(err);
       }
     });
+  }
+
+  geocodeAddress() {
+    const address = this.form.get('tDireccion')?.value;
+    if (!address) return;
+
+    const geocoderRequest: google.maps.GeocoderRequest = {
+      address: address,
+      componentRestrictions: {
+        country: 'PE',
+        locality: 'Chimbote'
+      }
+    };
+
+    this.geocoder.geocode(geocoderRequest, (results, status) => {
+      if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
+        const location = results[0].geometry.location;
+        const newPosition = {
+          lat: location.lat(),
+          lng: location.lng()
+        };
+  
+        this.center.set(newPosition);
+        this.markerPosition = newPosition;
+        this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition)); 
+        this.form.get('tDireccionGoogle')?.setValue(results[0].formatted_address);
+      } else {
+        this.alertService.showError('Dirección no encontrada en Chimbote, Perú');
+      }
+    });
+  }
+
+  onMarkerDragEnd(event: google.maps.MapMouseEvent) {
+    const newPos = event.latLng;
+    if (newPos) {
+      this.markerPosition = {
+        lat: newPos.lat(),
+        lng: newPos.lng()
+      };
+  
+      this.geocoder.geocode(
+        { location: newPos }, 
+        (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
+            this.form.get('tDireccionGoogle')?.setValue(
+              results[0].formatted_address  
+            );
+            this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition)); 
+          }
+        }
+      );
+    }
   }
 }
