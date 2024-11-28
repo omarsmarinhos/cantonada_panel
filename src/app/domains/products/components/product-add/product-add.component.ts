@@ -176,7 +176,7 @@ export class ProductAddModalComponent {
       }
 
       if (this.form.get('dPrecio')?.hasError('min') || this.form.get('dPrecio')?.hasError('max')) {
-        this.alertService.showWarning("El precio debe ser mayor que 0 y menor que 10000.00");
+        this.alertService.showWarning("El precio debe ser mayor o igual que 1 y menor que 10000.00");
         return;
       }
 

@@ -10,7 +10,7 @@ import { AlertService } from '../../../shared/services/alert.service';
 import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
-import { GoogleMap, MapAdvancedMarker } from '@angular/google-maps';
+import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps';
 
 @Component({
   selector: 'app-branch-add-modal',
@@ -51,10 +51,10 @@ export class BranchAddModalComponent {
   aspectRatioWidth: number = 0;
   aspectRatioHeight: number = 0;
 
-  center = signal<google.maps.LatLngLiteral>({lat: -9.100386565771842, lng: -78.54360101264027});
-  mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
+  center = signal<google.maps.LatLngLiteral>({ lat: -9.100386565771842, lng: -78.54360101264027 });
+  mapOptions: google.maps.MapOptions = { streetViewControl: false, mapTypeControl: false };
   markerPosition = signal<google.maps.LatLngLiteral>({ ...this.center() });
-  geocoder = new google.maps.Geocoder();
+  geocoder = inject(MapGeocoder);
 
   constructor() {
     this.form = this.fb.group({
@@ -172,17 +172,17 @@ export class BranchAddModalComponent {
       }
     };
 
-    this.geocoder.geocode(geocoderRequest, (results, status) => {
+    this.geocoder.geocode(geocoderRequest).subscribe(({ results, status }) => {
       if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
         const location = results[0].geometry.location;
         const newPosition = {
           lat: location.lat(),
           lng: location.lng()
         };
-  
+
         this.center.set(newPosition);
         this.markerPosition.set(newPosition);
-        this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition())); 
+        this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition()));
         this.form.get('tDireccionGoogle')?.setValue(results[0].formatted_address);
       } else {
         this.alertService.showError('Dirección no encontrada en Chimbote, Perú');
@@ -197,17 +197,14 @@ export class BranchAddModalComponent {
         lat: newPos.lat(),
         lng: newPos.lng()
       });
-  
-      this.geocoder.geocode(
-        { location: newPos }, 
-        (results, status) => {
-          if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
-            this.form.get('tDireccionGoogle')?.setValue(
-              results[0].formatted_address  
-            );
-            this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition())); 
-          }
+      this.geocoder.geocode({ location: newPos }).subscribe(({ results, status }) => {
+        if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
+          this.form.get('tDireccionGoogle')?.setValue(
+            results[0].formatted_address
+          );
+          this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition()));
         }
+      }
       );
     }
   }

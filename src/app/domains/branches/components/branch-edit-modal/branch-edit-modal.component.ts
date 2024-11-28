@@ -11,7 +11,7 @@ import { Branch } from '../../../shared/models/Branch.model';
 import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
-import { GoogleMap, MapAdvancedMarker } from '@angular/google-maps';
+import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps';
 
 @Component({
   selector: 'app-branch-edit-modal',
@@ -55,9 +55,9 @@ export class BranchEditModalComponent {
   aspectRatioHeight: number = 0;
 
   center = signal<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
-  mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
+  mapOptions: google.maps.MapOptions = { streetViewControl: false, mapTypeControl: false };
   markerPosition = signal<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
-  geocoder = new google.maps.Geocoder();
+  geocoder = inject(MapGeocoder);
 
   constructor() {
     this.form = this.fb.group({
@@ -178,7 +178,7 @@ export class BranchEditModalComponent {
       }
     };
 
-    this.geocoder.geocode(geocoderRequest, (results, status) => {
+    this.geocoder.geocode(geocoderRequest).subscribe(({ results, status }) => {
       if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
         const location = results[0].geometry.location;
         const newPosition = {
@@ -203,16 +203,14 @@ export class BranchEditModalComponent {
         lat: newPos.lat(),
         lng: newPos.lng()
       });
-
-      this.geocoder.geocode(
-        { location: newPos },
-        (results, status) => {
-          if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
-            this.form.get('tDireccionGoogle')?.setValue(results[0].formatted_address);
-            this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition()));
-            console.log(this.form.get('jLatLng')?.value);
-          }
+      this.geocoder.geocode({ location: newPos }).subscribe(({ results, status }) => {
+        if (status === google.maps.GeocoderStatus.OK && results?.[0]) {
+          this.form.get('tDireccionGoogle')?.setValue(
+            results[0].formatted_address
+          );
+          this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition()));
         }
+      }
       );
     }
   }
