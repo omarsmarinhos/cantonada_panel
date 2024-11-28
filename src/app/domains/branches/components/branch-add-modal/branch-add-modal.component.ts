@@ -52,7 +52,7 @@ export class BranchAddModalComponent {
   aspectRatioHeight: number = 0;
 
   center = signal<google.maps.LatLngLiteral>({lat: -9.100386565771842, lng: -78.54360101264027}); 
-  markerPosition: google.maps.LatLngLiteral = { ...this.center() };
+  markerPosition = signal<google.maps.LatLngLiteral>({ ...this.center() });
   geocoder = new google.maps.Geocoder();
 
   constructor() {
@@ -180,8 +180,8 @@ export class BranchAddModalComponent {
         };
   
         this.center.set(newPosition);
-        this.markerPosition = newPosition;
-        this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition)); 
+        this.markerPosition.set(newPosition);
+        this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition())); 
         this.form.get('tDireccionGoogle')?.setValue(results[0].formatted_address);
       } else {
         this.alertService.showError('Dirección no encontrada en Chimbote, Perú');
@@ -192,10 +192,10 @@ export class BranchAddModalComponent {
   onMarkerDragEnd(event: google.maps.MapMouseEvent) {
     const newPos = event.latLng;
     if (newPos) {
-      this.markerPosition = {
+      this.markerPosition.set({
         lat: newPos.lat(),
         lng: newPos.lng()
-      };
+      });
   
       this.geocoder.geocode(
         { location: newPos }, 
@@ -204,7 +204,7 @@ export class BranchAddModalComponent {
             this.form.get('tDireccionGoogle')?.setValue(
               results[0].formatted_address  
             );
-            this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition)); 
+            this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition())); 
           }
         }
       );

@@ -3,15 +3,24 @@
   <form [formGroup]="form" class="my-form">
     <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
       <mat-label>Nombre</mat-label>
-      <input matInput formControlName="tNombre">
+      <input matInput formControlName="tNombre" maxlength="100">
     </mat-form-field>
 
     <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
       <mat-label>Dirección</mat-label>
-      <input matInput formControlName="tDireccion">
+      <input matInput formControlName="tDireccion" (keydown.enter)="geocodeAddress()" maxlength="255">
     </mat-form-field>
 
   </form>
+
+  <div class="my-map">
+    <span>Arrastre el marcador para una ubicación más precisa.</span>
+    <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa " [draggable]="false">
+      <map-advanced-marker #marker="mapAdvancedMarker" [position]="markerPosition()" [gmpDraggable]="true"
+        (mapDragend)="onMarkerDragEnd($event)"></map-advanced-marker>
+    </google-map>
+  </div>
+
   <ngx-file-drop [accept]="'.png,.jpg,.jpeg'" (onFileDrop)="onFileDrop($event)" dropZoneClassName="drop-zone"
     contentClassName="drop-content">
     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">

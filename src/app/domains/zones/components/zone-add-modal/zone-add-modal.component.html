@@ -32,8 +32,8 @@
 
   </div>
 
-  <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa ">
-    <map-advanced-marker [position]="center()" [options]="markerOptions" />
+  <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa " [options]="mapOptions">
+    <map-advanced-marker [position]="center()" [options]="markerOptions" label="Alo"/>
     @for(polygon of polygons; track $index) {
       <map-polygon [paths]="polygon" [options]="polygonOptions"/>
     }

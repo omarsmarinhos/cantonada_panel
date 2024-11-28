@@ -44,7 +44,8 @@ export class ZoneEditModalComponent {
   form: FormGroup;
   colspan = 12;
 
-  center = signal<google.maps.LatLngLiteral>({lat: -9.122203154836235, lng: -78.52960958851075}); 
+  center = signal<google.maps.LatLngLiteral>({lat: -9.122203154836235, lng: -78.52960958851075});
+  mapOptions: google.maps.MapOptions = {streetViewControl: false};
   markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {gmpDraggable: false};
 
 

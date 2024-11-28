@@ -18,7 +18,7 @@
     </mat-grid-list>
   </form>
 
-  <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa ">
+  <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa" [options]="mapOptions">
     <map-advanced-marker [position]="center()" [options]="markerOptions" />
     @for(polygon of polygons; track $index) {
     <map-polygon [paths]="polygon" />
