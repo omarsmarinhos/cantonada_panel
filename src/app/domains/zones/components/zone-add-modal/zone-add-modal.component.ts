@@ -46,7 +46,7 @@ export class ZoneAddModalComponent {
   form: FormGroup;
   colspan = 12;
 
-  center = signal<google.maps.LatLngLiteral>({lat: -9.122203154836235, lng: -78.52960958851075}); 
+  center = signal<google.maps.LatLngLiteral>({lat: 0, lng: 0}); 
   mapOptions: google.maps.MapOptions = {streetViewControl: false};
   markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {gmpDraggable: false};
 
@@ -80,6 +80,7 @@ export class ZoneAddModalComponent {
       iIdSucursal: [this.data.branch.iIdSucursal]
     });
     this.polygons = this.data.polygons;
+    this.center.set(JSON.parse(this.data.branch.jLatLng));
   }
 
   ngOnInit() {

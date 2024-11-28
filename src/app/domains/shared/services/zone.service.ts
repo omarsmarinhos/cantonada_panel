@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Zone } from '../models/Zone.model';
 import { environment } from '../../../../environments/environment';
+import { ZonePolygonResponse } from '../models/ZonePolygonResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,7 @@ export class ZoneService {
     return this.http.delete<any>(`${this.baseUrl}/Zona/${iIdZone}`);
   }
 
-
+  getPolygons() {
+    return this.http.get<ZonePolygonResponse[]>(`${this.baseUrl}/Zona/Polygons`);
+  }
 }

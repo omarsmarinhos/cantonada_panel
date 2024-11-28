@@ -74,6 +74,7 @@ export class ZoneEditModalComponent {
     });
     this.originalZonePolygon = JSON.parse(this.data.zone.jPoligono);
     this.polygons = this.data.polygons;
+    this.center.set(JSON.parse(this.data.branch.jLatLng));
   }
 
   ngOnInit() {
