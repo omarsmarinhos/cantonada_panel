@@ -47,7 +47,7 @@ export class ZoneAddModalComponent {
   colspan = 12;
 
   center = signal<google.maps.LatLngLiteral>({lat: 0, lng: 0}); 
-  mapOptions: google.maps.MapOptions = {streetViewControl: false};
+  mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
   markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {gmpDraggable: false};
 
   drawingManager?: google.maps.drawing.DrawingManager;

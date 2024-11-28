@@ -106,8 +106,6 @@ export default class ZonesComponent {
     this.zoneService.getPolygons().subscribe({
       next: (res) => {
         this.zonesPolygons.set(res);
-        console.log(this.zonesPolygons());
-        console.log(res);
       },
       error: (err) => {
         this.errorService.showError(err);

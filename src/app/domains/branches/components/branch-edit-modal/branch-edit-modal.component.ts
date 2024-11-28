@@ -55,6 +55,7 @@ export class BranchEditModalComponent {
   aspectRatioHeight: number = 0;
 
   center = signal<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
+  mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
   markerPosition = signal<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
   geocoder = new google.maps.Geocoder();
 

@@ -51,7 +51,8 @@ export class BranchAddModalComponent {
   aspectRatioWidth: number = 0;
   aspectRatioHeight: number = 0;
 
-  center = signal<google.maps.LatLngLiteral>({lat: -9.100386565771842, lng: -78.54360101264027}); 
+  center = signal<google.maps.LatLngLiteral>({lat: -9.100386565771842, lng: -78.54360101264027});
+  mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
   markerPosition = signal<google.maps.LatLngLiteral>({ ...this.center() });
   geocoder = new google.maps.Geocoder();
 

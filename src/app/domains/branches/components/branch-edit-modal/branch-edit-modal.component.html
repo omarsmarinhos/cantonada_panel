@@ -15,7 +15,7 @@
 
   <div class="my-map">
     <span>Arrastre el marcador para una ubicación más precisa.</span>
-    <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa " [draggable]="false">
+    <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa " [draggable]="false" [options]="mapOptions">
       <map-advanced-marker #marker="mapAdvancedMarker" [position]="markerPosition()" [gmpDraggable]="true"
         (mapDragend)="onMarkerDragEnd($event)"></map-advanced-marker>
     </google-map>
