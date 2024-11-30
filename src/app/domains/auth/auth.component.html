@@ -1,0 +1,49 @@
+<div class="bg-image-container">
+  <div class="login-form">
+    <div class="logo">
+      <img src="logo.png" alt="Fast-cloud logo" />
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="input-form">
+        <label for="usuario">Usuario</label>
+        <mat-form-field appearance="outline" class="mt-label" style="width: 100%;">
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input matInput type="text" placeholder="Ingresa tu nombre de usuario" formControlName="usuario"
+            #usuarioInput />
+          @if (loginForm.get('usuario')?.invalid && (loginForm.get('usuario')?.dirty ||
+          loginForm.get('usuario')?.touched)) {
+          <mat-error>
+            {{ getErrorMessage('usuario') }}
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="input-form">
+        <label for="clave">Contraseña</label>
+        <mat-form-field appearance="outline" class="mt-label" style="width: 100%;">
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="******" formControlName="clave" />
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide" type="button">
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          @if (loginForm.get('clave')?.invalid && (loginForm.get('clave')?.dirty || loginForm.get('clave')?.touched)) {
+          <mat-error>
+            {{ getErrorMessage('clave') }}
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="input-form">
+        <button type="submit" class="login-button" [disabled]="isLoading">
+          @if (!isLoading) {
+          <ng-container>Iniciar Sesión</ng-container>
+          }
+          @if (isLoading) {
+          <mat-spinner diameter="24"></mat-spinner>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

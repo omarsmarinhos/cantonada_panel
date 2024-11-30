@@ -61,11 +61,11 @@
     </ul>
     <div class="sidebar-profile">
       <button class="btn-logout" [matMenuTriggerFor]="menu">
-        A
+        <mat-icon>person_pin</mat-icon>
+        <span class="profile-text">
+          {{ authService.getUsername() }}
+        </span>
       </button>
-      <span class="profile-text">
-        {{ perfil }}
-      </span>
       <mat-menu #menu="matMenu">
         <button (click)="logout()" mat-menu-item>Cerrar Sesión</button>
       </mat-menu>

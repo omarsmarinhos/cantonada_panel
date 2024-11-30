@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterLinkActive, RouterLinkWithHref } from '@angular/router';
 import { CollapsedService } from '../../services/collapsed.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,15 +21,11 @@ import { CollapsedService } from '../../services/collapsed.service';
 })
 export class SidebarComponent {
 
-  private collapsedService = inject(CollapsedService);
-  private router = inject(Router);
+  private readonly collapsedService = inject(CollapsedService);
+  private readonly router = inject(Router);
+  readonly authService = inject(AuthService);
 
   isCollapsed = this.collapsedService.isCollapsed;
-
-  perfil: string | null = '';
-
-  ngOnInit() {
-  }
 
   toggleSidebar() {
     this.collapsedService.toggleCollapsed();
@@ -43,6 +40,7 @@ export class SidebarComponent {
   }
 
   logout() {
+    this.authService.logout();
     this.collapsedService.toggleCollapsed();
   }
 

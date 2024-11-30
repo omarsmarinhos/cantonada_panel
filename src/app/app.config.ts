@@ -3,10 +3,11 @@ import { PreloadAllModules, provideRouter, withComponentInputBinding, withInMemo
 
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 
 import localeEs from '@angular/common/locales/es-PE';
+import { AuthInterceptor } from './auth.interceptor';
 registerLocaleData(localeEs, 'es-PE');
 
 export const appConfig: ApplicationConfig = {
@@ -24,6 +25,12 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimations(),
     provideHttpClient(),
-    {provide: LOCALE_ID, useValue: 'es-PE'}
+    {provide: LOCALE_ID, useValue: 'es-PE'},
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    }
   ]
 };
