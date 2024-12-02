@@ -94,6 +94,7 @@ export class ProductEditComponent {
       lNovedad: [this.product.lNovedad, [Validators.required]],
       lAdicional: [this.product.lAdicional, [Validators.required]],
       iAdicionalesGratis: [this.product.iAdicionalesGratis, [Validators.required, Validators.min(0)]],
+      iIdProductoFast: [this.product.iIdProductoFast, [Validators.required, Validators.min(0)]],
       iIdCategoria: [this.product.categoria.iIdCategoria, [Validators.required]]
     });
     this.previewUrl = this.product.tImagenUrl;
@@ -184,11 +185,11 @@ export class ProductEditComponent {
       }
 
       if (this.form.get('dPrecio')?.hasError('min') || this.form.get('dPrecio')?.hasError('max')) {
-        this.alertService.showWarning("El precio debe ser mayor que 0 y menor que 10000.00");
+        this.alertService.showWarning("El precio debe ser mayor o igual que 1 y menor que 10000.00");
         return;
       }
 
-      if (this.form.get('iAdicionalesGratis')?.hasError('min')) {
+      if (this.form.get('iAdicionalesGratis')?.hasError('min') || this.form.get('iIdProductoFast')?.hasError('min')) {
         this.alertService.showWarning("Solo números positivos.");
         return;
       }
@@ -209,6 +210,7 @@ export class ProductEditComponent {
       lNovedad: this.form.get('lNovedad')?.value,
       lAdicional: this.form.get('lAdicional')?.value,
       iAdicionalesGratis: this.form.get('iAdicionalesGratis')?.value,
+      iIdProductoFast: this.form.get('iIdProductoFast')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imageChanged: this.imageChanged,

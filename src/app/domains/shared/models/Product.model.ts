@@ -12,6 +12,7 @@ export interface Product {
   lNovedad: boolean;
   lAdicional: boolean;
   iAdicionalesGratis: number;
+  iIdProductoFast: number;
   categoria: Category;
   jSucursales: string;
 }

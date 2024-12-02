@@ -89,6 +89,7 @@ export class ProductAddModalComponent {
       lNovedad: [false, [Validators.required]],
       lAdicional: [false, [Validators.required]],
       iAdicionalesGratis: [0, [Validators.required, Validators.min(0)]],
+      iIdProductoFast: [0, [Validators.required, Validators.min(0)]],
       iIdCategoria: ['', [Validators.required]]
     });
   }
@@ -180,7 +181,7 @@ export class ProductAddModalComponent {
         return;
       }
 
-      if (this.form.get('iAdicionalesGratis')?.hasError('min')) {
+      if (this.form.get('iAdicionalesGratis')?.hasError('min') || this.form.get('iIdProductoFast')?.hasError('min')) {
         this.alertService.showWarning("Solo números positivos.");
         return;
       }
@@ -205,6 +206,7 @@ export class ProductAddModalComponent {
       lNovedad: this.form.get('lNovedad')?.value,
       lAdicional: this.form.get('lAdicional')?.value,
       iAdicionalesGratis: this.form.get('iAdicionalesGratis')?.value,
+      iIdProductoFast: this.form.get('iIdProductoFast')?.value,
       iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imagen: this.selectedFile,
