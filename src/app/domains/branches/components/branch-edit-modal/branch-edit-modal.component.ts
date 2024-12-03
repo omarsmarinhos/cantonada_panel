@@ -73,7 +73,7 @@ export class BranchEditModalComponent {
       tDireccion: [this.branch.tDireccion, [Validators.required, Validators.pattern(/\S+/)]],
       tDireccionGoogle: [this.branch.tDireccionGoogle],
       jLatLng: [this.branch.jLatLng, [Validators.required]],
-      iIdProductoFast: [this.branch.iIdSucursalFast, [Validators.required, Validators.min(0)]]
+      iIdSucursalFast: [this.branch.iIdSucursalFast, [Validators.required, Validators.min(0)]]
     });
     this.previewUrl = this.branch.tImagenUrl;
     this.markerPosition.set(JSON.parse(this.branch.jLatLng));

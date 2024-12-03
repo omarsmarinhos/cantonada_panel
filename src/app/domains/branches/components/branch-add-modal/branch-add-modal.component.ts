@@ -69,7 +69,7 @@ export class BranchAddModalComponent {
       tDireccion: ['', [Validators.required, Validators.pattern(/\S+/)]],
       tDireccionGoogle: [''],
       jLatLng: ['', [Validators.required]],
-      iIdProductoFast: ['', [Validators.required, Validators.min(0)]],
+      iIdSucursalFast: ['', [Validators.required, Validators.min(0)]],
     });
   }
 

@@ -4,4 +4,5 @@ export interface Zone {
     dPrecio: number;
     jPoligono : string;
     iIdSucursal?: number;
+    iIdZonaFast: number;
 }

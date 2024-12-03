@@ -44,11 +44,11 @@ export class ZoneAddModalComponent {
   private readonly data = inject<any>(MAT_DIALOG_DATA);
 
   form: FormGroup;
-  colspan = 12;
+  colspan3 = 12;
 
-  center = signal<google.maps.LatLngLiteral>({lat: 0, lng: 0}); 
-  mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
-  markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {gmpDraggable: false};
+  center = signal<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
+  mapOptions: google.maps.MapOptions = { streetViewControl: false, mapTypeControl: false };
+  markerOptions: google.maps.marker.AdvancedMarkerElementOptions = { gmpDraggable: false };
 
   drawingManager?: google.maps.drawing.DrawingManager;
   polygon?: google.maps.Polygon;
@@ -58,7 +58,7 @@ export class ZoneAddModalComponent {
   showDrawPolygonButton = true;
   isEditable = true;
 
-  polygons: google.maps.LatLngLiteral[][] =[];
+  polygons: google.maps.LatLngLiteral[][] = [];
   polygonOptions: google.maps.PolygonOptions = {
     fillColor: '#afb3bf',
     fillOpacity: 0.4,
@@ -77,7 +77,11 @@ export class ZoneAddModalComponent {
         Validators.pattern(/^\d+(\.\d{1,2})?$/)
       ]],
       jPoligono: ['', []],
-      iIdSucursal: [this.data.branch.iIdSucursal]
+      iIdSucursal: [this.data.branch.iIdSucursal],
+      iIdZonaFast: ['', [
+        Validators.required,
+        Validators.min(0),]
+      ]
     });
     this.polygons = this.data.polygons;
     this.center.set(JSON.parse(this.data.branch.jLatLng));
@@ -85,7 +89,7 @@ export class ZoneAddModalComponent {
 
   ngOnInit() {
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
-      this.colspan = state.matches ? 6 : 12;
+      this.colspan3 = state.matches ? 4 : 12;
     });
   }
 
@@ -160,14 +164,14 @@ export class ZoneAddModalComponent {
 
   checkPolygonIntersection(): boolean {
     if (!this.polygon) return false;
-  
+
     const newPolygonPath = this.polygon.getPath();
-  
+
     for (const existingPolygonCoords of this.polygons) {
       const existingPolygon = new google.maps.Polygon({
         paths: existingPolygonCoords
       });
-  
+
       // Check if any point of the new polygon is inside the existing polygon
       for (let i = 0; i < newPolygonPath.getLength(); i++) {
         const point = newPolygonPath.getAt(i);
@@ -176,7 +180,7 @@ export class ZoneAddModalComponent {
           return true;
         }
       }
-  
+
       // Check if any point of existing polygons is inside the new polygon
       const existingPolygonPath = new google.maps.Polygon({ paths: existingPolygonCoords });
       for (let i = 0; i < existingPolygonPath.getPath().getLength(); i++) {
@@ -187,10 +191,10 @@ export class ZoneAddModalComponent {
         }
       }
     }
-  
+
     return false;
   }
-  
+
   onSubmit() {
     if (this.form.invalid) {
 
@@ -206,6 +210,11 @@ export class ZoneAddModalComponent {
 
       if (this.form.get('dPrecio')?.hasError('min') || this.form.get('dPrecio')?.hasError('max')) {
         this.alertService.showWarning("El precio debe ser mayor que 0 y menor que 10000.00");
+        return;
+      }
+
+      if (this.form.get('iIdZonaFast')?.hasError('min')) {
+        this.alertService.showWarning("No se permiten números negativos.");
         return;
       }
 
@@ -225,7 +234,7 @@ export class ZoneAddModalComponent {
     }
 
     this.finalPolygonCoords = this.tempPolygonCoords;
-    
+
     const geoJSON = this.finalPolygonCoords;
     this.form.get('jPoligono')?.setValue(JSON.stringify(geoJSON));
 
@@ -238,7 +247,6 @@ export class ZoneAddModalComponent {
   }
 
   submit() {
-    // console.log(this.form.get('jPoligono')?.value);
     this.dialogRef.close(this.form.value);
   }
 

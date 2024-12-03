@@ -42,7 +42,7 @@ export class ZoneEditModalComponent {
   private readonly data = inject<any>(MAT_DIALOG_DATA);
 
   form: FormGroup;
-  colspan = 12;
+  colspan3 = 12;
 
   center = signal<google.maps.LatLngLiteral>({lat: -9.122203154836235, lng: -78.52960958851075});
   mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
@@ -70,7 +70,11 @@ export class ZoneEditModalComponent {
         Validators.pattern(/^\d+(\.\d{1,2})?$/)
       ]],
       jPoligono: [this.data.zone.jPoligono, []],
-      iIdZona: [this.data.zone.iIdZona]
+      iIdZona: [this.data.zone.iIdZona],
+      iIdZonaFast: [this.data.zone.iIdZonaFast, [
+        Validators.required,
+        Validators.min(0),]
+      ]
     });
     this.originalZonePolygon = JSON.parse(this.data.zone.jPoligono);
     this.polygons = this.data.polygons;
@@ -79,7 +83,7 @@ export class ZoneEditModalComponent {
 
   ngOnInit() {
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
-      this.colspan = state.matches ? 6 : 12;
+      this.colspan3 = state.matches ? 4 : 12;
     });
   }
 
@@ -178,6 +182,11 @@ export class ZoneEditModalComponent {
 
       if (this.form.get('dPrecio')?.hasError('min') || this.form.get('dPrecio')?.hasError('max')) {
         this.alertService.showWarning("El precio debe ser mayor que 0 y menor que 10000.00");
+        return;
+      }
+
+      if (this.form.get('iIdZonaFast')?.hasError('min')) {
+        this.alertService.showWarning("No se permiten números negativos.");
         return;
       }
 
