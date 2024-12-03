@@ -1,20 +1,32 @@
 <h2 mat-dialog-title>Agregar una Sucursal</h2>
 <mat-dialog-content>
   <form [formGroup]="form" class="my-form">
-    <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="tNombre" maxlength="100">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
-      <mat-label>Dirección</mat-label>
-      <input matInput type="text" formControlName="tDireccion" (keydown.enter)="geocodeAddress()" maxlength="255">
-    </mat-form-field>
+    <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Id Sucursal Fast</mat-label>
+          <input matInput formControlName="iIdProductoFast" maxlength="100">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="tNombre" maxlength="100">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Dirección</mat-label>
+          <input matInput type="text" formControlName="tDireccion" (keydown.enter)="geocodeAddress()" maxlength="255">
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
   </form>
 
   <div class="my-map">
     <span>Arrastre el marcador para una ubicación más precisa.</span>
-    <google-map [center]="center()" width="100%" [zoom]="12" mapId="d8da5fa3f5db62fa " [draggable]="false" [options]="mapOptions">
+    <google-map [center]="center()" width="100%" [zoom]="12" mapId="d8da5fa3f5db62fa " [draggable]="false"
+      [options]="mapOptions">
       <map-advanced-marker #marker="mapAdvancedMarker" [position]="markerPosition()" [gmpDraggable]="true"
         (mapDragend)="onMarkerDragEnd($event)"></map-advanced-marker>
     </google-map>

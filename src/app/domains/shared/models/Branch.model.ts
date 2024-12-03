@@ -5,4 +5,5 @@ export interface Branch {
     tDireccion: string;
     tDireccionGoogle: string;
     jLatLng: string;
+    iIdSucursalFast: number;
 }

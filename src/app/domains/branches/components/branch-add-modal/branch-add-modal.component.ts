@@ -11,6 +11,9 @@ import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
 import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-branch-add-modal',
@@ -26,6 +29,7 @@ import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps'
     MatIconModule,
     GoogleMap,
     MapAdvancedMarker,
+    MatGridListModule
   ],
   templateUrl: './branch-add-modal.component.html',
   styleUrl: './branch-add-modal.component.scss'
@@ -37,8 +41,11 @@ export class BranchAddModalComponent {
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
   private readonly configService = inject(ConfigurationService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private breakpointSubscription: Subscription | undefined;
 
   form: FormGroup;
+  colspan3: number = 12;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   configImagen: ConfigImagen = {
@@ -62,11 +69,15 @@ export class BranchAddModalComponent {
       tDireccion: ['', [Validators.required, Validators.pattern(/\S+/)]],
       tDireccionGoogle: [''],
       jLatLng: ['', [Validators.required]],
+      iIdProductoFast: ['', [Validators.required, Validators.min(0)]],
     });
   }
 
   ngOnInit() {
     this.loadConfigImagen();
+    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
+      this.colspan3 = state.matches ? 4 : 12;
+    });
   }
 
   onFileDrop(files: NgxFileDropEntry[]): void {
@@ -129,6 +140,11 @@ export class BranchAddModalComponent {
 
   onSubmit() {
     if (this.form.invalid) {
+
+      if (this.form.get('iIdSucursalFast')?.hasError('min')) {
+        this.alertService.showWarning("Solo números positivos.");
+        return;
+      }
 
       this.alertService.showWarning("Debe llenar los campos.");
       return;
@@ -206,6 +222,12 @@ export class BranchAddModalComponent {
         }
       }
       );
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.breakpointSubscription) {
+      this.breakpointSubscription.unsubscribe();
     }
   }
 }

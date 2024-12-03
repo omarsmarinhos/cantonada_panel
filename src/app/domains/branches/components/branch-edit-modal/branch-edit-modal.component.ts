@@ -12,6 +12,9 @@ import { ErrorHandlerService } from '../../../shared/services/error-handler.serv
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
 import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-branch-edit-modal',
@@ -26,7 +29,8 @@ import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps'
     NgxFileDropModule,
     MatIconModule,
     GoogleMap,
-    MapAdvancedMarker
+    MapAdvancedMarker,
+    MatGridListModule
   ],
   templateUrl: './branch-edit-modal.component.html',
   styleUrl: './branch-edit-modal.component.scss'
@@ -39,8 +43,11 @@ export class BranchEditModalComponent {
   private readonly branch = inject<Branch>(MAT_DIALOG_DATA);
   private readonly errorService = inject(ErrorHandlerService);
   private readonly configService = inject(ConfigurationService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private breakpointSubscription: Subscription | undefined;
 
   form: FormGroup;
+  colspan3: number = 12;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   imageChanged: boolean = false;
@@ -65,7 +72,8 @@ export class BranchEditModalComponent {
       tNombre: [this.branch.tNombre, [Validators.required, Validators.pattern(/\S+/)]],
       tDireccion: [this.branch.tDireccion, [Validators.required, Validators.pattern(/\S+/)]],
       tDireccionGoogle: [this.branch.tDireccionGoogle],
-      jLatLng: [this.branch.jLatLng, [Validators.required]]
+      jLatLng: [this.branch.jLatLng, [Validators.required]],
+      iIdProductoFast: [this.branch.iIdSucursalFast, [Validators.required, Validators.min(0)]]
     });
     this.previewUrl = this.branch.tImagenUrl;
     this.markerPosition.set(JSON.parse(this.branch.jLatLng));
@@ -74,6 +82,9 @@ export class BranchEditModalComponent {
 
   ngOnInit() {
     this.loadConfigImagen();
+    this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
+      this.colspan3 = state.matches ? 4 : 12;
+    });
   }
 
   onFileDrop(files: NgxFileDropEntry[]): void {
@@ -138,6 +149,12 @@ export class BranchEditModalComponent {
 
   onSubmit() {
     if (this.form.invalid) {
+
+      if (this.form.get('iIdSucursalFast')?.hasError('min')) {
+        this.alertService.showWarning("Solo números positivos.");
+        return;
+      }
+
       this.alertService.showWarning("Debe llenar todos nombre.");
       console.log(this.form.value)
       return;
@@ -212,6 +229,12 @@ export class BranchEditModalComponent {
         }
       }
       );
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.breakpointSubscription) {
+      this.breakpointSubscription.unsubscribe();
     }
   }
 }
