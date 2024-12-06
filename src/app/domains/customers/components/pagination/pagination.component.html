@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="paginate">
+    <!-- Botón Previous sin texto -->
+    <button class="prevBtn" (click)="prevPage()" [disabled]="currentPage === 1">
+      <span class="prevBtn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          width="24px" height="24px">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+      </span>
+    </button>
+
+    <div class="containerBtns">
+      <div class="leftContainer">
+        <button *ngIf="currentPage > 3" class="numberBtn" (click)="goToPage(1)">1</button>
+        <button *ngIf="currentPage > 4" class="numberBtn" disabled>...</button>
+      </div>
+
+      <!-- Botones de página -->
+      <button *ngFor="let page of pageNumbers" [ngClass]="{'activeBtn': page === currentPage, 'numberBtn': true}"
+        (click)="goToPage(page)">
+        {{ page }}
+      </button>
+
+      <div class="rightContainer">
+        <button *ngIf="currentPage < totalPages - 3" class="numberBtn" disabled>...</button>
+        <button *ngIf="currentPage < totalPages - 2" class="numberBtn" (click)="goToPage(totalPages)">{{
+          totalPages }}</button>
+      </div>
+    </div>
+
+    <!-- Botón Next sin texto -->
+    <button class="nextBtn" (click)="nextPage()" [disabled]="currentPage === totalPages">
+      <span class="nextBtn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          width="24px" height="24px">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>

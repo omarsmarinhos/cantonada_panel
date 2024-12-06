@@ -1,0 +1,159 @@
+@use './../../../styles/mixins' as m;
+
+.customers {
+  &__header {
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 3rem 1rem 3rem;
+
+    .title {
+      font-size: 2rem;
+      display: block;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      padding: 1rem;
+      border-radius: .5rem;
+      user-select: none;
+
+      span {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  &__content {
+    background-color: var(--background-content-color);
+    display: flex;
+    border-radius: 0 0 2rem 2rem;
+    padding-bottom: 6rem;
+    min-height: calc(100dvh - 18rem);
+
+    @include m.laptop {
+      min-height: calc(100dvh - 15rem);
+    }
+  }
+}
+
+.main {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  margin: 1rem 0 1rem 0;
+  width: 100%;
+  height: fit-content;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  @include m.tablet {
+    margin: 1rem;
+  }
+
+  @include m.laptop {
+    margin: 2rem;
+  }
+
+  &__table {
+    border-bottom: 1px solid var(--border-color);
+
+    &__actions {
+      display: flex;
+      justify-content: space-between;
+
+      &__button {
+        height: 4rem;
+        padding: 0 1.5rem;
+
+        &--edit {
+          color: #adadad;
+        }
+
+        &--delete {
+          color: var(--red-color);
+        }
+      }
+
+      &__button-min {
+        height: 4rem;
+        padding: 0;
+        color: black;
+
+        &.disabled {
+          color: #c0c0c0;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    margin: 0 0 0 auto;
+    gap: 2rem;
+    padding: 1rem 2rem;
+
+    .cancel {
+      display: block;
+      padding: 1rem 2rem;
+      color: var(--black-color);
+      background-color: var(--border-color);
+      border-radius: .5rem;
+    }
+
+    .btn {
+      box-sizing: border-box;
+      display: block;
+      padding: 1rem 2rem;
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      border-radius: .5rem;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 2rem;
+
+    @include m.tablet {
+      flex-direction: row;
+    }
+
+    &__search {
+      flex: 3;
+    }
+
+    &__select {
+      flex: 1;
+    }
+  }
+
+  .pagination {
+    width: fit-content;
+    margin: 2rem auto;
+  }
+}
+
+::ng-deep {
+  .my-input .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .customers {
+    .mat-mdc-form-field-icon-suffix {
+      padding: 6px 8px 0 4px !important;
+    }
+  }
+}

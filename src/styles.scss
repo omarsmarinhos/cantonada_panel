@@ -22,7 +22,8 @@
   --mat-table-row-item-container-height: 4rem;
   --mat-table-row-item-label-text-color: var(--black-color);
   --mat-table-row-item-label-text-size: 1.3rem;
-  --mat-table-row-item-label-text-weight: 400:
+  --mat-table-row-item-label-text-weight: 400;
+  --mat-form-field-container-vertical-padding: 1.4rem;
 }
 
 html,
@@ -99,7 +100,7 @@ input[type="number"] {
   border: 1px solid;
   white-space: nowrap;
   min-width: 35px;
-  max-width: 50px;
+  max-width: 60px;
   margin: 0 auto;
 }
 

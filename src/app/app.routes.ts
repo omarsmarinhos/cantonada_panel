@@ -41,6 +41,10 @@ export const routes: Routes = [
         loadComponent: () => import('./domains/order-productos/order-productos.component')
       },
       {
+        path: 'clientes',
+        loadComponent: () => import('./domains/customers/customers.component')
+      },
+      {
         path: 'menu',
         loadComponent: () => import('./domains/menus/menus.component')
       },

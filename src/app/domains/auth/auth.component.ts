@@ -20,8 +20,7 @@ import { ErrorHandlerService } from '../shared/services/error-handler.service';
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule,
-
+    MatProgressSpinnerModule
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss'
