@@ -9,6 +9,6 @@ export interface Customer {
   lGoogle: boolean;
   fFechaRegistro: string;
   fUltimoAcceso?: string;
-  tGoogleId?: string;
+  tUidFirebase?: string;
   tEstado: string;
 }
