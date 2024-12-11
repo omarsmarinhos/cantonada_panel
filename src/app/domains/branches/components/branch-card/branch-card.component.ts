@@ -1,4 +1,4 @@
-import { UpperCasePipe } from '@angular/common';
+import { CommonModule, UpperCasePipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Branch } from '../../../shared/models/Branch.model';
@@ -9,6 +9,7 @@ import { MatTooltip } from '@angular/material/tooltip';
   selector: 'app-branch-card',
   standalone: true,
   imports: [
+    CommonModule,
     MatIconModule,
     UpperCasePipe,
     MatTooltip
@@ -20,8 +21,13 @@ export class BranchCardComponent {
   @Input({ required: true }) branch!: Branch;
   @Output() edit = new EventEmitter<Branch>();
   @Output() delete = new EventEmitter<number>();
+  @Output() toggle = new EventEmitter<Branch>();
 
   private readonly router = inject(Router);
+
+  onToggleStore() {
+    this.toggle.emit(this.branch);
+  }
 
   onEdit() {
     this.edit.emit(this.branch);

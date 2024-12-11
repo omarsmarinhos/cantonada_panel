@@ -51,6 +51,13 @@ export class BranchService {
     return this.http.delete<any>(`${this.baseUrl}/Sucursal/${iIdSucursal}`);
   }
 
+  toggleStore(branch: Branch) {
+    return this.http.put<any>(`${this.baseUrl}/Sucursal/Disponibilidad`, {
+      iIdSucursal: branch.iIdSucursal,
+      lAbierto: !branch.lAbierto
+    });
+  }
+
   sortBranch(ordenSucursales: { iId: number | undefined; nOrden: number }[]) {
     return this.http.post<any>(`${this.baseUrl}/Sucursal/Ordenar`, ordenSucursales);
   }

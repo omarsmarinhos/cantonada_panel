@@ -121,6 +121,34 @@ export default class BranchesComponent {
     });
   }
 
+  onToggleStore(branch: Branch) {
+    if (this.isSorting) {
+      this.alertService.showWarning("No puede realizar esta acción mientras ordena.")
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: branch.lAbierto ? 'Confirmar cierre de tienda' : 'Confirmar apertura de tienda',
+        desc: branch.lAbierto ? '¿Estás seguro de que deseas cerrar esta tienda?' : '¿Estás seguro de que deseas abrir esta tienda?',
+        action: branch.lAbierto ? 'Cerrar' : 'Abrir'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.branchService.toggleStore(branch).subscribe({
+          next: (res) => {
+            this.alertService.showSuccess(res.mensaje);
+            this.loadBranches();
+          },
+          error: (err) => {
+            this.errorService.showError(err);
+          }
+        })
+      }
+    });
+  }
+
   onSortingBranches() {
     const sortedBranches = this.branches().map((branch, index) => ({
       iId: branch.iIdSucursal,

@@ -26,7 +26,7 @@
         @for (branch of branches(); track $index) {
         <div class="main__card" cdkDrag [cdkDragDisabled]="!isSorting" [class.drag-enabled]="isSorting">
           <app-branch-card [branch]="branch" (edit)="onEditBranch($event)"
-            (delete)="onDeleteBranch($event)"></app-branch-card>
+            (delete)="onDeleteBranch($event)" (toggle)="onToggleStore($event)"></app-branch-card>
         </div>
         }
       </div>

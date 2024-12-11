@@ -7,13 +7,21 @@
       <span>{{ branch.tNombre | uppercase }}</span>
     </div>
     <div class="branch__card__actions">
-      <div class="branch__card__actions__button branch__card__actions__button--zone" (click)="onGoZone(branch.iIdSucursal)" matTooltip="Ver zonas">
+      <div class="branch__card__actions__button" (click)="onToggleStore()"
+        [matTooltip]="branch.lAbierto ? 'Cerrar tienda': 'Abrir tienda'"
+        [ngClass]="branch.lAbierto ? 'branch__card__actions__button--lock-open' : 'branch__card__actions__button--lock'">
+        <mat-icon>{{ branch.lAbierto ? 'lock_open' : 'lock' }}</mat-icon>
+      </div>
+      <div class="branch__card__actions__button branch__card__actions__button--zone"
+        (click)="onGoZone(branch.iIdSucursal)" matTooltip="Ver zonas">
         <mat-icon>location_on</mat-icon>
       </div>
-      <div class="branch__card__actions__button branch__card__actions__button--edit" (click)="onEdit()" matTooltip="Editar">
+      <div class="branch__card__actions__button branch__card__actions__button--edit" (click)="onEdit()"
+        matTooltip="Editar">
         <mat-icon>edit</mat-icon>
       </div>
-      <div class="branch__card__actions__button branch__card__actions__button--delete" (click)="onDelete()" matTooltip="Eliminar">
+      <div class="branch__card__actions__button branch__card__actions__button--delete" (click)="onDelete()"
+        matTooltip="Eliminar">
         <mat-icon>delete</mat-icon>
       </div>
     </div>

@@ -59,7 +59,8 @@ export default class ZonesComponent {
     tDireccionGoogle: '',
     tImagenUrl: '',
     jLatLng: '',
-    iIdSucursalFast: 0
+    iIdSucursalFast: 0,
+    lAbierto: false
   };
   dataSourceZones = signal<MatTableDataSource<Zone>>(
     new MatTableDataSource<Zone>()

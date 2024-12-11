@@ -6,4 +6,5 @@ export interface Branch {
     tDireccionGoogle: string;
     jLatLng: string;
     iIdSucursalFast: number;
+    lAbierto: boolean;
 }
