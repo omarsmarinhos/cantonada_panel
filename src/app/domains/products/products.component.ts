@@ -14,6 +14,7 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
 import { ProductAdditionalComponent } from './components/product-additional/product-additional.component';
 import { ProductAdditionalService } from '../shared/services/additional.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -34,6 +35,7 @@ export default class ProductsComponent {
   private readonly alertService = inject(AlertService);
   private readonly dialog = inject(MatDialog);
   private readonly errorService = inject(ErrorHandlerService);
+  private readonly router = inject(Router);
 
   categories = signal<Category[]>([]);
   selectedCategory: string = 'Todos';
@@ -145,5 +147,9 @@ export default class ProductsComponent {
         })
       }
     });
+  }
+
+  goToSortProductsPage() {
+    this.router.navigate(["/orden-productos"]);
   }
 }

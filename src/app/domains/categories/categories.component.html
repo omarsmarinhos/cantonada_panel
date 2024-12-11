@@ -8,10 +8,17 @@
   </div>
   <div class="categories__content">
     <div class="main">
+      <div class="main__buttons">
+        <button class="btn" (click)="goToOrderCategoriesPage()">
+          <mat-icon>drag_indicator</mat-icon>
+          <span>Ordenar</span>
+        </button>
+      </div>
       <div class="main__grid">
         @for (category of categories(); track $index) {
         <div class="main__card">
-          <app-category-card [category]="category" (edit)="onEditCategory($event)" (delete)="onDeleteCategory($event)"></app-category-card>
+          <app-category-card [category]="category" (edit)="onEditCategory($event)"
+            (delete)="onDeleteCategory($event)"></app-category-card>
         </div>
         }
       </div>

@@ -6,6 +6,7 @@ import { Category } from '../shared/models/Category.model';
 import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AlertService } from '../shared/services/alert.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-categories',
@@ -24,6 +25,7 @@ export default class OrderCategoriesComponent {
   private readonly categoryService = inject(CategoryService);
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
+  private readonly router = inject(Router);
 
   categories = signal<Category[]>([]);
 
@@ -61,5 +63,9 @@ export default class OrderCategoriesComponent {
         this.errorService.showError(err);
       }
     });
+  }
+
+  goToPageBack() {
+    this.router.navigate(["/categorias"]);
   }
 }

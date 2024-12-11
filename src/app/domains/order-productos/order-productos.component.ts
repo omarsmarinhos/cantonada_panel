@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CapitalizePipe } from '../shared/pipes/capitalize.pipe';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-productos',
@@ -33,6 +34,7 @@ export default class OrderProductosComponent {
   private readonly productService = inject(ProductService)
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
+  private readonly router = inject(Router);
 
   categories = signal<Category[]>([]);
   products = signal<Product[]>([]);
@@ -86,5 +88,9 @@ export default class OrderProductosComponent {
 
   onSelectChange(tCategory: string) {
     this.loadProducts(tCategory);
+  }
+
+  goToPageBack() {
+    this.router.navigate(["/productos"]);
   }
 }

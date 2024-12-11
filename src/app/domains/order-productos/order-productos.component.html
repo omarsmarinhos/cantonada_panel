@@ -22,7 +22,11 @@
         }
       </div>
       <div class="main__button">
-        <button (click)="onSaveChanges()">
+        <button class="main__button--back" (click)="goToPageBack()">
+          <mat-icon>arrow_back</mat-icon>
+          <span>Regresar</span>
+        </button>
+        <button class="main__button--save" (click)="onSaveChanges()">
           <mat-icon>save</mat-icon>
           <span>Guardar Cambios</span>
         </button>

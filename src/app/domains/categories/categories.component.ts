@@ -10,6 +10,7 @@ import { AlertService } from '../shared/services/alert.service';
 import { CategoryAddModalComponent } from './components/category-add-modal/category-add-modal.component';
 import { CategoryEditModalComponent } from './components/category-edit-modal/category-edit-modal.component';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -28,6 +29,7 @@ export default class CategoriesComponent {
   private readonly dialog = inject(MatDialog);
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
+  private readonly router = inject(Router);
 
   categories = signal<Category[]>([]);
 
@@ -101,5 +103,9 @@ export default class CategoriesComponent {
         })
       }
     });
+  }
+
+  goToOrderCategoriesPage() {
+    this.router.navigate(["/orden-categorias"]);
   }
 }

@@ -23,11 +23,18 @@
       </div>
     </div>
     <div class="products-list main">
-      <span class="subtitle">Lista de Productos</span>
+      <div class="main__buttons">
+        <span class="subtitle">Lista de Productos</span>
+        <button class="btn" (click)="goToSortProductsPage()">
+          <mat-icon>drag_indicator</mat-icon>
+          <span>Ordenar</span>
+        </button>
+      </div>
       <div class="products-list__grid">
         @for (product of products(); track $index) {
         <div class="products-list__grid__item">
-          <app-product-card [product]="product" (addAdditional)="onAddAdditional($event)" (edit)="onEditProduct($event)" (delete)="onDeleteProduct($event)"></app-product-card>
+          <app-product-card [product]="product" (addAdditional)="onAddAdditional($event)" (edit)="onEditProduct($event)"
+            (delete)="onDeleteProduct($event)"></app-product-card>
         </div>
         }
       </div>

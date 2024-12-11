@@ -50,8 +50,23 @@
   }
 
   &__button {
-    margin-top: 2rem;
-    button {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0 0 auto;
+    gap: 2rem;
+
+    &--back {
+      display: flex;
+      align-items: center;
+      color: var(--black-color);
+      padding: 1rem 2rem;
+      background-color: var(--border-color);
+      border-radius: .5rem;
+      gap: 1rem;
+      margin-left: auto;
+    }
+
+    &--save {
       display: flex;
       align-items: center;
       color: var(--white-color);
