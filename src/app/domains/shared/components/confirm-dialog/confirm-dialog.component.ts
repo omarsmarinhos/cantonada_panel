@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -11,5 +11,17 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
   styleUrl: './confirm-dialog.component.scss'
 })
 export class ConfirmDialogComponent {
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) { }
+
+  private readonly dialogRef = inject(MatDialogRef<ConfirmDialogComponent>)
+  readonly data = inject<{
+    title?: string,
+    desc?: string,
+    action?: string,
+  }>(MAT_DIALOG_DATA);
+
+  title = this.data?.title ?? 'Confirmar eliminación';
+  desc = this.data?.desc ?? '¿Estás seguro de que deseas eliminar este elemento?';
+  action = this.data?.action ?? 'Eliminar';
+
+  constructor() { }
 }
