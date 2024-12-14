@@ -91,6 +91,25 @@
       }
     }
   }
+
+  &__filter {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 2rem;
+
+    @include m.tablet {
+      flex-direction: row;
+    }
+
+    &__search {
+      flex: 3;
+    }
+
+    &__sort {
+      flex: 1;
+    }
+  }
 }
 
 .categories {
@@ -141,6 +160,23 @@
 
     &__item {
       border-radius: .5rem;
+    }
+  }
+}
+
+.pagination {
+  width: fit-content;
+  margin: 2rem auto;
+}
+
+::ng-deep {
+  .my-input .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .products {
+    .mat-mdc-form-field-icon-suffix {
+      padding: 6px 8px 0 4px !important;
     }
   }
 }

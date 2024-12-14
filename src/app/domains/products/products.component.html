@@ -30,6 +30,28 @@
           <span>Ordenar</span>
         </button>
       </div>
+      <div class="main__filter">
+        <div class="main__filter__search">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <input type="search" matInput placeholder="Buscar por nombre o descripción" [(ngModel)]="searchQuery"
+              (keydown.enter)="onSearch()">
+            <button matIconSuffix (click)="onSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="main__filter__sort">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Ordenar por</mat-label>
+            <mat-select [(value)]="selectedOrder" (selectionChange)="onOrderChange()">
+              <mat-option>Ninguno</mat-option>
+                  <mat-option value="popular">Más populares</mat-option>
+                  <mat-option value="price_asc">Precio de menor a mayor</mat-option>
+                  <mat-option value="price_desc">Precio de mayor a menor</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
       <div class="products-list__grid">
         @for (product of products(); track $index) {
         <div class="products-list__grid__item">
@@ -37,6 +59,11 @@
             (delete)="onDeleteProduct($event)"></app-product-card>
         </div>
         }
+      </div>
+      <div class="pagination pagination--bottom">
+        <app-pagination [totalItems]="totalItems()" [itemsPerPage]="12" [currentPage]="currentPage"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
       </div>
     </div>
   </div>

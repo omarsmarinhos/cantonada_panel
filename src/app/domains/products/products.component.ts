@@ -15,6 +15,12 @@ import { ProductAdditionalComponent } from './components/product-additional/prod
 import { ProductAdditionalService } from '../shared/services/additional.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
 import { Router } from '@angular/router';
+import { PaginatedRequest } from '../shared/models/paginated-request.model';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { PaginationComponent } from "../customers/components/pagination/pagination.component";
 
 @Component({
   selector: 'app-products',
@@ -22,7 +28,12 @@ import { Router } from '@angular/router';
   imports: [
     MatIconModule,
     ProductCardComponent,
-    CapitalizePipe
+    CapitalizePipe,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatSelectModule,
+    PaginationComponent
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
@@ -41,6 +52,10 @@ export default class ProductsComponent {
   selectedCategory: string = 'Todos';
 
   products = signal<Product[]>([])
+  totalItems = signal(0);
+  selectedOrder: string = '';
+  currentPage: number = 1;
+  searchQuery: string = '';
 
   ngOnInit() {
     this.loadCategories();
@@ -60,18 +75,50 @@ export default class ProductsComponent {
 
   changeCategory(category: string) {
     this.selectedCategory = category;
+    this.searchQuery = '';
+    this.currentPage = 1;
     this.loadProducts();
   }
 
   loadProducts() {
-    this.productService.getProducts(this.selectedCategory).subscribe({
+    const request: PaginatedRequest = {
+      tCategoria: this.selectedCategory,
+      iPageNumber: this.currentPage,
+      iPageSize: 12,
+      tSort: this.selectedOrder,
+      tSearch: this.searchQuery
+    }
+    this.productService.getProducts(request).subscribe({
       next: (res) => {
-        this.products.set(res);
+        this.products.set(res.data);
+        this.totalItems.set(res.totalRecords);
       },
       error: (err) => {
         this.errorService.showError(err);
       }
     })
+  }
+
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
+    this.loadProducts();
+    const mainContainer = document.querySelector('.main-container');
+    if (mainContainer) {
+      mainContainer.scrollTo({
+        top: 100,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  onOrderChange() {
+    this.currentPage = 1;
+    this.loadProducts();
+  }
+
+  onSearch() {
+    this.currentPage = 1;
+    this.loadProducts();
   }
 
   onAddProduct() {
