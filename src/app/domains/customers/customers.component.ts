@@ -77,6 +77,13 @@ export default class CustomersComponent {
   onPageChange(newPage: number) {
     this.currentPage = newPage;
     this.loadCustomers();
+    const mainContainer = document.querySelector('.main-container');
+    if (mainContainer) {
+      mainContainer.scrollTo({
+        top: 100,
+        behavior: 'smooth'
+      });
+    }
   }
 
   onStateChange() {
