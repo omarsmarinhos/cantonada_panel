@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/Product.model';
 import { environment } from '../../../../environments/environment';
+import { PaginatedRequest } from '../models/paginated-request.model';
+import { PaginatedResponse } from '../models/paginated-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,11 @@ export class ProductService {
 
   constructor() { }
 
-  getProducts(tCategoria: string) {
+  getProducts(request: PaginatedRequest) {
+    return this.http.post<PaginatedResponse<Product[]>>(`${this.baseUrl}/Producto/Panel`, request);
+  }
+
+  getProductsByCategory(tCategoria: string) {
     return this.http.get<Product[]>(`${this.baseUrl}/Producto?tCategoria=${tCategoria}`);
   }
 
