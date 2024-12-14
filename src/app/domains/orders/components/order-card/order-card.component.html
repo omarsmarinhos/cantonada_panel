@@ -1,0 +1,87 @@
+<div class="order__card">
+  <div class="order__card__content">
+    <div class="order__card__header">
+      <div class="order__card__header__info">
+        <div class="order__card__header__customer">
+          <span>{{order.tNombreCliente | uppercase}}</span>
+          @if (order.tInfoAdicional) {
+          <mat-icon class="nota" [matTooltip]="order.tInfoAdicional" matTooltipClass="tooltip-blue">
+            message
+          </mat-icon>
+          }
+        </div>
+        <div class="order__card__header__order">
+          @if(order.tTipoEntrega === 'Entrega por delivery') {
+          <mat-icon style="color: rgb(215, 0, 0);">two_wheeler</mat-icon>
+          } @else {
+          <mat-icon style="color: rgb(0, 0, 178);">store</mat-icon>
+          }
+          <span>{{order.tTipoEntrega}}</span>
+        </div>
+      </div>
+      <span class="order__card__header__state">{{order.tEstado}}</span>
+    </div>
+    @if (order.tTipoEntrega === 'Entrega por delivery') {
+    <div class="order__card__location">
+      <mat-icon style="color: rgb(215, 0, 0);">location_on</mat-icon>
+      <span>{{order.tDireccion}}</span>
+    </div>
+    }
+    <div class="order__card__date">
+      <span>{{order.fFecha | date}}</span>
+      <span>{{ order.fFecha | date: 'h:mm a' }}</span>
+    </div>
+    <div class="separator"></div>
+    <div class="order__card__items">
+      <div>
+        <span class="order__card__item header">Items</span>
+        <span class="order__card__cant header">Cant</span>
+        <span class="order__card__price header">Precio</span>
+      </div>
+      @for (product of order.dPedido; track $index) {
+      <div [class.main-product]="!product.lAdicional" [class.additional-product]="product.lAdicional">
+        @if (product.lAdicional) {
+        <span class="order__card__item">--{{product.tNombre | capitalize}}</span>
+        }@else {
+        <div class="order__card__item item-nota">
+          <span>{{product.tNombre | capitalize}}</span>
+          @if (product.tNota) {
+          <mat-icon class="nota" [matTooltip]="product.tNota" matTooltipClass="tooltip-blue">
+            message
+          </mat-icon>
+          }
+        </div>
+        }
+        <span class="order__card__cant price">{{product.iCantidad}}</span>
+        <span class="order__card__price price">{{(product.dPrecio * product.iCantidad) | currency: 'S/ ': 'symbol':'2.2'
+          }}</span>
+      </div>
+      }
+    </div>
+    <div class="separator"></div>
+    <div class="order__card__resume">
+      @if (order.dPrecioDelivery > 0) {
+      <div>
+        <span>SubTotal</span>
+        <span class="price">{{order.dSubTotal | currency: 'S/ ': 'symbol':'2.2' }}</span>
+      </div>
+      <div>
+        <span>Delivery</span>
+        <span class="price">{{order.dPrecioDelivery | currency: 'S/ ': 'symbol':'2.2' }}</span>
+      </div>
+      }
+      <div>
+        <span>Total</span>
+        <span class="price total">{{order.dTotal | currency: 'S/ ': 'symbol':'2.2' }}</span>
+      </div>
+    </div>
+    <div class="order__card__actions">
+      <button class="order__card__actions__button order__card__actions__button--customer" (click)="openModalCustomerData(order)">
+        Datos del cliente
+      </button>
+      <button class="order__card__actions__button">
+
+      </button>
+    </div>
+  </div>
+</div>

@@ -31,11 +31,13 @@ body {
   margin: 0;
   font-size: 1.6rem;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
 }
 
 html {
   font-size: 62.5%;
   letter-spacing: 0.5px;
+  scroll-behavior: smooth;
 }
 
 button {
@@ -128,4 +130,9 @@ input[type="number"] {
 
 .center {
   text-align: center !important;
+}
+
+.tooltip-blue {
+  --mdc-plain-tooltip-container-color: var(--primary-color);
+  border-radius: 3px;
 }

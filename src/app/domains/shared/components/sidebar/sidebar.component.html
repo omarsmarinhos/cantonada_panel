@@ -16,6 +16,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="pedidos" routerLinkActive="active" class="nav-link">
+          <mat-icon>shopping_cart</mat-icon>
+          <span class="nav-text">Pedidos</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a (click)="openSideBar()" routerLink="promociones" routerLinkActive="active" class="nav-link">
           <mat-icon>local_offer</mat-icon>
           <span class="nav-text">Promociones</span>

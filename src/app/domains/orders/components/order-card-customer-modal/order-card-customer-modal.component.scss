@@ -1,0 +1,26 @@
+@use './../../../../../styles/mixins' as m;
+
+.row  {
+  display: flex;
+  flex-direction: column;
+
+  @include m.tablet {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  &__key {
+    width: 150px;
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+
+  &__value {
+    flex: 1;
+    font-size: 1.2rem;
+  }
+}
+
+.link {
+  align-items: start;
+}

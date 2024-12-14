@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{order.tNombreCliente}}</h2>
+<mat-dialog-content>
+  @if (order.tTipoDocumento) {
+  <div class="row">
+    <span class="row__key">Tipo de documento</span>
+    <span class="row__value">{{order.tTipoDocumento}}</span>
+  </div>
+  }
+  @if (order.tNroDocumento) {
+  <div class="row">
+    <span class="row__key">Nro. Documento</span>
+    <span class="row__value">{{order.tNroDocumento}}</span>
+  </div>
+  }
+  @if (order.tTelefono) {
+  <div class="row">
+    <span class="row__key">Teléfono</span>
+    <span class="row__value">{{order.tTelefono}}</span>
+  </div>
+  }
+  <div class="row">
+    <span class="row__key">Email</span>
+    <span class="row__value">{{order.tEmail}}</span>
+  </div>
+  @if (order.tDireccion) {
+  <div class="row">
+    <span class="row__key">Dirección</span>
+    <span class="row__value">{{order.tDireccion}}</span>
+  </div>
+  }
+  @if (order.tDireccionGoogle) {
+  <div class="row">
+    <span class="row__key">Dirección Google</span>
+    <span class="row__value">{{order.tDireccionGoogle}}</span>
+  </div>
+  }
+  @if (order.tLinkGoogleMaps) {
+  <div class="row link">
+    <span class="row__key">Enlace</span>
+    <button class="copy" (click)="copy()">
+      <mat-icon [cdkCopyToClipboard]="order.tLinkGoogleMaps">
+        content_copy
+      </mat-icon>
+    </button>
+
+  </div>
+  }
+</mat-dialog-content>

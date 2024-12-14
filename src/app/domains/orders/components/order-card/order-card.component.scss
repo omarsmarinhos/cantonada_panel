@@ -1,0 +1,152 @@
+.order__card {
+  box-sizing: border-box;
+  background-color: var(--white-color);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  font-size: 1.4rem;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 1rem 2rem;
+    gap: 1rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__state {
+      padding: 1rem 2rem;
+      background-color: rgb(233, 233, 153);
+      border-radius: .5rem;
+    }
+
+    &__customer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      span {
+        font-weight: 700;
+      }
+    }
+
+    &__order {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__date {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+  }
+
+  &__location {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    gap: 1rem;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      display: flex;
+    }
+  }
+
+  &__item {
+    flex: 1;
+  }
+
+  &__cant {
+    width: 40px;
+    text-align: right;
+    font-family: 'Courier', monospace;
+  }
+
+  &__price {
+    width: 100px;
+    text-align: right;
+  }
+
+  &__resume {
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1.5rem;
+
+    &__button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: .5rem;
+      font-weight: 700;
+
+      &--customer {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+.main-product {
+  margin-top: 1rem;
+
+  .order__card__item {
+    font-weight: 700;
+  }
+}
+
+.additional-product {
+  .order__card__item {
+    font-size: 1.2rem;
+  }
+}
+
+.separator {
+  border: 1px solid var(--border-color);
+}
+
+.header {
+  font-size: 1.2rem;
+  color: rgb(50, 50, 50);
+}
+
+.price {
+  font-family: 'Courier', monospace;
+}
+
+.total {
+  font-weight: 700;
+}
+
+.nota {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.item-nota {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

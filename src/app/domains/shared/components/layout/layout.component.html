@@ -6,7 +6,7 @@
   <button id="btn-menor" (click)="toggleSizeSideBarContainer()">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
-  <main class="main-container" cdkScrollable>
+  <main #mainContainer class="main-container" cdkScrollable>
     <div id="header-mobile">
       <a routerLink="/">PANEL</a>
       <button (click)="toggleSizeSideBarContainer()" mat-icon-button class="burger-button">

@@ -55,7 +55,7 @@ export default class OrderProductosComponent {
   }
 
   loadProducts(tCategoria: string) {
-    this.productService.getProducts(tCategoria).subscribe({
+    this.productService.getProductsByCategory(tCategoria).subscribe({
       next: (res) => {
         this.products.set(res);
       },

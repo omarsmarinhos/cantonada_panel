@@ -1,0 +1,19 @@
+<div class="orders">
+  <div class="orders__header">
+    <span class="title">PEDIDOS</span>
+  </div>
+  <div class="orders__content">
+    <div class="main">
+      <div class="main__buttons">
+
+      </div>
+      <div class="main__grid">
+        @for (order of orders(); track $index) {
+        <div class="main__card">
+          <app-order-card [order]="order"></app-order-card>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

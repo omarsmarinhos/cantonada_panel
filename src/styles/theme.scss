@@ -108,7 +108,7 @@ $my-theme: mat.m2-define-light-theme((color: (primary: $my-primary,
         accent: $my-primary,
         warn: $my-warn )));
 
-$custom-typography: mat.m2-define-typography-config($font-family: 'PingFang SC, sans-serif'
+$custom-typography: mat.m2-define-typography-config($font-family: 'Inter, sans-serif'
   );
 
 @include mat.core();

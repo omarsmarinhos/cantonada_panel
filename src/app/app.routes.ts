@@ -17,6 +17,10 @@ export const routes: Routes = [
         loadComponent: () => import('./domains/branches/branches.component')
       },
       {
+        path: 'pedidos',
+        loadComponent: () => import('./domains/orders/orders.component')
+      },
+      {
         path: 'promociones',
         loadComponent: () => import('./domains/promotions/promotions.component')
       },
