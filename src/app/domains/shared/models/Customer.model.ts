@@ -7,6 +7,7 @@ export interface Customer {
   tTelefono?: string;
   tEmail: string;
   lGoogle: boolean;
+  lEmail: boolean;
   fFechaRegistro: string;
   fUltimoAcceso?: string;
   tUidFirebase?: string;
