@@ -15,6 +15,9 @@ import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps'
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TimeService } from '../../../shared/services/promotion/time.service';
 
 @Component({
   selector: 'app-branch-edit-modal',
@@ -30,7 +33,9 @@ import { Subscription } from 'rxjs';
     MatIconModule,
     GoogleMap,
     MapAdvancedMarker,
-    MatGridListModule
+    MatGridListModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
   ],
   templateUrl: './branch-edit-modal.component.html',
   styleUrl: './branch-edit-modal.component.scss'
@@ -43,6 +48,7 @@ export class BranchEditModalComponent {
   private readonly branch = inject<Branch>(MAT_DIALOG_DATA);
   private readonly errorService = inject(ErrorHandlerService);
   private readonly configService = inject(ConfigurationService);
+  private readonly timeService = inject(TimeService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
@@ -66,14 +72,49 @@ export class BranchEditModalComponent {
   markerPosition = signal<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
   geocoder = inject(MapGeocoder);
 
+  times: string[] = [];
+  filteredStartTimes: string[] = [];
+  filteredEndTimes: string[] = [];
+
   constructor() {
     this.form = this.fb.group({
       iIdSucursal: [this.branch.iIdSucursal],
-      tNombre: [this.branch.tNombre, [Validators.required, Validators.pattern(/\S+/)]],
-      tDireccion: [this.branch.tDireccion, [Validators.required, Validators.pattern(/\S+/)]],
+      tNombre: [this.branch.tNombre, [
+        Validators.required,
+        Validators.pattern(/\S+/)
+      ]],
+      tDireccion: [this.branch.tDireccion, [
+        Validators.required,
+        Validators.pattern(/\S+/)
+      ]],
       tDireccionGoogle: [this.branch.tDireccionGoogle],
-      jLatLng: [this.branch.jLatLng, [Validators.required]],
-      iIdSucursalFast: [this.branch.iIdSucursalFast, [Validators.required, Validators.min(0)]]
+      jLatLng: [this.branch.jLatLng, [
+        Validators.required
+      ]],
+      iIdSucursalFast: [this.branch.iIdSucursalFast, [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      tRuc: [this.branch.tRuc, [
+        Validators.required,
+        Validators.pattern(/^\d{11}$/)
+      ]],
+      tRazonSocial: [this.branch.tRazonSocial, [
+        Validators.required
+      ]],
+      tTelefono: [this.branch.tTelefono, [
+        Validators.required,
+        Validators.pattern(/^\d{9}$/)
+      ]],
+      hHoraInicio: [this.timeService.convertTo12HourFormat(this.branch.hHoraInicio), [
+        Validators.required,
+        Validators.pattern(this.timeService.timePattern)
+      ]],
+      hHoraFin: [this.timeService.convertTo12HourFormat(this.branch.hHoraFin), [
+        Validators.required,
+        Validators.pattern(this.timeService.timePattern)
+      ]],
     });
     this.previewUrl = this.branch.tImagenUrl;
     this.markerPosition.set(JSON.parse(this.branch.jLatLng));
@@ -81,6 +122,7 @@ export class BranchEditModalComponent {
   }
 
   ngOnInit() {
+    this.generateTimes();
     this.loadConfigImagen();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       this.colspan3 = state.matches ? 4 : 12;
@@ -149,17 +191,45 @@ export class BranchEditModalComponent {
 
   onSubmit() {
     if (this.form.invalid) {
+      this.form.markAllAsTouched();
 
-      if (this.form.get('iIdSucursalFast')?.hasError('min')) {
-        this.alertService.showWarning("Solo números positivos.");
+      if (this.form.get('iIdSucursalFast')?.hasError('min') || this.form.get('iIdSucursalFast')?.hasError('pattern')) {
+        this.alertService.showWarning("EL Id de Fast debe ser solo números positivos.");
         return;
       }
 
-      this.alertService.showWarning("Debe llenar todos nombre.");
-      console.log(this.form.value)
+      const hasRucError = this.form.get("tRuc")?.hasError('pattern');
+      const hasTelefonoError = this.form.get("tTelefono")?.hasError('pattern');
+
+      if (hasRucError) {
+        this.alertService.showWarning("El ruc debe tener 11 dígitos.");
+        return;
+      }
+
+      if (hasTelefonoError) {
+        this.alertService.showWarning("El teléfono debe tener 9 dígitos.");
+        return;
+      }
+
+      this.alertService.showWarning("Debe llenar los campos.");
       return;
     }
 
+    const horaInicio = this.form.get('hHoraInicio')?.value;
+    const horaFin = this.form.get('hHoraFin')?.value;
+
+    const horaInicio24 = this.timeService.convertTo24HourFormat(horaInicio);
+    const horaFin24 = this.timeService.convertTo24HourFormat(horaFin);
+
+    if (horaFin24 <= horaInicio24) {
+      this.alertService.showWarning("La hora de fin no puede ser igual o menor a la hora de inicio.");
+      return;
+    }
+    
+    this.form.patchValue({
+      hHoraInicio: horaInicio24,
+      hHoraFin: horaFin24,
+    })
     const result = {
       ...this.form.value,
       imagen: this.selectedFile,
@@ -228,6 +298,23 @@ export class BranchEditModalComponent {
           this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition()));
         }
       }
+      );
+    }
+  }
+
+  generateTimes(): void {
+    this.times = this.timeService.generateTimes();
+  }
+
+  filterTimes(controlName: string): void {
+    const inputValue = this.form.get(controlName)?.value?.toLowerCase() || '';
+    if (controlName === 'hHoraInicio') {
+      this.filteredStartTimes = this.times.filter((time) =>
+        time.toLowerCase().includes(inputValue)
+      );
+    } else if (controlName === 'hHoraFin') {
+      this.filteredEndTimes = this.times.filter((time) =>
+        time.toLowerCase().includes(inputValue)
       );
     }
   }

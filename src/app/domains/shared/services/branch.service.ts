@@ -29,6 +29,11 @@ export class BranchService {
     formData.append('tDireccionGoogle', sucursalData.tDireccionGoogle);
     formData.append('jLatLng', sucursalData.jLatLng);
     formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
+    formData.append('tRuc', sucursalData.tRuc);
+    formData.append('tRazonSocial', sucursalData.tRazonSocial);
+    formData.append('tTelefono', sucursalData.tTelefono);
+    formData.append('hHoraInicio', sucursalData.hHoraInicio);
+    formData.append('hHoraFin', sucursalData.hHoraFin);
     return this.http.post<any>(`${this.baseUrl}/Sucursal`, formData);
   }
 
@@ -41,6 +46,11 @@ export class BranchService {
     formData.append('tDireccionGoogle', sucursalData.tDireccionGoogle);
     formData.append('jLatLng', sucursalData.jLatLng);
     formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
+    formData.append('tRuc', sucursalData.tRuc);
+    formData.append('tRazonSocial', sucursalData.tRazonSocial);
+    formData.append('tTelefono', sucursalData.tTelefono);
+    formData.append('hHoraInicio', sucursalData.hHoraInicio);
+    formData.append('hHoraFin', sucursalData.hHoraFin);
     if (sucursalData.imageChanged && sucursalData.imagen) {
       formData.append('imagen', sucursalData.imagen);
     }

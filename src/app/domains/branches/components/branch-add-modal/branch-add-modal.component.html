@@ -20,6 +20,56 @@
           <input matInput type="text" formControlName="tDireccion" (keydown.enter)="geocodeAddress()" maxlength="255">
         </mat-form-field>
       </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>RUC</mat-label>
+          <input matInput formControlName="tRuc" maxlength="20">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Razón Social</mat-label>
+          <input matInput formControlName="tRazonSocial" maxlength="100">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="tTelefono" maxlength="20">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Seleccionar hora</mat-label>
+          <input type="text" matInput [matAutocomplete]="startTimeAuto" formControlName="hHoraInicio"
+            (focus)="filterTimes('hHoraInicio')" (input)="filterTimes('hHoraInicio')" />
+          <mat-icon matSuffix>schedule</mat-icon>
+          <mat-autocomplete #startTimeAuto="matAutocomplete">
+            @for (time of filteredStartTimes; track $index) {
+            <mat-option [value]="time">
+              {{ time }}
+            </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Seleccionar hora</mat-label>
+          <input type="text" matInput [matAutocomplete]="endTimeAuto" formControlName="hHoraFin"
+            (focus)="filterTimes('hHoraFin')" (input)="filterTimes('hHoraFin')" />
+          <mat-icon matSuffix>schedule</mat-icon>
+          <mat-autocomplete #endTimeAuto="matAutocomplete">
+            @for (time of filteredEndTimes; track $index) {
+            <mat-option [value]="time">
+              {{ time }}
+            </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </mat-grid-tile>
     </mat-grid-list>
   </form>
 

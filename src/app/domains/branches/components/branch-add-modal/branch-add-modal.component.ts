@@ -14,10 +14,15 @@ import { GoogleMap, MapAdvancedMarker, MapGeocoder } from '@angular/google-maps'
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { TimeService } from '../../../shared/services/promotion/time.service';
 
 @Component({
   selector: 'app-branch-add-modal',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -29,7 +34,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatIconModule,
     GoogleMap,
     MapAdvancedMarker,
-    MatGridListModule
+    MatGridListModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
   ],
   templateUrl: './branch-add-modal.component.html',
   styleUrl: './branch-add-modal.component.scss'
@@ -41,6 +48,7 @@ export class BranchAddModalComponent {
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
   private readonly configService = inject(ConfigurationService);
+  private readonly timeService = inject(TimeService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
@@ -63,17 +71,31 @@ export class BranchAddModalComponent {
   markerPosition = signal<google.maps.LatLngLiteral>({ ...this.center() });
   geocoder = inject(MapGeocoder);
 
+  times: string[] = [];
+  filteredStartTimes: string[] = [];
+  filteredEndTimes: string[] = [];
+
   constructor() {
     this.form = this.fb.group({
       tNombre: ['', [Validators.required, Validators.pattern(/\S+/)]],
       tDireccion: ['', [Validators.required, Validators.pattern(/\S+/)]],
       tDireccionGoogle: [''],
       jLatLng: ['', [Validators.required]],
-      iIdSucursalFast: ['', [Validators.required, Validators.min(0)]],
+      iIdSucursalFast: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      tRuc: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
+      tRazonSocial: ['', [Validators.required]],
+      tTelefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
+      hHoraInicio: ['', [Validators.required, Validators.pattern(this.timeService.timePattern)]],
+      hHoraFin: ['', [Validators.required, Validators.pattern(this.timeService.timePattern)]],
     });
   }
 
   ngOnInit() {
+    this.generateTimes();
     this.loadConfigImagen();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       this.colspan3 = state.matches ? 4 : 12;
@@ -140,9 +162,29 @@ export class BranchAddModalComponent {
 
   onSubmit() {
     if (this.form.invalid) {
+      this.form.markAllAsTouched();
 
-      if (this.form.get('iIdSucursalFast')?.hasError('min')) {
-        this.alertService.showWarning("Solo números positivos.");
+      if (this.form.get('iIdSucursalFast')?.hasError('min') || this.form.get('iIdSucursalFast')?.hasError('pattern')) {
+        this.alertService.showWarning("EL Id de Fast debe ser solo números positivos.");
+        return;
+      }
+
+      const hasRucError = this.form.get("tRuc")?.hasError('pattern');
+      const hasTelefonoError = this.form.get("tTelefono")?.hasError('pattern');
+
+      if (hasRucError) {
+        this.alertService.showWarning("El ruc debe tener 11 dígitos.");
+        return;
+      }
+
+      if (hasTelefonoError) {
+        this.alertService.showWarning("El teléfono debe tener 9 dígitos.");
+        return;
+      }
+
+      const tDireccionGoogle = this.form.get('tDireccionGoogle')?.value;
+      if (!tDireccionGoogle) {
+        this.alertService.showWarning("Debe arrastrar el marcador en el mapa.");
         return;
       }
 
@@ -150,11 +192,25 @@ export class BranchAddModalComponent {
       return;
     }
 
+    const horaInicio = this.form.get('hHoraInicio')?.value;
+    const horaFin = this.form.get('hHoraFin')?.value;
+
+    const horaInicio24 = this.timeService.convertTo24HourFormat(horaInicio);
+    const horaFin24 = this.timeService.convertTo24HourFormat(horaFin);
+
+    if (horaFin24 <= horaInicio24) {
+      this.alertService.showWarning("La hora de fin no puede ser igual o menor a la hora de inicio.");
+      return;
+    }
+
     if (!this.selectedFile) {
       this.alertService.showWarning("Debe agregar una imagen.");
       return;
     }
-
+    this.form.patchValue({
+      hHoraInicio: horaInicio24,
+      hHoraFin: horaFin24,
+    })
     const result = {
       ...this.form.value,
       imagen: this.selectedFile
@@ -221,6 +277,23 @@ export class BranchAddModalComponent {
           this.form.get('jLatLng')?.setValue(JSON.stringify(this.markerPosition()));
         }
       }
+      );
+    }
+  }
+
+  generateTimes(): void {
+    this.times = this.timeService.generateTimes();
+  }
+
+  filterTimes(controlName: string): void {
+    const inputValue = this.form.get(controlName)?.value?.toLowerCase() || '';
+    if (controlName === 'hHoraInicio') {
+      this.filteredStartTimes = this.times.filter((time) =>
+        time.toLowerCase().includes(inputValue)
+      );
+    } else if (controlName === 'hHoraFin') {
+      this.filteredEndTimes = this.times.filter((time) =>
+        time.toLowerCase().includes(inputValue)
       );
     }
   }
