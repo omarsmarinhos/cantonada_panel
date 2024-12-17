@@ -28,17 +28,28 @@ export default class OrdersComponent {
   private readonly errorService = inject(ErrorHandlerService);
   private readonly websocketService = inject(WebsocketService);
   private readonly notificationSound = inject(NotificationSoundService);
-  private wsSubscription: Subscription | undefined;
+  private newOrderSubscription: Subscription | undefined;
+  private changeOrderStatusSubscription: Subscription | undefined;
 
   orders = signal<Order[]>([]);
 
   ngOnInit() {
     this.loadOrders();
-    this.wsSubscription = this.websocketService.onNewOrder().subscribe({
+    this.newOrderSubscription = this.websocketService.onNewOrder().subscribe({
       next: (data) => {
         console.log('Nuevo pedido recibido:', data);
         this.notificationSound.play();
         this.alertService.showSuccess("Nuevo Pedido Recibido.")
+        this.loadOrders();
+        console.log(this.websocketService.socketNewOrder.connected)
+        console.log(this.websocketService.socketChangeOrderStatus.connected)
+      }
+    });
+    this.changeOrderStatusSubscription = this.websocketService.onChangeOrderStatus().subscribe({
+      next: (data) => {
+        console.log('Pedido actualizado:', data);
+        this.notificationSound.play();
+        this.alertService.showSuccess("Se actualizo el estado de un pedido.")
         this.loadOrders();
       }
     });
@@ -56,8 +67,14 @@ export default class OrdersComponent {
   }
 
   ngOnDestroy() {
-    if (this.wsSubscription) {
-      this.wsSubscription.unsubscribe();
+    if (this.newOrderSubscription) {
+      this.websocketService.disconnectSocketNewOrder();
+      this.newOrderSubscription.unsubscribe();
+    }
+    if (this.changeOrderStatusSubscription) {
+      this.changeOrderStatusSubscription.unsubscribe();
+      this.websocketService.disconnectSocketChangeOrderStatus();
+
     }
   }
 }

@@ -8,25 +8,49 @@ import { Observable } from 'rxjs';
 })
 export class WebsocketService {
 
-  private readonly socket: Socket;
+   readonly socketNewOrder: Socket;
+   readonly socketChangeOrderStatus: Socket;
 
   constructor() {
-    this.socket = io(environment.wsUrl, {
+    this.socketNewOrder = io(environment.socketNewOrderUrl, {
       withCredentials: true
+    });
+    this.socketChangeOrderStatus = io(environment.socketChangeOrderStatusUrl, {
+      withCredentials: false,
+    });
+    this.socketChangeOrderStatus.emit('get-tienda-online', {
+      'groupId': 'tiendaonline-12345696321-542',
+      'iDPedido': 1,
+      'iEstado': 1,
+      'action': 'enviado'
     });
   }
 
   onNewOrder(): Observable<any> {
     return new Observable(observer => {
-      this.socket.on('newOrder', (data) => {
+      this.socketNewOrder.on('newOrder', (data) => {
         observer.next(data);
       });
     });
   }
 
-  disconnect() {
-    if (this.socket) {
-      this.socket.disconnect();
+  onChangeOrderStatus(): Observable<any> {
+    return new Observable(observer => {
+      this.socketChangeOrderStatus.on('sendTiendaOnline', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  disconnectSocketNewOrder() {
+    if (this.socketNewOrder) {
+      this.socketNewOrder.disconnect();
+    }
+  }
+
+  disconnectSocketChangeOrderStatus() {
+    if (this.socketChangeOrderStatus) {
+      this.socketChangeOrderStatus.disconnect();
     }
   }
 }
