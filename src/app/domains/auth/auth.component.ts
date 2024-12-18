@@ -78,7 +78,7 @@ export default class AuthComponent {
       next: (response) => {
         this.isLoading = false;
         this.alertService.showSuccess('Login exitoso.');
-        this.router.navigate(['/']);
+        this.authService.setUser(response);
       },
       error: (err) => {
         this.isLoading = false;

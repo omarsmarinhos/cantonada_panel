@@ -2,11 +2,13 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { AlertService } from '../domains/shared/services/alert.service';
+import { AuthService } from '../domains/shared/services/auth.service';
 
 export const privateGuard = (): CanActivateFn => {
   return () => {
     const router = inject(Router);
-    const token = localStorage.getItem('token');
+    const authService = inject(AuthService);
+    const token = authService.user()?.token;
     const alertService = inject(AlertService);
 
     if (token) {
@@ -26,7 +28,8 @@ export const privateGuard = (): CanActivateFn => {
 export const publicGuard = (): CanActivateFn => {
   return () => {
     const router = inject(Router);
-    const token = localStorage.getItem('token');
+    const authService = inject(AuthService);
+    const token = authService.user()?.token;
     if (token && !isTokenExpired(token)) {
       router.navigate(['/']);
       return false;

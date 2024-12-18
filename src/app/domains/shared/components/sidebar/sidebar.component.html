@@ -74,7 +74,7 @@
       <button class="btn-logout" [matMenuTriggerFor]="menu">
         <mat-icon>person_pin</mat-icon>
         <span class="profile-text">
-          {{ authService.getUsername() }}
+          {{ user()?.username }}
         </span>
       </button>
       <mat-menu #menu="matMenu">

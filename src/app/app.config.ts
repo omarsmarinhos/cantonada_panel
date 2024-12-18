@@ -9,6 +9,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es-PE';
 import { AuthInterceptor } from './core/auth.interceptor';
 import { WebsocketService } from './domains/shared/services/websocket.service';
+import { AUTH_INITIALIZER } from './core/auth-initializer.provider';
 registerLocaleData(localeEs, 'es-PE');
 
 export const appConfig: ApplicationConfig = {
@@ -33,6 +34,7 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true,
     },
-    WebsocketService
+    WebsocketService,
+    AUTH_INITIALIZER
   ]
 };

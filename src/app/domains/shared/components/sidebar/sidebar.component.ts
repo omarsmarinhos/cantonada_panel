@@ -25,6 +25,8 @@ export class SidebarComponent {
   private readonly router = inject(Router);
   readonly authService = inject(AuthService);
 
+  user = this.authService.user;
+
   isCollapsed = this.collapsedService.isCollapsed;
 
   toggleSidebar() {
