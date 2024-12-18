@@ -7,7 +7,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { registerLocaleData } from '@angular/common';
 
 import localeEs from '@angular/common/locales/es-PE';
-import { AuthInterceptor } from './auth.interceptor';
+import { AuthInterceptor } from './core/auth.interceptor';
 import { WebsocketService } from './domains/shared/services/websocket.service';
 registerLocaleData(localeEs, 'es-PE');
 
