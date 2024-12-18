@@ -103,12 +103,6 @@ export default class ProductsComponent {
     this.currentPage = newPage;
     this.loadProducts();
     const mainContainer = document.querySelector('.main-container');
-    if (mainContainer) {
-      mainContainer.scrollTo({
-        top: 100,
-        behavior: 'smooth'
-      });
-    }
   }
 
   onOrderChange() {

@@ -1,0 +1,115 @@
+<div class="users">
+  <div class="users__header">
+    <span class="title">USUARIOS</span>
+    <button (click)="onAdd()">
+      <mat-icon>add</mat-icon>
+      <span>Agregar</span>
+    </button>
+  </div>
+  <div class="users__content">
+    <div class="main">
+      <div class="main__header">
+        <div class="main__header__search">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <input type="search" matInput placeholder="Buscar por nombre o username" [(ngModel)]="searchQuery"
+              (keydown.enter)="onSearch()">
+            <button matIconSuffix (click)="onSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Ordenar por</mat-label>
+            <mat-select [(value)]="selectedSort" (selectionChange)="onSortChange()">
+              <mat-option>Ninguno</mat-option>
+              <mat-option value="rol">Rol</mat-option>
+              <mat-option value="sucursal">Sucursal</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Sucursal</mat-label>
+            <mat-select [(value)]="selectedBranch" (selectionChange)="onBranchChange()">
+              <mat-option>Todos</mat-option>
+              @for (branch of branches(); track $index) {
+              <mat-option [value]="branch.iIdSucursal">{{ branch.tNombre | capitalize }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="main__table table-responsive">
+        <table mat-table [dataSource]="dataSourceUsers()">
+          <ng-container matColumnDef="tNombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let element" class="nowrap">
+              {{ element.tNombre }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="tUsername">
+            <th mat-header-cell *matHeaderCellDef>Username</th>
+            <td mat-cell *matCellDef="let element">
+              {{element.tUsername}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="tRol">
+            <th mat-header-cell *matHeaderCellDef>Rol</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.tRol }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="tSucursal">
+            <th mat-header-cell *matHeaderCellDef>Sucursal</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.tSucursal ? element.tSucursal : 'Todas' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="lAcceso">
+            <th mat-header-cell *matHeaderCellDef class="center">Acceso</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="badge" [ngClass]="{
+                'badge-active': element.lAcceso,
+                'badge-inactive': !element.lAcceso
+              }">{{ element.lAcceso ? 'Si': 'No' }}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef class="center" style="width: 120px">Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="main__table__actions">
+                @if (element.lAcceso) {
+                <button class="main__table__actions__button main__table__actions__button--warn"
+                  (click)="onToggleAccess(element)" matTooltip="Quitar acceso">
+                  <mat-icon>block</mat-icon>
+                </button>
+                } @else {
+                <button class="main__table__actions__button main__table__actions__button--green"
+                  (click)="onToggleAccess(element)" matTooltip="Dar acceso">
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+                }
+                <button class="main__table__actions__button main__table__actions__button--edit"
+                  (click)="onEdit(element)" matTooltip="Editar">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="main__table__actions__button main__table__actions__button--delete"
+                  (click)="onDelete(element.iIdSucursal)" matTooltip="Eliminar">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      <div class="pagination pagination--bottom">
+        <app-pagination [totalItems]="totalItems()" [itemsPerPage]="12" [currentPage]="currentPage"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

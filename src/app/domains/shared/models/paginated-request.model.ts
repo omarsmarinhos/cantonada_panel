@@ -5,4 +5,5 @@ export interface PaginatedRequest {
     iPageSize: number;
     tSort?: string;
     tSearch?: string;
+    iIdSucursal?: number;
 }

@@ -58,6 +58,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="usuarios" routerLinkActive="active" class="nav-link">
+          <mat-icon>person</mat-icon>
+          <span class="nav-text">Usuarios</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a (click)="openSideBar()" routerLink="menu" routerLinkActive="active" class="nav-link">
           <mat-icon>list</mat-icon>
           <span class="nav-text">Menús</span>
@@ -72,7 +78,7 @@
     </ul>
     <div class="sidebar-profile">
       <button class="btn-logout" [matMenuTriggerFor]="menu">
-        <mat-icon>person_pin</mat-icon>
+        <mat-icon>person_outline</mat-icon>
         <span class="profile-text">
           {{ user()?.username }}
         </span>

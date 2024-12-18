@@ -5,7 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { AlertService } from '../shared/services/alert.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
 import { CustomerService } from '../shared/services/customer.service';
 import { Customer } from '../shared/models/Customer.model';
@@ -32,7 +31,6 @@ import { MatInputModule } from '@angular/material/input';
 })
 export default class CustomersComponent {
 
-  private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
   private readonly customerService = inject(CustomerService)
 
@@ -79,13 +77,6 @@ export default class CustomersComponent {
   onPageChange(newPage: number) {
     this.currentPage = newPage;
     this.loadCustomers();
-    const mainContainer = document.querySelector('.main-container');
-    if (mainContainer) {
-      mainContainer.scrollTo({
-        top: 100,
-        behavior: 'smooth'
-      });
-    }
   }
 
   onStateChange() {
