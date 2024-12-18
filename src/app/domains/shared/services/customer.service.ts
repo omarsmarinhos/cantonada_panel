@@ -16,7 +16,7 @@ export class CustomerService {
   constructor() { }
 
   getCustomers(request: PaginatedRequest) {
-    return this.http.post<PaginatedResponse<Customer[]>>(`${this.baseUrl}/Usuario`, request);
+    return this.http.post<PaginatedResponse<Customer[]>>(`${this.baseUrl}/Cliente`, request);
   }
 
 }
