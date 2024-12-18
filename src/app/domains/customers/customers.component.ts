@@ -40,7 +40,7 @@ export default class CustomersComponent {
   dataSourceCustomers = signal<MatTableDataSource<Customer>>(
     new MatTableDataSource<Customer>()
   );
-  displayedColumns: string[] = ['tNombreCompleto', 'tTelefono', 'tEmail', 'proveedores', 'fFechaRegistro', 'fUltimoAcceso', 'tEstado'];
+  displayedColumns: string[] = ['documento', 'tNombreCompleto', 'tTelefono', 'tEmail', 'proveedores', 'fFechaRegistro', 'fUltimoAcceso', 'tEstado'];
 
   totalItems = signal(0);
   selectedState: string = '';
