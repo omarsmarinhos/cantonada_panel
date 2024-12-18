@@ -26,7 +26,7 @@ import { MatInputModule } from '@angular/material/input';
     CapitalizePipe,
     PaginationComponent,
     MatInputModule
-],
+  ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss'
 })
@@ -40,10 +40,11 @@ export default class CustomersComponent {
   dataSourceCustomers = signal<MatTableDataSource<Customer>>(
     new MatTableDataSource<Customer>()
   );
-  displayedColumns: string[] = ['documento', 'tNombreCompleto', 'tTelefono', 'tEmail', 'proveedores', 'fFechaRegistro', 'fUltimoAcceso', 'tEstado'];
+  displayedColumns: string[] = ['tTipoDocumento', 'tNroDocumento', 'tNombreCompleto', 'tTelefono', 'tEmail', 'proveedores', 'fFechaRegistro', 'fUltimoAcceso', 'tEstado'];
 
   totalItems = signal(0);
   selectedState: string = '';
+  selectedSort: string = '';
   searchQuery: string = '';
   currentPage: number = 1;
 
@@ -63,6 +64,7 @@ export default class CustomersComponent {
       iPageSize: 15,
       tEstado: this.selectedState,
       tSearch: this.searchQuery,
+      tSort: this.selectedSort
     }).subscribe({
       next: (res) => {
         this.customers.set(res.data);
@@ -87,6 +89,11 @@ export default class CustomersComponent {
   }
 
   onStateChange() {
+    this.searchQuery = '';
+    this.loadCustomers();
+  }
+
+  onSortChange() {
     this.searchQuery = '';
     this.loadCustomers();
   }
