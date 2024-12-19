@@ -10,6 +10,7 @@ export class WebsocketService {
 
    readonly socketNewOrder: Socket;
    readonly socketChangeOrderStatus: Socket;
+   socketChangeOrderStatusInit = false;
 
   constructor() {
     this.socketNewOrder = io(environment.socketNewOrderUrl, {

@@ -19,6 +19,10 @@ export class UserService {
     return this.http.post<PaginatedResponse<UserResponse[]>>(`${this.baseUrl}/Usuario`, request);
   }
 
+  addUser() {
+
+  }
+
   delete(iIdSucursal: number) {
     return this.http.delete<any>(`${this.baseUrl}/Usuario/${iIdSucursal}`);
   }
