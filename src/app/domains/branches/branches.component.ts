@@ -36,8 +36,8 @@ export default class BranchesComponent {
 
   branches = signal<Branch[]>([]);
   isSorting: boolean = false;
-  isLoadingToggle: boolean = true;
-  idBranchLoading: number = 5;
+  isLoadingToggle: boolean = false;
+  idBranchLoading: number = 0;
 
   ngOnInit() {
     this.loadBranches();
