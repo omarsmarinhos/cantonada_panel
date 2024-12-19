@@ -37,8 +37,8 @@ export class BranchService {
     formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
     formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
     formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
-    formData.append('iIdSerieBoleta', sucursalData.iIdSerieBoleta);
-    formData.append('iIdSerieFactura', sucursalData.iIdSerieFactura);
+    formData.append('tSerieBoleta', sucursalData.tSerieBoleta);
+    formData.append('tSerieFactura', sucursalData.tSerieFactura);
     return this.http.post<any>(`${this.baseUrl}/Sucursal`, formData);
   }
 
@@ -59,8 +59,8 @@ export class BranchService {
     formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
     formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
     formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
-    formData.append('iIdSerieBoleta', sucursalData.iIdSerieBoleta);
-    formData.append('iIdSerieFactura', sucursalData.iIdSerieFactura);
+    formData.append('tSerieBoleta', sucursalData.tSerieBoleta);
+    formData.append('tSerieFactura', sucursalData.tSerieFactura);
     if (sucursalData.imageChanged && sucursalData.imagen) {
       formData.append('imagen', sucursalData.imagen);
     }

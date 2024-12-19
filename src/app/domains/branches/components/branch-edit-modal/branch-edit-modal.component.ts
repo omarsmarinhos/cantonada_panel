@@ -129,15 +129,11 @@ export class BranchEditModalComponent {
         Validators.min(0),
         Validators.pattern(/^\d+$/)
       ]],
-      iIdSerieBoleta: [this.branch.iIdSerieBoleta, [
+      tSerieBoleta: [this.branch.tSerieBoleta, [
         Validators.required,
-        Validators.min(0),
-        Validators.pattern(/^\d+$/)
       ]],
-      iIdSerieFactura: [this.branch.iIdSerieFactura, [
+      tSerieFactura: [this.branch.tSerieFactura, [
         Validators.required,
-        Validators.min(0),
-        Validators.pattern(/^\d+$/)
       ]],
     });
     this.previewUrl = this.branch.tImagenUrl;
@@ -261,7 +257,6 @@ export class BranchEditModalComponent {
       imagen: this.selectedFile,
       imageChanged: this.imageChanged,
     }
-    console.log(result);
     this.dialogRef.close(result);
   }
 

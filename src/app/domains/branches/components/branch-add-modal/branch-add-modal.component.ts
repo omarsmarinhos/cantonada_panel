@@ -105,15 +105,11 @@ export class BranchAddModalComponent {
         Validators.min(0),
         Validators.pattern(/^\d+$/)
       ]],
-      iIdSerieBoleta: ['', [
-        Validators.required,
-        Validators.min(0),
-        Validators.pattern(/^\d+$/)
+      tSerieBoleta: ['', [
+        Validators.required
       ]],
-      iIdSerieFactura: ['', [
-        Validators.required,
-        Validators.min(0),
-        Validators.pattern(/^\d+$/)
+      tSerieFactura: ['', [
+        Validators.required
       ]],
     });
   }
