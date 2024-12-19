@@ -25,8 +25,11 @@
       <div class="main__grid" cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)">
         @for (branch of branches(); track $index) {
         <div class="main__card" cdkDrag [cdkDragDisabled]="!isSorting" [class.drag-enabled]="isSorting">
-          <app-branch-card [branch]="branch" (edit)="onEditBranch($event)"
-            (delete)="onDeleteBranch($event)" (toggle)="onToggleStore($event)"></app-branch-card>
+          <app-branch-card [branch]="branch" (edit)="onEditBranch($event)" (delete)="onDeleteBranch($event)"
+            (toggle)="onToggleStore($event)"></app-branch-card>
+          @if (isLoadingToggle && branch.iIdSucursal === idBranchLoading) {
+          <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
+          }
         </div>
         }
       </div>

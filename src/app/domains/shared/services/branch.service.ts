@@ -64,7 +64,9 @@ export class BranchService {
   toggleStore(branch: Branch) {
     return this.http.put<any>(`${this.baseUrl}/Sucursal/Disponibilidad`, {
       iIdSucursal: branch.iIdSucursal,
-      lAbierto: !branch.lAbierto
+      lAbierto: !branch.lAbierto,
+      tRuc: branch.tRuc,
+      iIdSucursalFast: branch.iIdSucursalFast
     });
   }
 
