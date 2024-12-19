@@ -4,12 +4,6 @@
     <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
-          <mat-label>Id Sucursal Fast</mat-label>
-          <input matInput formControlName="iIdSucursalFast" maxlength="100">
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile [colspan]="colspan3">
-        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Nombre</mat-label>
           <input matInput formControlName="tNombre" maxlength="100">
         </mat-form-field>
@@ -68,6 +62,43 @@
             </mat-option>
             }
           </mat-autocomplete>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+      <mat-grid-tile [colspan]="colspanId">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Id Sucursal Fast</mat-label>
+          <input matInput formControlName="iIdSucursalFast" maxlength="10">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspanBtn">
+        <button class="btn-sync" matTooltip="Sincronizar con Fast">
+          <mat-icon>sync</mat-icon>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Id Formato Orden Fast</mat-label>
+          <input matInput formControlName="iIdFormatoOrden" maxlength="10">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Id Formato Anulación Fast</mat-label>
+          <input matInput formControlName="iIdFormatoAnulacion" maxlength="10">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Id Serie Boleta Fast</mat-label>
+          <input matInput formControlName="iIdSerieBoleta" maxlength="10">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Id Serie Facturación Fast</mat-label>
+          <input matInput formControlName="iIdSerieFactura" maxlength="10">
         </mat-form-field>
       </mat-grid-tile>
     </mat-grid-list>

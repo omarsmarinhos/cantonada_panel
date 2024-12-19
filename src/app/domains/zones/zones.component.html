@@ -1,6 +1,6 @@
 <div class="zones">
   <div class="zones__header">
-    <span class="title">Zonas para {{ branch.tNombre | capitalize }}</span>
+    <span class="title">Zonas para {{ branch?.tNombre! | capitalize }}</span>
     <button (click)="onAddZone()">
       <mat-icon>add</mat-icon>
       <span>Agregar</span>

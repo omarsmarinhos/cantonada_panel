@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TimeService } from '../../../shared/services/promotion/time.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-branch-edit-modal',
@@ -36,6 +37,7 @@ import { TimeService } from '../../../shared/services/promotion/time.service';
     MatGridListModule,
     MatDatepickerModule,
     MatAutocompleteModule,
+    MatTooltipModule
   ],
   templateUrl: './branch-edit-modal.component.html',
   styleUrl: './branch-edit-modal.component.scss'
@@ -54,6 +56,8 @@ export class BranchEditModalComponent {
 
   form: FormGroup;
   colspan3: number = 12;
+  colspanId: number = 10;
+  colspanBtn: number = 2;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   imageChanged: boolean = false;
@@ -91,11 +95,6 @@ export class BranchEditModalComponent {
       jLatLng: [this.branch.jLatLng, [
         Validators.required
       ]],
-      iIdSucursalFast: [this.branch.iIdSucursalFast, [
-        Validators.required,
-        Validators.min(0),
-        Validators.pattern(/^\d+$/)
-      ]],
       tRuc: [this.branch.tRuc, [
         Validators.required,
         Validators.pattern(/^\d{11}$/)
@@ -115,6 +114,31 @@ export class BranchEditModalComponent {
         Validators.required,
         Validators.pattern(this.timeService.timePattern)
       ]],
+      iIdSucursalFast: [this.branch.iIdSucursalFast, [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdFormatoOrden: [this.branch.iIdFormatoOrden, [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdFormatoAnulacion: [this.branch.iIdFormatoAnulacion, [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdSerieBoleta: [this.branch.iIdSerieBoleta, [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdSerieFactura: [this.branch.iIdSerieFactura, [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
     });
     this.previewUrl = this.branch.tImagenUrl;
     this.markerPosition.set(JSON.parse(this.branch.jLatLng));
@@ -126,6 +150,8 @@ export class BranchEditModalComponent {
     this.loadConfigImagen();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       this.colspan3 = state.matches ? 4 : 12;
+      this.colspanId = state.matches ? 3 : 9;
+      this.colspanBtn = state.matches ? 1 : 3;
     });
   }
 
@@ -211,7 +237,7 @@ export class BranchEditModalComponent {
         return;
       }
 
-      this.alertService.showWarning("Debe llenar los campos.");
+      this.alertService.showWarning("Debe corregir los campos.");
       return;
     }
 

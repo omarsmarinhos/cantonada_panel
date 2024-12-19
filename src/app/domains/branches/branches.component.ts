@@ -11,7 +11,7 @@ import { BranchEditModalComponent } from './components/branch-edit-modal/branch-
 import { BranchAddModalComponent } from './components/branch-add-modal/branch-add-modal.component';
 import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-branches',

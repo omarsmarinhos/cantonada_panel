@@ -136,3 +136,11 @@ input[type="number"] {
   --mdc-plain-tooltip-container-color: var(--primary-color);
   border-radius: 3px;
 }
+
+.btn-sync {
+  border-radius: .5rem;
+  color: var(--white-color);
+  background-color: var(--primary-color);
+  width: 5.5rem;
+  height: 5rem;
+}

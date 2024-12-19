@@ -18,6 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { TimeService } from '../../../shared/services/promotion/time.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-branch-add-modal',
@@ -37,6 +38,7 @@ import { TimeService } from '../../../shared/services/promotion/time.service';
     MatGridListModule,
     MatDatepickerModule,
     MatAutocompleteModule,
+    MatTooltipModule
   ],
   templateUrl: './branch-add-modal.component.html',
   styleUrl: './branch-add-modal.component.scss'
@@ -54,6 +56,8 @@ export class BranchAddModalComponent {
 
   form: FormGroup;
   colspan3: number = 12;
+  colspanId: number = 10;
+  colspanBtn: number = 2;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   configImagen: ConfigImagen = {
@@ -81,16 +85,36 @@ export class BranchAddModalComponent {
       tDireccion: ['', [Validators.required, Validators.pattern(/\S+/)]],
       tDireccionGoogle: [''],
       jLatLng: ['', [Validators.required]],
-      iIdSucursalFast: ['', [
-        Validators.required,
-        Validators.min(0),
-        Validators.pattern(/^\d+$/)
-      ]],
       tRuc: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
       tRazonSocial: ['', [Validators.required]],
       tTelefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
       hHoraInicio: ['', [Validators.required, Validators.pattern(this.timeService.timePattern)]],
       hHoraFin: ['', [Validators.required, Validators.pattern(this.timeService.timePattern)]],
+      iIdSucursalFast: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdFormatoOrden: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdFormatoAnulacion: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdSerieBoleta: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
+      iIdSerieFactura: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.pattern(/^\d+$/)
+      ]],
     });
   }
 
@@ -99,6 +123,8 @@ export class BranchAddModalComponent {
     this.loadConfigImagen();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       this.colspan3 = state.matches ? 4 : 12;
+      this.colspanId = state.matches ? 3 : 9;
+      this.colspanBtn = state.matches ? 1 : 3;
     });
   }
 
@@ -188,7 +214,7 @@ export class BranchAddModalComponent {
         return;
       }
 
-      this.alertService.showWarning("Debe llenar los campos.");
+      this.alertService.showWarning("Debe corregir los campos.");
       return;
     }
 

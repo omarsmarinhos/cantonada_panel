@@ -28,12 +28,17 @@ export class BranchService {
     formData.append('tDireccion', sucursalData.tDireccion);
     formData.append('tDireccionGoogle', sucursalData.tDireccionGoogle);
     formData.append('jLatLng', sucursalData.jLatLng);
-    formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
     formData.append('tRuc', sucursalData.tRuc);
     formData.append('tRazonSocial', sucursalData.tRazonSocial);
     formData.append('tTelefono', sucursalData.tTelefono);
     formData.append('hHoraInicio', sucursalData.hHoraInicio);
     formData.append('hHoraFin', sucursalData.hHoraFin);
+    //FAST
+    formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
+    formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
+    formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
+    formData.append('iIdSerieBoleta', sucursalData.iIdSerieBoleta);
+    formData.append('iIdSerieFactura', sucursalData.iIdSerieFactura);
     return this.http.post<any>(`${this.baseUrl}/Sucursal`, formData);
   }
 
@@ -45,12 +50,17 @@ export class BranchService {
     formData.append('imageChanged', String(sucursalData.imageChanged));
     formData.append('tDireccionGoogle', sucursalData.tDireccionGoogle);
     formData.append('jLatLng', sucursalData.jLatLng);
-    formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
     formData.append('tRuc', sucursalData.tRuc);
     formData.append('tRazonSocial', sucursalData.tRazonSocial);
     formData.append('tTelefono', sucursalData.tTelefono);
     formData.append('hHoraInicio', sucursalData.hHoraInicio);
     formData.append('hHoraFin', sucursalData.hHoraFin);
+    //FAST
+    formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
+    formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
+    formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
+    formData.append('iIdSerieBoleta', sucursalData.iIdSerieBoleta);
+    formData.append('iIdSerieFactura', sucursalData.iIdSerieFactura);
     if (sucursalData.imageChanged && sucursalData.imagen) {
       formData.append('imagen', sucursalData.imagen);
     }

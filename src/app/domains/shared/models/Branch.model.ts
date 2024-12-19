@@ -5,11 +5,16 @@ export interface Branch {
     tDireccion: string;
     tDireccionGoogle: string;
     jLatLng: string;
-    iIdSucursalFast: number;
     lAbierto: boolean;
     tRuc: string;
     tTelefono: string;
     hHoraInicio: string;
     hHoraFin: string;
     tRazonSocial: string;
+    //FAST
+    iIdSucursalFast: number;
+    iIdFormatoOrden: number;
+    iIdFormatoAnulacion: number;
+    iIdSerieBoleta: number;
+    iIdSerieFactura: number;
 }

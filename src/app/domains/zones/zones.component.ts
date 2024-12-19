@@ -52,21 +52,7 @@ export default class ZonesComponent {
       JSON.parse(zone.jPoligono)
     )
   );
-  branch: Branch = {
-    iIdSucursal: 0,
-    tNombre: '',
-    tDireccion: '',
-    tDireccionGoogle: '',
-    tImagenUrl: '',
-    jLatLng: '',
-    iIdSucursalFast: 0,
-    lAbierto: false,
-    tRuc: '',
-    tTelefono: '',
-    hHoraInicio: '',
-    hHoraFin: '',
-    tRazonSocial: ''
-  };
+  branch: Branch | undefined;
   dataSourceZones = signal<MatTableDataSource<Zone>>(
     new MatTableDataSource<Zone>()
   );
