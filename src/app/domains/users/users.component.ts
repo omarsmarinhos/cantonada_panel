@@ -17,6 +17,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '../shared/services/alert.service';
+import { UserAddModalComponent } from './components/user-add-modal/user-add-modal.component';
+import { UserEditModalComponent } from './components/user-edit-modal/user-edit-modal.component';
+import { Role } from '../shared/models/role.model';
 
 @Component({
   selector: 'app-users',
@@ -57,6 +60,7 @@ export default class UsersComponent {
   currentPage: number = 1;
 
   branches = signal<Branch[]>([]);
+  roles = signal<Role[]>([]);
 
   constructor() {
     effect(() => {
@@ -66,6 +70,7 @@ export default class UsersComponent {
 
   ngOnInit() {
     this.loadBranches();
+    this.loadRoles();
     this.loadUsers();
   }
 
@@ -73,6 +78,17 @@ export default class UsersComponent {
     this.branchService.getSucursal().subscribe({
       next: (res) => {
         this.branches.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
+    });
+  }
+
+  loadRoles() {
+    this.userService.getRoles().subscribe({
+      next: (res) => {
+        this.roles.set(res);
       },
       error: (err) => {
         this.errorService.showError(err);
@@ -99,11 +115,36 @@ export default class UsersComponent {
   }
 
   onAdd() {
+    const dialogRef = this.dialog.open(UserAddModalComponent, {
+      width: '1100px',
+      data: {
+        branches: this.branches(),
+        roles: this.roles(),
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.loadUsers();
+      }
+    })
   }
 
   onEdit(user: UserResponse) {
+    const dialogRef = this.dialog.open(UserEditModalComponent, {
+      width: '1100px',
+      data: {
+        branches: this.branches(),
+        roles: this.roles(),
+        user: user
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.loadUsers();
+      }
+    })
   }
 
   onToggleAccess(user: UserResponse) {
@@ -138,7 +179,7 @@ export default class UsersComponent {
         this.userService.delete(iIdUser).subscribe({
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
-            this.loadBranches();
+            this.loadUsers();
           },
           error: (err) => {
             this.errorService.showError(err);

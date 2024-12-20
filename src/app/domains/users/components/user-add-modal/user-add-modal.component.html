@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Agregar un Usuario</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="my-form">
+    <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="tNombre" maxlength="100">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="tUsername" maxlength="255">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="tPassword" maxlength="255">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="iIdRol">
+            @for (role of roles(); track role.iIdRol) {
+            <mat-option [value]="role.iIdRol">{{ role.tNombre| capitalize }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="colspan3">
+        <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+          <mat-label>Sucursal</mat-label>
+          <mat-select formControlName="iIdSucursal">
+            @for (branch of branches(); track branch.iIdSucursal) {
+            <mat-option [value]="branch.iIdSucursal">{{ branch.tNombre| capitalize }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions">
+  <button class="btn-modal cancel" (click)="onCancel()">Cancelar</button>
+  <button class="btn-modal add" (click)="onSubmit()">Agregar</button>
+</mat-dialog-actions>

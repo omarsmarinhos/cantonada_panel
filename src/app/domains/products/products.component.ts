@@ -102,7 +102,6 @@ export default class ProductsComponent {
   onPageChange(newPage: number) {
     this.currentPage = newPage;
     this.loadProducts();
-    const mainContainer = document.querySelector('.main-container');
   }
 
   onOrderChange() {

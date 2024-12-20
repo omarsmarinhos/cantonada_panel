@@ -1,0 +1,20 @@
+@use './../../../../../styles/modal';
+@use './../../../../../styles/mixins' as m;
+
+::ng-deep {
+  .my-form .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+form {
+  margin-top: 0.75rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.actions {
+  padding: 3rem 2rem 1rem 2rem;
+}

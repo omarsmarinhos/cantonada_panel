@@ -4,6 +4,8 @@ import { environment } from '../../../../environments/environment';
 import { PaginatedRequest } from '../models/paginated-request.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
 import { UserResponse } from '../models/user-response.model';
+import { UserRequest } from '../models/user-request.model';
+import { Role } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +18,23 @@ export class UserService {
   constructor() { }
 
   getUsers(request: PaginatedRequest) {
-    return this.http.post<PaginatedResponse<UserResponse[]>>(`${this.baseUrl}/Usuario`, request);
+    return this.http.post<PaginatedResponse<UserResponse[]>>(`${this.baseUrl}/Usuario/Paginado`, request);
   }
 
-  addUser() {
-
+  getRoles() {
+    return this.http.get<Role[]>(`${this.baseUrl}/Usuario/Roles`)
   }
 
-  delete(iIdSucursal: number) {
-    return this.http.delete<any>(`${this.baseUrl}/Usuario/${iIdSucursal}`);
+  addUser(request: UserRequest) {
+    return this.http.post<any>(`${this.baseUrl}/Usuario`, request);
+  }
+
+  editUser(request: UserRequest) {
+    return this.http.put<any>(`${this.baseUrl}/Usuario`, request);
+  }
+
+  delete(iIdUsuario: number) {
+    return this.http.delete<any>(`${this.baseUrl}/Usuario/${iIdUsuario}`);
   }
 
   toggleAccess(user: UserResponse) {
