@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, CanMatchFn, Route, Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { AlertService } from '../domains/shared/services/alert.service';
 import { AuthService } from '../domains/shared/services/auth.service';
@@ -39,7 +39,39 @@ export const publicGuard = (): CanActivateFn => {
   };
 };
 
+export const adminGuard = (allowedRoles: string[]): CanMatchFn => {
+  return () => {
+    console.log("adminGuard")
+    const router = inject(Router);
+    const authService = inject(AuthService);
+    const alertService = inject(AlertService);
+    const token = authService.user()?.token;
+    if (token) {
+      if (isTokenExpired(token)) {
+        alertService.showWarning("Su tiempo de sesión ha expirado.")
+        router.navigate(['/auth']);
+        return false;
+      }
 
+      if (!allowedRoles) {
+        console.error('No se encontraron roles permitidos en la ruta.');
+        return false;
+      }
+
+      const userRole = authService.user()?.rol;
+
+      if (!allowedRoles.includes(userRole!)) {
+        router.navigate(['/']);
+        return false;
+      }
+
+      return true;
+    }
+
+    router.navigate(['/auth']);
+    return false;
+  };
+};
 
 const isTokenExpired = (token: string): boolean => {
   try {

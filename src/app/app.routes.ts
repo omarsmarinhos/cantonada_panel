@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import LayoutComponent from './domains/shared/components/layout/layout.component';
-import { privateGuard, publicGuard } from './core/auth.guard';
+import { adminGuard, privateGuard, publicGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,51 +15,63 @@ export const routes: Routes = [
     children: [
       {
         path: 'sucursales',
-        loadComponent: () => import('./domains/branches/branches.component')
+        loadComponent: () => import('./domains/branches/branches.component'),
+        canMatch: [adminGuard(["Admin", "User"])]
       },
       {
         path: 'pedidos',
-        loadComponent: () => import('./domains/orders/orders.component')
+        loadComponent: () => import('./domains/orders/orders.component'),
+        canMatch: [adminGuard(["Admin", "User"])]
       },
       {
         path: 'promociones',
-        loadComponent: () => import('./domains/promotions/promotions.component')
+        loadComponent: () => import('./domains/promotions/promotions.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'zonas/:id',
-        loadComponent: () => import('./domains/zones/zones.component')
+        loadComponent: () => import('./domains/zones/zones.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'categorias',
-        loadComponent: () => import('./domains/categories/categories.component')
+        loadComponent: () => import('./domains/categories/categories.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'orden-categorias',
-        loadComponent: () => import('./domains/order-categories/order-categories.component')
+        loadComponent: () => import('./domains/order-categories/order-categories.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'productos',
-        loadComponent: () => import('./domains/products/products.component')
+        loadComponent: () => import('./domains/products/products.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'orden-productos',
-        loadComponent: () => import('./domains/order-productos/order-productos.component')
+        loadComponent: () => import('./domains/order-productos/order-productos.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'clientes',
-        loadComponent: () => import('./domains/customers/customers.component')
+        loadComponent: () => import('./domains/customers/customers.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'usuarios',
-        loadComponent: () => import('./domains/users/users.component')
+        loadComponent: () => import('./domains/users/users.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'menu',
-        loadComponent: () => import('./domains/menus/menus.component')
+        loadComponent: () => import('./domains/menus/menus.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: 'configuracion',
-        loadComponent: () => import('./domains/configurations/configurations.component')
+        loadComponent: () => import('./domains/configurations/configurations.component'),
+        canMatch: [adminGuard(["Admin"])]
       },
       {
         path: '**',

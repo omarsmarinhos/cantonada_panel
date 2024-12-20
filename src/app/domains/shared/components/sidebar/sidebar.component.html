@@ -21,66 +21,68 @@
           <span class="nav-text">Pedidos</span>
         </a>
       </li>
+      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="promociones" routerLinkActive="active" class="nav-link">
           <mat-icon>local_offer</mat-icon>
           <span class="nav-text">Promociones</span>
         </a>
       </li>
+      }
+      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="categorias" routerLinkActive="active" class="nav-link">
           <mat-icon>category</mat-icon>
           <span class="nav-text">Categorías</span>
         </a>
       </li>
-      <!-- <li class="nav-item">
-        <a (click)="openSideBar()" routerLink="orden-categorias" routerLinkActive="active" class="nav-link">
-          <mat-icon>drag_indicator</mat-icon>
-          <span class="nav-text">Ordenar Categorías</span>
-        </a>
-      </li> -->
+      }
+      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="productos" routerLinkActive="active" class="nav-link">
           <mat-icon>shopping_bag</mat-icon>
           <span class="nav-text">Productos</span>
         </a>
       </li>
-      <!-- <li class="nav-item">
-        <a (click)="openSideBar()" routerLink="orden-productos" routerLinkActive="active" class="nav-link">
-          <mat-icon>drag_indicator</mat-icon>
-          <span class="nav-text">Ordenar Productos</span>
-        </a>
-      </li> -->
+      }
+      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="clientes" routerLinkActive="active" class="nav-link">
           <mat-icon>people</mat-icon>
           <span class="nav-text">Clientes</span>
         </a>
       </li>
+      }
+      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="usuarios" routerLinkActive="active" class="nav-link">
           <mat-icon>person</mat-icon>
           <span class="nav-text">Usuarios</span>
         </a>
       </li>
+      }
+      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="menu" routerLinkActive="active" class="nav-link">
           <mat-icon>list</mat-icon>
           <span class="nav-text">Menús</span>
         </a>
       </li>
+      }
+      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="configuracion" routerLinkActive="active" class="nav-link">
           <mat-icon>settings</mat-icon>
           <span class="nav-text">Configuración</span>
         </a>
       </li>
+      }
     </ul>
     <div class="sidebar-profile">
       <button class="btn-logout" [matMenuTriggerFor]="menu">
         <mat-icon>person_outline</mat-icon>
         <span class="profile-text">
-          {{ user()?.username }}
+          {{ user()?.nombre }}
         </span>
       </button>
       <mat-menu #menu="matMenu">

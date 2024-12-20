@@ -76,4 +76,12 @@ export class AuthService {
     }
   }
 
+  isAdmin() {
+    return this.user()?.rol === 'Admin';
+  }
+
+  getIdSucursal() {
+    return this.user()?.idSucursal;
+  }
+
 }
