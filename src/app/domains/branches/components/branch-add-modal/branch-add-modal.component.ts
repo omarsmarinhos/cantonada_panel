@@ -19,6 +19,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { TimeService } from '../../../shared/services/promotion/time.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { BranchService } from '../../../shared/services/branch.service';
 
 @Component({
   selector: 'app-branch-add-modal',
@@ -38,7 +40,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatGridListModule,
     MatDatepickerModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressBarModule
   ],
   templateUrl: './branch-add-modal.component.html',
   styleUrl: './branch-add-modal.component.scss'
@@ -51,6 +54,7 @@ export class BranchAddModalComponent {
   private readonly errorService = inject(ErrorHandlerService);
   private readonly configService = inject(ConfigurationService);
   private readonly timeService = inject(TimeService);
+  private readonly branchService = inject(BranchService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
@@ -78,6 +82,8 @@ export class BranchAddModalComponent {
   times: string[] = [];
   filteredStartTimes: string[] = [];
   filteredEndTimes: string[] = [];
+
+  isDataFastLoading: boolean = false;
 
   constructor() {
     this.form = this.fb.group({
@@ -249,6 +255,32 @@ export class BranchAddModalComponent {
         this.aspectRatioHeight = parseInt(parts[1]);
       },
       error: (err) => {
+        this.errorService.showError(err);
+      }
+    });
+  }
+
+  loadDataFast() {
+    const { tRuc, iIdSucursalFast } = this.form.value;
+
+    if (!tRuc || !iIdSucursalFast) {
+      this.alertService.showWarning("Para sincronizar debe ingresar un RUC y el Id de la sucursal de Fast");
+      return;
+    }
+
+    const { iIdFormatoOrden, iIdFormatoAnulacion, tSerieBoleta, tSerieFactura } = this.form.controls;
+
+    this.isDataFastLoading = true;
+    this.branchService.getDataFast(tRuc, iIdSucursalFast).subscribe({
+      next: (res) => {
+        this.isDataFastLoading = false;
+        iIdFormatoOrden.setValue(res.iIdFormatoPedido);
+        iIdFormatoAnulacion.setValue(res.iIdFormatoAnular);
+        tSerieBoleta.setValue(res.tSerieBoleta);
+        tSerieFactura.setValue(res.tSerieFactura);
+      },
+      error: (err) => {
+        this.isDataFastLoading = false;
         this.errorService.showError(err);
       }
     });

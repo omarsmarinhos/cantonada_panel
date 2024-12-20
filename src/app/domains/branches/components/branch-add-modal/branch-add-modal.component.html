@@ -73,7 +73,7 @@
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile [colspan]="colspanBtn">
-        <button class="btn-sync" matTooltip="Sincronizar con Fast">
+        <button class="btn-sync" matTooltip="Sincronizar con Fast" (click)="loadDataFast()">
           <mat-icon>sync</mat-icon>
         </button>
       </mat-grid-tile>
@@ -82,24 +82,36 @@
           <mat-label>Id Formato Orden Fast</mat-label>
           <input matInput formControlName="iIdFormatoOrden" maxlength="10">
         </mat-form-field>
+        @if (isDataFastLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
       </mat-grid-tile>
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Id Formato Anulación Fast</mat-label>
           <input matInput formControlName="iIdFormatoAnulacion" maxlength="10">
         </mat-form-field>
+        @if (isDataFastLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
       </mat-grid-tile>
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Serie Boleta Fast</mat-label>
           <input matInput formControlName="tSerieBoleta" maxlength="10">
         </mat-form-field>
+        @if (isDataFastLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
       </mat-grid-tile>
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
-          <mat-label>Serie Facturación Fast</mat-label>
+          <mat-label>Serie Factura Fast</mat-label>
           <input matInput formControlName="tSerieFactura" maxlength="10">
         </mat-form-field>
+        @if (isDataFastLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
       </mat-grid-tile>
     </mat-grid-list>
   </form>

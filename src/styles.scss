@@ -89,6 +89,7 @@ input[type="number"] {
 
 .h-50 {
   --mat-form-field-container-height: 50px;
+
   .mat-mdc-text-field-wrapper {
     height: 50px !important;
   }
@@ -137,10 +138,6 @@ input[type="number"] {
   border-radius: 3px;
 }
 
-.btn-sync {
-  border-radius: .5rem;
-  color: var(--white-color);
-  background-color: var(--primary-color);
-  width: 5.5rem;
-  height: 5rem;
+.mat-grid-tile-content {
+  flex-direction: column;
 }

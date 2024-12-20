@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Branch } from '../models/Branch.model';
 import { environment } from '../../../../environments/environment';
+import { map } from 'rxjs';
+import { ApiFastResponse } from '../models/api-fast-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -82,5 +84,20 @@ export class BranchService {
 
   sortBranch(ordenSucursales: { iId: number | undefined; nOrden: number }[]) {
     return this.http.post<any>(`${this.baseUrl}/Sucursal/Ordenar`, ordenSucursales);
+  }
+
+  getDataFast(tRuc: string, iIdSucursalFast: number) {
+    return this.http.get<any>(`${this.baseUrl}/Sucursal/Fast?tRuc=${tRuc}&iIdSucursalFast=${iIdSucursalFast}`)
+      .pipe(
+        map((res) => {
+          return {
+            iIdCajaDiaria: res.iDCajaDiaria,
+            iIdFormatoPedido: res.iDFormatoPedido,
+            iIdFormatoAnular: res.iDFormatoAnular,
+            tSerieBoleta: res.tSerieBoleta,
+            tSerieFactura: res.tSerieFactura,
+          } as ApiFastResponse
+        })
+      );
   }
 }

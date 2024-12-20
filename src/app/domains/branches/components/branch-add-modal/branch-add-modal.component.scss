@@ -99,3 +99,22 @@ form {
 .my-map {
   margin-bottom: 2rem;
 }
+
+.btn-sync {
+  border-radius: .5rem;
+  color: var(--white-color);
+  background-color: var(--primary-color);
+  width: 5rem;
+  height: 5rem;
+  margin-left: auto;
+
+  @include m.tablet {
+    width: 4rem;
+    margin-left: none;
+  }
+  
+  @include m.laptop {
+    width: 5rem;
+    margin-left: auto;
+  }
+}
