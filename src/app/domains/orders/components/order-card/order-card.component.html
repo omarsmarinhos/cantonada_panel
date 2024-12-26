@@ -36,6 +36,7 @@
       <div>
         <span class="order__card__item header">Items</span>
         <span class="order__card__cant header">Cant</span>
+        <span class="order__card__price header">P/U</span>
         <span class="order__card__price header">Precio</span>
       </div>
       @for (product of order.dPedido; track $index) {
@@ -53,8 +54,20 @@
         </div>
         }
         <span class="order__card__cant price">{{product.iCantidad}}</span>
-        <span class="order__card__price price">{{(product.dPrecio * product.iCantidad) | currency: 'S/ ': 'symbol':'2.2'
-          }}</span>
+        <span class="order__card__price price">
+          @if (product.lAdicionalGratis) {
+          {{ 0 | currency: ' ': 'symbol':'2.2'}}
+          } @else {
+          {{product.dPrecio | currency: ' ': 'symbol':'2.2'}}
+          }
+        </span>
+        <span class="order__card__price price">
+          @if (product.lAdicionalGratis) {
+          {{ 0 | currency: ' ': 'symbol':'2.2'}}
+          } @else {
+          {{(product.dPrecio * product.iCantidad) | currency: ' ': 'symbol':'2.2'}}
+          }
+        </span>
       </div>
       }
     </div>
@@ -76,7 +89,8 @@
       </div>
     </div>
     <div class="order__card__actions">
-      <button class="order__card__actions__button order__card__actions__button--customer" (click)="openModalCustomerData(order)">
+      <button class="order__card__actions__button order__card__actions__button--customer"
+        (click)="openModalCustomerData(order)">
         Datos del cliente
       </button>
       <button class="order__card__actions__button">
