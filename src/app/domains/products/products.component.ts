@@ -21,6 +21,11 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { PaginationComponent } from "../customers/components/pagination/pagination.component";
+import { UnitMeasure } from '../shared/models/unit-measure.model';
+import { BranchService } from '../shared/services/branch.service';
+import { ConfigurationService } from '../shared/services/configuration.service';
+import { Branch } from '../shared/models/Branch.model';
+import { ConfigImagen } from '../shared/models/ConfigImagen.model';
 
 @Component({
   selector: 'app-products',
@@ -42,6 +47,8 @@ export default class ProductsComponent {
 
   private readonly categoryService = inject(CategoryService);
   private readonly productService = inject(ProductService);
+  private readonly branchService = inject(BranchService);
+  private readonly configService = inject(ConfigurationService);
   private readonly additionalService = inject(ProductAdditionalService);
   private readonly alertService = inject(AlertService);
   private readonly dialog = inject(MatDialog);
@@ -49,23 +56,42 @@ export default class ProductsComponent {
   private readonly router = inject(Router);
 
   categories = signal<Category[]>([]);
-  selectedCategory: string = 'Todos';
-
+  units = signal<UnitMeasure[]>([]);
+  branches = signal<Branch[]>([]);
   products = signal<Product[]>([])
+  configImagen: ConfigImagen | undefined;
+
+  selectedCategory: string = 'Todos';
   totalItems = signal(0);
   selectedOrder: string = '';
   currentPage: number = 1;
   searchQuery: string = '';
 
+  isDataLoaded = signal<boolean>(false);
+
   ngOnInit() {
+    this.loadUnits();
     this.loadCategories();
     this.loadProducts();
+    this.loadBranches();
+    this.loadConfigImagen();
   }
 
   loadCategories() {
     this.categoryService.getCategories().subscribe({
       next: (res) => {
         this.categories.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
+    });
+  }
+
+  loadUnits() {
+    this.productService.getUnits().subscribe({
+      next: (res) => {
+        this.units.set(res);
       },
       error: (err) => {
         this.errorService.showError(err);
@@ -116,19 +142,17 @@ export default class ProductsComponent {
 
   onAddProduct() {
     const dialogRef = this.dialog.open(ProductAddModalComponent, {
-      width: '900px'
+      width: '900px',
+      data: {
+        categories: this.categories(),
+        units: this.units(),
+        branches: this.branches(),
+        configImagen: this.configImagen,
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.productService.addProduct(result).subscribe({
-          next: (res) => {
-            this.alertService.showSuccess("Producto agregado");
-            this.loadProducts();
-          },
-          error: (err) => {
-            this.errorService.showError(err);
-          }
-        })
+        this.loadProducts();
       }
     });
   }
@@ -136,19 +160,17 @@ export default class ProductsComponent {
   onEditProduct(product: Product) {
     const dialogRef = this.dialog.open(ProductEditComponent, {
       width: '900px',
-      data: product
+      data: {
+        product: product,
+        categories: this.categories(),
+        units: this.units(),
+        branches: this.branches(),
+        configImagen: this.configImagen,
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.productService.editProduct(result).subscribe({
-          next: (res) => {
-            this.alertService.showSuccess(res.mensaje);
-            this.loadProducts();
-          },
-          error: (err) => {
-            this.errorService.showError(err);
-          }
-        })
+        this.loadProducts();
       }
     });
   }
@@ -191,5 +213,27 @@ export default class ProductsComponent {
 
   goToSortProductsPage() {
     this.router.navigate(["/orden-productos"]);
+  }
+
+  loadBranches() {
+    this.branchService.getSucursal().subscribe({
+      next: (res) => {
+        this.branches.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
+    });
+  }
+
+  loadConfigImagen() {
+    this.configService.getConfigImagen('Producto').subscribe({
+      next: (res) => {
+        this.configImagen = res;
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
+    });
   }
 }

@@ -6,6 +6,7 @@
         "configuracion",
         "Configuracion",
         "handleTipoAplicacionChange",
+        "tCodigo",
         "tDescripcion",
         "tDireccion",
         "validateTipoAplicacion"

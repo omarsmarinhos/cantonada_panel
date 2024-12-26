@@ -4,6 +4,7 @@ import { Product } from '../models/Product.model';
 import { environment } from '../../../../environments/environment';
 import { PaginatedRequest } from '../models/paginated-request.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
+import { UnitMeasure } from '../models/unit-measure.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class ProductService {
 
   getProductsByCategory(tCategoria: string) {
     return this.http.get<Product[]>(`${this.baseUrl}/Producto?tCategoria=${tCategoria}`);
+  }
+
+  getUnits() {
+    return this.http.get<UnitMeasure[]>(`${this.baseUrl}/Unidades`);
   }
 
   addProduct(product: any) {
@@ -42,6 +47,7 @@ export class ProductService {
       jSucursales: product.sucursales && product.sucursales.length > 0 
         ? JSON.stringify(product.sucursales) 
         : '[]',
+      tUnidadMedida: product.tUnidadMedida
     };
     formData.append('productData', JSON.stringify(productData));
     return this.http.post<any>(`${this.baseUrl}/Producto`, formData);
@@ -67,7 +73,8 @@ export class ProductService {
       jSucursales: product.sucursales && product.sucursales.length > 0 
         ? JSON.stringify(product.sucursales) 
         : '[]',
-      imageChanged: product.imageChanged
+      imageChanged: product.imageChanged,
+      tUnidadMedida: product.tUnidadMedida
     };
 
     formData.append('productData', JSON.stringify(productData));

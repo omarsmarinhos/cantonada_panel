@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, CanMatchFn, Route, Router } from '@angular/router';
+import { CanActivateFn, CanMatchFn, Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { AlertService } from '../domains/shared/services/alert.service';
 import { AuthService } from '../domains/shared/services/auth.service';
@@ -41,7 +41,6 @@ export const publicGuard = (): CanActivateFn => {
 
 export const adminGuard = (allowedRoles: string[]): CanMatchFn => {
   return () => {
-    console.log("adminGuard")
     const router = inject(Router);
     const authService = inject(AuthService);
     const alertService = inject(AlertService);

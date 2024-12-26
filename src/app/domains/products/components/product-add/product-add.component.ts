@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -9,18 +9,18 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 import { AlertService } from '../../../shared/services/alert.service';
 import { MatSelectModule } from '@angular/material/select';
-import { CategoryService } from '../../../shared/services/category.service';
 import { Category } from '../../../shared/models/Category.model';
 import { CapitalizePipe } from '../../../shared/pipes/capitalize.pipe';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import { BranchService } from '../../../shared/services/branch.service';
-import { Branch } from '../../../shared/models/Branch.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
 import { ConfigImagen } from '../../../shared/models/ConfigImagen.model';
-import { ConfigurationService } from '../../../shared/services/configuration.service';
+import { Branch } from '../../../shared/models/Branch.model';
+import { UnitMeasure } from '../../../shared/models/unit-measure.model';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ProductService } from '../../../shared/services/product.service';
 
 @Component({
   selector: 'app-product-add',
@@ -38,7 +38,8 @@ import { ConfigurationService } from '../../../shared/services/configuration.ser
     MatSelectModule,
     CapitalizePipe,
     MatGridListModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatAutocompleteModule
   ],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.scss'
@@ -46,12 +47,16 @@ import { ConfigurationService } from '../../../shared/services/configuration.ser
 export class ProductAddModalComponent {
 
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<ProductAddModalComponent>);
+  private readonly dialogRef = inject(MatDialogRef<this>);
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
-  private readonly categoryService = inject(CategoryService);
-  private readonly branchService = inject(BranchService);
-  private readonly configService = inject(ConfigurationService);
+  private readonly productService = inject(ProductService);
+  private readonly data = inject<{
+    categories: Category[],
+    units: UnitMeasure[],
+    branches: Branch[],
+    configImagen: ConfigImagen
+  }>(MAT_DIALOG_DATA);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
@@ -60,16 +65,12 @@ export class ProductAddModalComponent {
   previewUrl: string | ArrayBuffer | null = null;
   categoriesSelect = signal<Category[]>([]);
   branchesChecks = signal<Branch[]>([]);
+  units = signal<UnitMeasure[]>([]);
+  filteredUnits = signal<UnitMeasure[]>([]);
   colspan: number = 12;
   colspan3: number = 12;
   selectedBranchIds: number[] = [];
-  configImagen: ConfigImagen = {
-    iIdConfigImagen: 0,
-    tTipoImagen: '',
-    maxWidth: 0,
-    maxHeight: 0,
-    aspectRatio: ''
-  };
+  configImagen: ConfigImagen;
   aspectRatioWidth: number = 0;
   aspectRatioHeight: number = 0;
 
@@ -90,17 +91,24 @@ export class ProductAddModalComponent {
       lAdicional: [false, [Validators.required]],
       iAdicionalesGratis: [0, [Validators.required, Validators.min(0)]],
       iIdProductoFast: [0, [Validators.required, Validators.min(0)]],
-      iIdCategoria: ['', [Validators.required]]
+      iIdCategoria: ['', [Validators.required]],
+      tUnidadMedida: ['', [Validators.required, this.validOption()]]
     });
+    this.branchesChecks.set(this.data.branches);
+    this.selectedBranchIds = this.data.branches.map(branch => branch.iIdSucursal);
+    this.categoriesSelect.set(this.data.categories);
+    this.units.set(this.data.units);
+    this.filteredUnits.set(this.units());
+    this.configImagen = this.data.configImagen;
+    const parts = this.configImagen.aspectRatio.split(":");
+    this.aspectRatioWidth = parseInt(parts[0]);
+    this.aspectRatioHeight = parseInt(parts[1]);
   }
 
   ngOnInit() {
-    this.loadCategoriesInSelect();
-    this.loadBranchesChecks();
-    this.loadConfigImagen();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
-        this.colspan = 6;
+        this.colspan = 8;
         this.colspan3 = 4
       } else {
         this.colspan = 12;
@@ -167,9 +175,9 @@ export class ProductAddModalComponent {
     this.dialogRef.close();
   }
 
-
   onSubmit() {
     if (this.form.invalid) {
+      this.form.markAllAsTouched();
 
       if (this.form.get('dPrecio')?.hasError('pattern')) {
         this.alertService.showWarning("Formato incorrecto en el precio");
@@ -186,7 +194,11 @@ export class ProductAddModalComponent {
         return;
       }
 
-      this.form.markAllAsTouched();
+      if (this.form.get('tUnidadMedida')?.hasError('invalidOption')) {
+        this.alertService.showWarning("Debe seleccionar una opción válida en la unidad de medida.");
+        return;
+      }
+
       this.alertService.showWarning("Debe llenar todos los campos.");
       return;
     }
@@ -196,39 +208,18 @@ export class ProductAddModalComponent {
       return;
     }
 
-    this.dialogRef.close({
+    const data = {
+      ...this.form.value,
       tNombre: this.form.get('tNombre')?.value.trim(),
       tDescripcion: this.form.get('tDescripcion')?.value.trim(),
-      dPrecio: this.form.get('dPrecio')?.value,
-      lDelivery: this.form.get('lDelivery')?.value,
-      lRecoger: this.form.get('lRecoger')?.value,
-      lPopular: this.form.get('lPopular')?.value,
-      lNovedad: this.form.get('lNovedad')?.value,
-      lAdicional: this.form.get('lAdicional')?.value,
-      iAdicionalesGratis: this.form.get('iAdicionalesGratis')?.value,
-      iIdProductoFast: this.form.get('iIdProductoFast')?.value,
-      iIdCategoria: this.form.get('iIdCategoria')?.value,
       sucursales: this.selectedBranchIds,
       imagen: this.selectedFile,
-    });
-  }
+    };
 
-  loadCategoriesInSelect() {
-    this.categoryService.getCategories().subscribe({
+    this.productService.addProduct(data).subscribe({
       next: (res) => {
-        this.categoriesSelect.set(res);
-      },
-      error: (err) => {
-        this.errorService.showError(err);
-      }
-    })
-  }
-
-  loadBranchesChecks() {
-    this.branchService.getSucursal().subscribe({
-      next: (res) => {
-        this.branchesChecks.set(res);
-        this.selectedBranchIds = res.map(branch => branch.iIdSucursal);
+        this.alertService.showSuccess("Producto agregado");
+        this.dialogRef.close(true)
       },
       error: (err) => {
         this.errorService.showError(err);
@@ -246,23 +237,28 @@ export class ProductAddModalComponent {
     }
   }
 
+  filterUnits(controlName: string): void {
+    const inputValue = this.form.get(controlName)?.value?.toLowerCase() || '';
+    this.filteredUnits.set(
+      this.units().filter(unit =>
+        unit.tCodigo.toLowerCase().includes(inputValue) ||
+        unit.tDescripcion.toLowerCase().includes(inputValue)
+      )
+    );
+  }
+
+  validOption(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      const exists = this.units().some(unit => unit.tCodigo === value);
+      return exists ? null : { invalidOption: true };
+    };
+  }
+
   ngOnDestroy() {
     if (this.breakpointSubscription) {
       this.breakpointSubscription.unsubscribe();
     }
   }
 
-  loadConfigImagen() {
-    this.configService.getConfigImagen('Producto').subscribe({
-      next: (res) => {
-        this.configImagen = res;
-        const parts = this.configImagen.aspectRatio.split(":");
-        this.aspectRatioWidth = parseInt(parts[0]);
-        this.aspectRatioHeight = parseInt(parts[1]);
-      },
-      error: (err) => {
-        this.errorService.showError(err);
-      }
-    });
-  }
 }

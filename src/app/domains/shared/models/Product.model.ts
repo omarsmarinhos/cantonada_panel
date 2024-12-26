@@ -15,4 +15,5 @@ export interface Product {
   iIdProductoFast: number;
   categoria: Category;
   jSucursales: string;
+  tUnidadMedida: string;
 }
