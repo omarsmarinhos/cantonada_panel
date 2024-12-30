@@ -1,0 +1,96 @@
+<div class="complaint__card" [class.pending]="complaint.tEstado === 'pendiente'"
+  [class.resolved]="complaint.tEstado === 'resuelto'">
+  <div class="complaint__card__content">
+    <div class="complaint__card__content__header">
+      <div class="complaint__card__content__header__info">
+        <span>{{ complaint.tNombre | uppercase }}</span>
+        <div class="complaint__card__content__header__info__type">
+          <mat-icon>
+            @if(complaint.iIdTipoReclamacion === 1) {
+            support_agent
+            }@else {
+            report_problem
+            }
+          </mat-icon>
+          <span>{{ complaint.tTipoReclamacion }}</span>
+        </div>
+      </div>
+      <div class="complaint__card__content__header__status">
+        {{ complaint.tEstado | capitalize}}
+      </div>
+    </div>
+    <div class="complaint__card__content__date">
+      <span>Fecha de Registro:</span>
+      <span>{{complaint.fFechaRegistro | date: 'dd MMM y, h:mm a'}}</span>
+    </div>
+    @if (complaint.fFechaRespuesta) {
+    <div class="complaint__card__content__date">
+      <span>Fecha de Respuesta:</span>
+      <span>{{complaint.fFechaRespuesta | date: 'dd MMM y, h:mm a'}}</span>
+    </div>
+    }
+    <div class="separator"></div>
+    <div class="complaint__card__content__data">
+      <span class="complaint__card__content__data__key">
+        Dirección
+      </span>
+      <span class="complaint__card__content__data__value">
+        {{ complaint.tDireccion }}
+      </span>
+    </div>
+    <div class="complaint__card__content__data">
+      <span class="complaint__card__content__data__key">
+        {{ complaint.tTipoDocumento }}
+      </span>
+      <span class="complaint__card__content__data__value">
+        {{ complaint.tNroDocumento }}
+      </span>
+    </div>
+    <div class="complaint__card__content__data">
+      <span class="complaint__card__content__data__key">
+        Teléfono
+      </span>
+      <span class="complaint__card__content__data__value">
+        {{ complaint.tTelefono }}
+      </span>
+    </div>
+    <div class="complaint__card__content__data">
+      <span class="complaint__card__content__data__key">
+        Email
+      </span>
+      <span class="complaint__card__content__data__value">
+        {{ complaint.tEmail }}
+      </span>
+    </div>
+    @if (complaint.tNroPedido) {
+    <div class="complaint__card__content__data">
+      <span class="complaint__card__content__data__key">
+        Nro Pedido
+      </span>
+      <span class="complaint__card__content__data__value">
+        {{ complaint.tNroPedido }}
+      </span>
+    </div>
+    }
+    @if (complaint.fPedido) {
+    <div class="complaint__card__content__data">
+      <span class="complaint__card__content__data__key">
+        Fecha Pedido
+      </span>
+      <span class="complaint__card__content__data__value">
+        {{ complaint.fPedido }}
+      </span>
+    </div>
+    }
+    <div class="separator"></div>
+  </div>
+  <div class="complaint__card__actions">
+    <button class="btn-resolve" (click)="openModal()">
+      @if (complaint.tEstado === 'pendiente') {
+        Responder
+      }@else {
+        Ver Respuesta
+      }
+    </button>
+  </div>
+</div>

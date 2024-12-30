@@ -64,6 +64,26 @@ export const routes: Routes = [
         canMatch: [adminGuard(["Admin"])]
       },
       {
+        path: 'reservas',
+        loadComponent: () => import('./domains/reservations/reservations.component'),
+        canMatch: [adminGuard(["Admin", "User"])]
+      },
+      {
+        path: 'reservas/:id',
+        loadComponent: () => import('./domains/reservations-detail/reservations-detail.component'),
+        canMatch: [adminGuard(["Admin", "User"])]
+      },
+      {
+        path: 'reclamaciones',
+        loadComponent: () => import('./domains/complaints/complaints.component'),
+        canMatch: [adminGuard(["Admin", "User"])]
+      },
+      {
+        path: 'reclamaciones/:id',
+        loadComponent: () => import('./domains/complaints-detail/complaints-detail.component'),
+        canMatch: [adminGuard(["Admin", "User"])]
+      },
+      {
         path: 'menu',
         loadComponent: () => import('./domains/menus/menus.component'),
         canMatch: [adminGuard(["Admin"])]

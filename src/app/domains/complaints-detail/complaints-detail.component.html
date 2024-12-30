@@ -1,0 +1,53 @@
+<div class="complaints-detail">
+  <div class="complaints-detail__header">
+    <span class="title">RECLAMACIONES EN {{currentBranch | uppercase}}</span>
+  </div>
+  <div class="complaints-detail__content">
+    <div class="main">
+      <div class="main__header">
+        <div class="main__header__search">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <input type="search" matInput placeholder="Buscar por nombre, email, teléfono, documento"
+              [(ngModel)]="searchQuery" (search)="onSearch()" (keydown.down)="onSearch()">
+            <button matIconSuffix (click)="onSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Estado</mat-label>
+            <mat-select [(value)]="selectedStatus" (selectionChange)="onStatusChange()">
+              <mat-option>Todos</mat-option>
+              <mat-option value="pendiente">Pendiente</mat-option>
+              <mat-option value="resuelto">Resuelto</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Tipo Reclamación</mat-label>
+            <mat-select [(value)]="selectedTypeComplaint" (selectionChange)="onComplaintTypeChange()">
+              <mat-option>Todos</mat-option>
+              @for (type of typeComplaints(); track $index) {
+              <mat-option [value]="type.iIdTipoReclamacion">{{ type.tNombre | capitalize }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="main__grid">
+        @for (complaint of complaints(); track complaint.iIdReclamacion) {
+        <div class="main__card">
+          <app-complaint-detail-card [complaint]="complaint" (reloadComplaint)="loadComplaints()"></app-complaint-detail-card>
+        </div>
+        }
+      </div>
+      <div class="pagination pagination--bottom">
+        <app-pagination [totalItems]="totalItems()" [itemsPerPage]="6" [currentPage]="currentPage"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="complaints">
+  <div class="complaints__header">
+    <span class="title">RECLAMACIONES</span>
+  </div>
+  <div class="complaints__content">
+    <div class="main">
+      <div class="main__grid">
+        @for (branch of branches(); track $index) {
+        <div class="main__card">
+          <app-complaint-branch-card [branch]="branch"></app-complaint-branch-card>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

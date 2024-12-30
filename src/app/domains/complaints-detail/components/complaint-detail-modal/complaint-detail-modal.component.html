@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{complaint.tNombre | uppercase}}</h2>
+<mat-dialog-content class="my-form">
+  <h3>Detalle de reclamación</h3>
+  <span>Tipo de reclamo: </span>
+  <span>{{ complaint.tTipoReclamacion }}</span><br>
+  <span>Detalles:</span><br>
+  <div class="text">{{ complaint.tDetalle }}</div>
+  <h3>Detalle del producto adquirido</h3>
+  <span>Número de pedido: </span>
+  <span>{{ complaint.tNroPedido }}</span><br>
+  <span>Fecha de pedido: </span>
+  <span>{{ complaint.fPedido }}</span><br>
+  <span>Pedido del reclamante:</span><br>
+  <div class="text">{{ complaint.tPedidoReclamante }}</div>
+  <h3>Respuesta</h3>
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <textarea matInput [(ngModel)]="tRespuesta" minlength="20" maxlength="1000" rows="10" [readonly]="complaint.tEstado !== 'pendiente'"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions">
+  <button class="btn-modal cancel" (click)="onCancel()">Cerrar</button>
+  @if (complaint.tEstado === 'pendiente') {
+  <button class="btn-modal add" (click)="onSubmit()">Responder</button>
+  }
+</mat-dialog-actions>

@@ -1,0 +1,57 @@
+.complaint__card {
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  cursor: pointer;
+  position: relative;
+
+  &__img {
+    overflow: hidden;
+    border-radius: .9rem .9rem 0 0;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__notifications {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    color: white;
+    border-radius: 50%;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 80px;
+  }
+
+  &__title {
+    span {
+      font-weight: 600;
+      font-size: 1.6rem;
+      display: inline-block;
+      text-align: center;
+    }
+  }
+}
+
+.shadowed-icon {
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  display: inline-flex;
+  padding: 5px;
+  background-color: #00000042;
+}
+
+.shadowed-icon:hover {
+  box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.5);
+  transform: scale(1.1);
+  transition: 0.3s ease-in-out;
+}

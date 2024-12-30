@@ -6,4 +6,5 @@ export interface PaginatedRequest {
     tSort?: string;
     tSearch?: string;
     iIdSucursal?: number;
+    iIdTipoReclamacion?: number;
 }

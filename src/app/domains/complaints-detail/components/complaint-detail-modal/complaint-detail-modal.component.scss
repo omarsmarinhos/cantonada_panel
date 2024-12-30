@@ -1,0 +1,27 @@
+@use './../../../../../styles/modal';
+@use './../../../../../styles/mixins' as m;
+
+:host {
+  --mdc-outlined-text-field-outline-color: #DFDFDF;
+}
+
+::ng-deep {
+  .my-form {
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      background-color: #F9F9F9;
+    }
+  }
+}
+
+.text {
+  background-color: #F9F9F9;
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: .5rem;
+  word-wrap: break-word;
+  word-break: break-word;
+}
