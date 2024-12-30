@@ -1,6 +1,6 @@
 <div class="complaint__card" (click)="onGoComplaintsByBranch(branch.iIdSucursal)">
   <div class="complaint__card__notifications">
-    <mat-icon class="shadowed-icon" [matBadge]="branch.iPendientes">notifications</mat-icon>
+    <mat-icon class="shadowed-icon" [matBadge]="branch.iPendientes" aria-hidden="false">notifications</mat-icon>
   </div>
   <div class="complaint__card__img">
     <img [src]="branch.tImagenUrl" alt="{{branch.tNombre}} img" loading="lazy">
