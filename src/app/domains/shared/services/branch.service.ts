@@ -4,6 +4,7 @@ import { Branch } from '../models/Branch.model';
 import { environment } from '../../../../environments/environment';
 import { map } from 'rxjs';
 import { ApiFastResponse } from '../models/api-fast-response.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class BranchService {
 
   readonly baseUrl = environment.apiUrl;
   readonly http = inject(HttpClient);
+  readonly authService = inject(AuthService);
 
   constructor() { }
 
@@ -35,12 +37,14 @@ export class BranchService {
     formData.append('tTelefono', sucursalData.tTelefono);
     formData.append('hHoraInicio', sucursalData.hHoraInicio);
     formData.append('hHoraFin', sucursalData.hHoraFin);
-    //FAST
-    formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
-    formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
-    formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
-    formData.append('tSerieBoleta', sucursalData.tSerieBoleta);
-    formData.append('tSerieFactura', sucursalData.tSerieFactura);
+    if (this.authService.isSynchronizedWithFast()) {
+      formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
+      formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
+      formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
+      formData.append('tSerieBoleta', sucursalData.tSerieBoleta);
+      formData.append('tSerieFactura', sucursalData.tSerieFactura);
+    }
+
     return this.http.post<any>(`${this.baseUrl}/Sucursal`, formData);
   }
 
@@ -57,12 +61,14 @@ export class BranchService {
     formData.append('tTelefono', sucursalData.tTelefono);
     formData.append('hHoraInicio', sucursalData.hHoraInicio);
     formData.append('hHoraFin', sucursalData.hHoraFin);
-    //FAST
-    formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
-    formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
-    formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
-    formData.append('tSerieBoleta', sucursalData.tSerieBoleta);
-    formData.append('tSerieFactura', sucursalData.tSerieFactura);
+    console.log(this.authService.isSynchronizedWithFast());
+    if (this.authService.isSynchronizedWithFast()) {
+      formData.append('iIdSucursalFast', sucursalData.iIdSucursalFast);
+      formData.append('iIdFormatoOrden', sucursalData.iIdFormatoOrden);
+      formData.append('iIdFormatoAnulacion', sucursalData.iIdFormatoAnulacion);
+      formData.append('tSerieBoleta', sucursalData.tSerieBoleta);
+      formData.append('tSerieFactura', sucursalData.tSerieFactura);
+    }
     if (sucursalData.imageChanged && sucursalData.imagen) {
       formData.append('imagen', sucursalData.imagen);
     }
@@ -78,7 +84,8 @@ export class BranchService {
       iIdSucursal: branch.iIdSucursal,
       lAbierto: !branch.lAbierto,
       tRuc: branch.tRuc,
-      iIdSucursalFast: branch.iIdSucursalFast
+      iIdSucursalFast: branch.iIdSucursalFast,
+      lFast: this.authService.isSynchronizedWithFast()
     });
   }
 

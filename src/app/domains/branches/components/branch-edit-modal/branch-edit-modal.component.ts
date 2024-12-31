@@ -21,6 +21,7 @@ import { TimeService } from '../../../shared/services/promotion/time.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BranchService } from '../../../shared/services/branch.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-branch-edit-modal',
@@ -55,6 +56,7 @@ export class BranchEditModalComponent {
   private readonly configService = inject(ConfigurationService);
   private readonly timeService = inject(TimeService);
   private readonly branchService = inject(BranchService);
+  private readonly authService = inject(AuthService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
 
@@ -85,6 +87,7 @@ export class BranchEditModalComponent {
   filteredEndTimes: string[] = [];
 
   isDataFastLoading: boolean = false;
+  isSynchronizedWithFast = this.authService.isSynchronizedWithFast();
 
   constructor() {
     this.form = this.fb.group({
@@ -120,25 +123,25 @@ export class BranchEditModalComponent {
         Validators.required,
         Validators.pattern(this.timeService.timePattern)
       ]],
-      iIdSucursalFast: [this.branch.iIdSucursalFast, [
+      iIdSucursalFast: [{value: this.branch.iIdSucursalFast, disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
         Validators.min(0),
         Validators.pattern(/^\d+$/)
       ]],
-      iIdFormatoOrden: [this.branch.iIdFormatoOrden, [
+      iIdFormatoOrden: [{value: this.branch.iIdFormatoOrden, disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
         Validators.min(0),
         Validators.pattern(/^\d+$/)
       ]],
-      iIdFormatoAnulacion: [this.branch.iIdFormatoAnulacion, [
+      iIdFormatoAnulacion: [{value: this.branch.iIdFormatoAnulacion, disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
         Validators.min(0),
         Validators.pattern(/^\d+$/)
       ]],
-      tSerieBoleta: [this.branch.tSerieBoleta, [
+      tSerieBoleta: [{value: this.branch.tSerieBoleta, disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
       ]],
-      tSerieFactura: [this.branch.tSerieFactura, [
+      tSerieFactura: [{value: this.branch.tSerieFactura, disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
       ]],
     });

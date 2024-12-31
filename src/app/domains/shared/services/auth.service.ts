@@ -54,7 +54,6 @@ export class AuthService {
       await this.dbService.saveUser(user)
       this.user.set(user);
       this.router.navigate(['/']);
-      console.log("asd")
     } catch (error) {
       console.error('Error setting user:', error);
       this.alertService.showWarning(
