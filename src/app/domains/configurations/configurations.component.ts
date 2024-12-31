@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { AlertService } from '../shared/services/alert.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-configurations',
@@ -34,12 +35,19 @@ export default class ConfigurationsComponent {
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
   private readonly breakpointObserver = inject(BreakpointObserver);
+  readonly authService = inject(AuthService);
   private breakpointSubscription: Subscription | undefined;
+
+  user = this.authService.user;
+  isSynchronizedWithFast = this.authService.isSynchronizedWithFast();
 
   configuration: ConfigurationResponse = {
     configuracion: {
       igv: 0,
       recargoConsumo: 0,
+      iIdUsuarioFast: 0,
+      iIdPrecioAplicar: 0,
+      iIdTerminal: 0
     },
     configImagenes: []
   };
@@ -48,21 +56,45 @@ export default class ConfigurationsComponent {
   formCategoria: FormGroup;
   formProducto: FormGroup;
   formSucursal: FormGroup;
-  colspan: number = 10;
-  colspanImg: number = 12;
+  colspan: number = 12;
+  colspan4: number = 12;
   isDisabledGeneral: boolean = true;
   isDisabledCategoria: boolean = true;
   isDisabledProducto: boolean = true;
   isDisabledSucursal: boolean = true;
 
   aspectRatios: string[] = ['1:1', '4:3', '3:2', '16:9']
-  fieldsGeneral: string[] = ['igv', 'recargoConsumo']
+  fieldsGeneral: string[] = ['igv', 'recargoConsumo'];
+  fieldsFast: string[] = ['iIdUsuarioFast', 'iIdPrecioAplicar', 'iIdTerminal']
   fieldsImg: string[] = ['maxWidth', 'maxHeight', 'aspectRatio']
 
   constructor() {
+    console.log(this.isSynchronizedWithFast);
     this.formGeneral = this.fb.group({
-      igv: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.numericValidator]],
-      recargoConsumo: [{ value: '', disabled: this.isDisabledGeneral }, [Validators.required, Validators.min(0), Validators.max(100), this.numericValidator]],
+      igv: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100),
+        this.numericValidator]
+      ],
+      recargoConsumo: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100),
+        this.numericValidator]
+      ],
+      iIdUsuarioFast: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required,
+        this.integerValidator]
+      ],
+      iIdPrecioAplicar: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required,
+        this.integerValidator]
+      ],
+      iIdTerminal: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required,
+        this.integerValidator]
+      ],
     });
     this.formCategoria = this.fb.group({
       iIdConfigImagen: [''],
@@ -88,11 +120,11 @@ export default class ConfigurationsComponent {
     this.loadConfiguration();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
-        this.colspan = 5;
-        this.colspanImg = 4;
+        this.colspan = 6;
+        this.colspan4 = 4;
       } else {
-        this.colspan = 10;
-        this.colspanImg = 12;
+        this.colspan = 12;
+        this.colspan4 = 12;
       }
     });
   }
@@ -116,6 +148,9 @@ export default class ConfigurationsComponent {
     this.formGeneral.patchValue({
       igv: this.configuration.configuracion.igv,
       recargoConsumo: this.configuration.configuracion.recargoConsumo,
+      iIdUsuarioFast: this.configuration.configuracion.iIdUsuarioFast,
+      iIdPrecioAplicar: this.configuration.configuracion.iIdPrecioAplicar,
+      iIdTerminal: this.configuration.configuracion.iIdTerminal
     });
   }
   loadConfigurationCategoria() {
@@ -145,6 +180,7 @@ export default class ConfigurationsComponent {
 
   onSaveGeneralSettings(): boolean {
     if (this.formGeneral.invalid) {
+      this.formGeneral.markAllAsTouched();
       this.alertService.showWarning("Campos incorrectos");
       return false;
     }
@@ -166,12 +202,17 @@ export default class ConfigurationsComponent {
     }
     this.isDisabledGeneral = !this.isDisabledGeneral;
     this.setFieldsDisabled(this.isDisabledGeneral, this.formGeneral, this.fieldsGeneral);
-
+    if (this.isSynchronizedWithFast) {
+      this.setFieldsDisabled(this.isDisabledGeneral, this.formGeneral, this.fieldsFast);
+    }
   }
 
   cancelGeneral() {
     this.isDisabledGeneral = true;
     this.setFieldsDisabled(this.isDisabledGeneral, this.formGeneral, this.fieldsGeneral);
+    if (this.isSynchronizedWithFast) {
+      this.setFieldsDisabled(this.isDisabledGeneral, this.formGeneral, this.fieldsFast);
+    }
     this.loadConfigurationGeneral();
   }
 
@@ -316,7 +357,6 @@ export default class ConfigurationsComponent {
     }
     return null;
   }
-
 
   ngOnDestroy() {
     if (this.breakpointSubscription) {

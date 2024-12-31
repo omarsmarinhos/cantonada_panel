@@ -6,7 +6,7 @@
     <div class="main">
       <span class="subtitle">General</span>
       <form [formGroup]="formGeneral" class="my-form">
-        <mat-grid-list cols="10" rowHeight="60px" gutterSize="10px">
+        <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
           <mat-grid-tile [colspan]="colspan">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>IGV (%)</mat-label>
@@ -19,6 +19,27 @@
               <input matInput type="number" formControlName="recargoConsumo">
             </mat-form-field>
           </mat-grid-tile>
+          @if (isSynchronizedWithFast) {
+          <mat-grid-tile [colspan]="colspan4">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Id Usuario de Fast</mat-label>
+              <input matInput type="number" formControlName="iIdUsuarioFast">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspan4">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Id Canal Delivery</mat-label>
+              <input matInput type="number" formControlName="iIdPrecioAplicar">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspan4">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Id Terminal</mat-label>
+              <input matInput type="number" formControlName="iIdTerminal">
+            </mat-form-field>
+          </mat-grid-tile>
+          }
+
         </mat-grid-list>
       </form>
       <div class="main__buttons" [class.isDisabled]="isDisabledGeneral">
@@ -39,7 +60,7 @@
       <span class="subtitle">Imagen de Categoría</span>
       <form [formGroup]="formCategoria" class="my-form">
         <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Relación de aspecto</mat-label>
               <mat-select formControlName="aspectRatio">
@@ -49,13 +70,13 @@
               </mat-select>
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Ancho (px)</mat-label>
               <input matInput type="number" formControlName="maxWidth">
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Alto (px)</mat-label>
               <input matInput type="number" formControlName="maxHeight">
@@ -81,7 +102,7 @@
       <span class="subtitle">Imagen de Producto</span>
       <form [formGroup]="formProducto" class="my-form">
         <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Relación de aspecto</mat-label>
               <mat-select formControlName="aspectRatio">
@@ -91,13 +112,13 @@
               </mat-select>
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Ancho (px)</mat-label>
               <input matInput type="number" formControlName="maxWidth">
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Alto (px)</mat-label>
               <input matInput type="number" formControlName="maxHeight">
@@ -123,7 +144,7 @@
       <span class="subtitle">Imagen de Sucursal</span>
       <form [formGroup]="formSucursal" class="my-form">
         <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Relación de aspecto</mat-label>
               <mat-select formControlName="aspectRatio">
@@ -133,13 +154,13 @@
               </mat-select>
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Ancho (px)</mat-label>
               <input matInput type="number" formControlName="maxWidth">
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="colspanImg">
+          <mat-grid-tile [colspan]="colspan4">
             <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
               <mat-label>Alto (px)</mat-label>
               <input matInput type="number" formControlName="maxHeight">

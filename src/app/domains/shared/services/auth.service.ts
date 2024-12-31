@@ -80,6 +80,10 @@ export class AuthService {
     return this.user()?.rol === 'Admin';
   }
 
+  isSynchronizedWithFast() {
+    return this.user()?.lFast;
+  }
+
   getIdSucursal() {
     return this.user()?.idSucursal;
   }

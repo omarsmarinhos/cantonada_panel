@@ -6,4 +6,5 @@ export interface User {
   idSucursal: number;
   sucursal: string;
   token: string;
+  lFast: boolean;
 }

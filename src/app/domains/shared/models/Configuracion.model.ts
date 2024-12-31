@@ -1,5 +1,7 @@
 export interface Configuracion {
     igv: number;
     recargoConsumo: number;
-    // lFast: boolean;
+    iIdUsuarioFast: number;
+    iIdPrecioAplicar: number;
+    iIdTerminal: number;
 }
