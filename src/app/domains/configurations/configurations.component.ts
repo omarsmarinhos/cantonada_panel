@@ -38,7 +38,6 @@ export default class ConfigurationsComponent {
   readonly authService = inject(AuthService);
   private breakpointSubscription: Subscription | undefined;
 
-  user = this.authService.user;
   isSynchronizedWithFast = this.authService.isSynchronizedWithFast();
 
   configuration: ConfigurationResponse = {
