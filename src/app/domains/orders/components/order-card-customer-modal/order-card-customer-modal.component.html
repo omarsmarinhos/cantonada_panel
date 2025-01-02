@@ -28,6 +28,30 @@
     <span class="row__value">{{order.tDireccion}}</span>
   </div>
   }
+  @if (order.tPersonaRecibir) {
+  <div class="row">
+    <span class="row__key">Va a recibir</span>
+    <span class="row__value">{{order.tPersonaRecibir}}</span>
+  </div>
+  }
+  @if (order.lFactura) {
+    <div class="row">
+      <span class="row__key">Factura</span>
+      <span class="row__value">Si</span>
+    </div>
+    <div class="row">
+      <span class="row__key">Ruc</span>
+      <span class="row__value">{{order.tRuc}}</span>
+    </div>
+    <div class="row">
+      <span class="row__key">Razón Social</span>
+      <span class="row__value">{{order.tRazonSocial}}</span>
+    </div>
+    <div class="row">
+      <span class="row__key">Dirección Fiscal</span>
+      <span class="row__value">{{order.tDireccionFiscal}}</span>
+    </div>
+    }
   @if (order.tDireccionGoogle) {
   <div class="row">
     <span class="row__key">Dirección Google</span>
@@ -37,12 +61,18 @@
   @if (order.tLinkGoogleMaps) {
   <div class="row link">
     <span class="row__key">Enlace</span>
-    <button class="copy" (click)="copy()">
-      <mat-icon [cdkCopyToClipboard]="order.tLinkGoogleMaps">
-        content_copy
-      </mat-icon>
-    </button>
-
+    <div>
+      <button (click)="copy()" matTooltip="Copiar enlace de google maps">
+        <mat-icon [cdkCopyToClipboard]="order.tLinkGoogleMaps">
+          content_copy
+        </mat-icon>
+      </button>
+      <a [href]="order.tLinkGoogleMaps" target="_blank" matTooltip="Abrir enlace de google maps">
+        <mat-icon>
+          open_in_new
+        </mat-icon>
+      </a>
+    </div>
   </div>
   }
 </mat-dialog-content>

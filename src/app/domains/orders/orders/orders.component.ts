@@ -1,4 +1,4 @@
-import { CommonModule, UpperCasePipe } from "@angular/common";
+import { UpperCasePipe } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { OrderCardComponent } from "../components/order-card/order-card.component";
 import { Component, inject, Input, signal } from "@angular/core";
@@ -15,7 +15,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { FormsModule } from "@angular/forms";
-import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
 
 @Component({
   selector: 'app-orders',

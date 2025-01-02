@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatIconModule } from '@angular/material/icon';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { AlertService } from '../../../shared/services/alert.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-order-card-customer-modal',
@@ -11,7 +12,8 @@ import { AlertService } from '../../../shared/services/alert.service';
   imports: [
     MatDialogModule,
     MatIconModule,
-    ClipboardModule
+    ClipboardModule,
+    MatTooltipModule
   ],
   templateUrl: './order-card-customer-modal.component.html',
   styleUrl: './order-card-customer-modal.component.scss'

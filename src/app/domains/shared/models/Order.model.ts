@@ -19,6 +19,10 @@ export interface Order {
   dPrecioDelivery: number;
   dTotal: number;
   tPersonaRecibir?: string;
+  lFactura: boolean;
+  tRuc?: string;
+  tRazonSocial?: string;
+  tDireccionFiscal?: string;
   dPedido: OrderDetail[];
 }
 

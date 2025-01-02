@@ -3,7 +3,7 @@
 .row  {
   display: flex;
   flex-direction: column;
-
+  
   @include m.tablet {
     flex-direction: row;
     gap: 1rem;
@@ -22,5 +22,17 @@
 }
 
 .link {
-  align-items: start;
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    mat-icon {
+      color: black;
+    }
+
+    a {
+      display: inline-flex;
+    }
+  }
 }
