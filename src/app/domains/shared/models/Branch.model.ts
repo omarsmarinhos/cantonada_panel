@@ -14,7 +14,6 @@ export interface Branch {
     //FAST
     iIdSucursalFast: number;
     iIdFormatoOrden: number;
-    iIdFormatoAnulacion: number;
     tSerieBoleta: string;
     tSerieFactura: string;
 }

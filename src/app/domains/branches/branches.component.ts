@@ -12,6 +12,7 @@ import { BranchAddModalComponent } from './components/branch-add-modal/branch-ad
 import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-branches',
@@ -33,6 +34,9 @@ export default class BranchesComponent {
   private readonly dialog = inject(MatDialog);
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
+  readonly authService = inject(AuthService);
+
+  currentBranchUser = this.authService.getIdSucursal();
 
   branches = signal<Branch[]>([]);
   isSorting: boolean = false;
@@ -41,6 +45,7 @@ export default class BranchesComponent {
 
   ngOnInit() {
     this.loadBranches();
+    console.log(this.currentBranchUser);
   }
 
   loadBranches() {

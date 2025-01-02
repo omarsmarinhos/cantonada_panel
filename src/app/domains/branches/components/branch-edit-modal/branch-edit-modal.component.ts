@@ -133,11 +133,6 @@ export class BranchEditModalComponent {
         Validators.min(0),
         Validators.pattern(/^\d+$/)
       ]],
-      iIdFormatoAnulacion: [{value: this.branch.iIdFormatoAnulacion, disabled: !this.isSynchronizedWithFast}, [
-        Validators.required,
-        Validators.min(0),
-        Validators.pattern(/^\d+$/)
-      ]],
       tSerieBoleta: [{value: this.branch.tSerieBoleta, disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
       ]],
@@ -291,14 +286,13 @@ export class BranchEditModalComponent {
       return;
     }
 
-    const { iIdFormatoOrden, iIdFormatoAnulacion, tSerieBoleta, tSerieFactura} = this.form.controls;
+    const { iIdFormatoOrden, tSerieBoleta, tSerieFactura} = this.form.controls;
 
     this.isDataFastLoading = true;
     this.branchService.getDataFast(tRuc, iIdSucursalFast).subscribe({
       next: (res) => {
         this.isDataFastLoading = false;
         iIdFormatoOrden.setValue(res.iIdFormatoPedido);
-        iIdFormatoAnulacion.setValue(res.iIdFormatoAnular);
         tSerieBoleta.setValue(res.tSerieBoleta);
         tSerieFactura.setValue(res.tSerieFactura);
       },
