@@ -2,12 +2,14 @@
 <mat-dialog-content>
   <form [formGroup]="form" class="my-form">
     <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+      @if (isSynchronizedWithFast) {
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Id Zona Fast</mat-label>
-          <input matInput formControlName="iIdZonaFast" maxlength="100">
+          <input matInput formControlName="iIdZonaFast" maxlength="10">
         </mat-form-field>
       </mat-grid-tile>
+      }
 
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">

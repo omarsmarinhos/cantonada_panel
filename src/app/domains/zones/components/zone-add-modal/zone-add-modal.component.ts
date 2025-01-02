@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { GoogleMap, MapAdvancedMarker, MapPolygon } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-zone-add-modal',
@@ -42,6 +43,9 @@ export class ZoneAddModalComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
   private readonly data = inject<any>(MAT_DIALOG_DATA);
+  private readonly authService = inject(AuthService);
+
+  isSynchronizedWithFast = this.authService.isSynchronizedWithFast();
 
   form: FormGroup;
   colspan3 = 12;
@@ -78,10 +82,10 @@ export class ZoneAddModalComponent {
       ]],
       jPoligono: ['', []],
       iIdSucursal: [this.data.branch.iIdSucursal],
-      iIdZonaFast: ['', [
+      iIdZonaFast: [{value: '', disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
-        Validators.min(0),]
-      ]
+        Validators.min(0),
+      ]]
     });
     this.polygons = this.data.polygons;
     this.center.set(JSON.parse(this.data.branch.jLatLng));

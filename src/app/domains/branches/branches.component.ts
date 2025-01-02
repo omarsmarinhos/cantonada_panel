@@ -45,7 +45,6 @@ export default class BranchesComponent {
 
   ngOnInit() {
     this.loadBranches();
-    console.log(this.currentBranchUser);
   }
 
   loadBranches() {

@@ -2,13 +2,15 @@
 <mat-dialog-content>
   <form [formGroup]="form" class="my-form">
     <mat-grid-list cols="12" rowHeight="60px" gutterSize="10px">
+      @if (isSynchronizedWithFast) {
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Id Zona Fast</mat-label>
-          <input matInput formControlName="iIdZonaFast" maxlength="100">
+          <input matInput formControlName="iIdZonaFast" maxlength="10">
         </mat-form-field>
       </mat-grid-tile>
-      
+      }
+
       <mat-grid-tile [colspan]="colspan3">
         <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
           <mat-label>Nombre</mat-label>
@@ -40,9 +42,9 @@
   </div>
 
   <google-map [center]="center()" width="100%" [zoom]="15" mapId="d8da5fa3f5db62fa " [options]="mapOptions">
-    <map-advanced-marker [position]="center()" [options]="markerOptions" label="Alo"/>
+    <map-advanced-marker [position]="center()" [options]="markerOptions" />
     @for(polygon of polygons; track $index) {
-      <map-polygon [paths]="polygon" [options]="polygonOptions"/>
+    <map-polygon [paths]="polygon" [options]="polygonOptions" />
     }
   </google-map>
 

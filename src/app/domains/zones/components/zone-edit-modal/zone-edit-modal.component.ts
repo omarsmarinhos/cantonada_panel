@@ -10,6 +10,7 @@ import { AlertService } from '../../../shared/services/alert.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { GoogleMap, MapAdvancedMarker, MapPolygon } from '@angular/google-maps';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-zone-edit-modal',
@@ -40,13 +41,16 @@ export class ZoneEditModalComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private breakpointSubscription: Subscription | undefined;
   private readonly data = inject<any>(MAT_DIALOG_DATA);
+  private readonly authService = inject(AuthService);
+
+  isSynchronizedWithFast = this.authService.isSynchronizedWithFast();
 
   form: FormGroup;
   colspan3 = 12;
 
-  center = signal<google.maps.LatLngLiteral>({lat: -9.122203154836235, lng: -78.52960958851075});
-  mapOptions: google.maps.MapOptions = {streetViewControl: false, mapTypeControl: false};
-  markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {gmpDraggable: false};
+  center = signal<google.maps.LatLngLiteral>({ lat: -9.122203154836235, lng: -78.52960958851075 });
+  mapOptions: google.maps.MapOptions = { streetViewControl: false, mapTypeControl: false };
+  markerOptions: google.maps.marker.AdvancedMarkerElementOptions = { gmpDraggable: false };
 
 
   drawingManager?: google.maps.drawing.DrawingManager;
@@ -71,10 +75,10 @@ export class ZoneEditModalComponent {
       ]],
       jPoligono: [this.data.zone.jPoligono, []],
       iIdZona: [this.data.zone.iIdZona],
-      iIdZonaFast: [this.data.zone.iIdZonaFast, [
+      iIdZonaFast: [{value: this.data.zone.iIdZonaFast, disabled: !this.isSynchronizedWithFast}, [
         Validators.required,
-        Validators.min(0),]
-      ]
+        Validators.min(0),
+      ]]
     });
     this.originalZonePolygon = JSON.parse(this.data.zone.jPoligono);
     this.polygons = this.data.polygons;

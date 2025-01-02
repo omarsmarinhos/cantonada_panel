@@ -17,7 +17,7 @@ import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/conf
 import { AlertService } from '../shared/services/alert.service';
 import { ZoneAddModalComponent } from './components/zone-add-modal/zone-add-modal.component';
 import { ZoneEditModalComponent } from './components/zone-edit-modal/zone-edit-modal.component';
-import { ZonePolygonResponse } from '../shared/models/ZonePolygonResponse.model';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-zones',
@@ -44,11 +44,13 @@ export default class ZonesComponent {
   private readonly branchService = inject(BranchService);
   private readonly dialog = inject(MatDialog);
   private readonly alertService = inject(AlertService);
+  private readonly authService = inject(AuthService);
+
+  isSynchronizedWithFast = this.authService.isSynchronizedWithFast();
 
   zones = signal<Zone[]>([]);
-  zonesPolygons = signal<ZonePolygonResponse[]>([])
   polygons = computed(() =>
-    this.zonesPolygons().map(zone =>
+    this.zones().map(zone =>
       JSON.parse(zone.jPoligono)
     )
   );
@@ -62,12 +64,14 @@ export default class ZonesComponent {
     effect(() => {
       this.dataSourceZones().data = this.zones();
     });
+    if (this.isSynchronizedWithFast) {
+      this.displayedColumns.splice(1, 0, 'iIdZonaFast');
+    }
   }
 
   ngOnInit() {
     if (this.id) {
       this.loadZones();
-      this.loadPolygons();
       this.loadBranch(parseInt(this.id));
     }
   }
@@ -95,16 +99,6 @@ export default class ZonesComponent {
     });
   }
 
-  loadPolygons() {
-    this.zoneService.getPolygons().subscribe({
-      next: (res) => {
-        this.zonesPolygons.set(res);
-      },
-      error: (err) => {
-        this.errorService.showError(err);
-      }
-    });
-  }
   goToBranchesDomain() {
     this.router.navigate(["/sucursales"]);
   }
@@ -121,7 +115,6 @@ export default class ZonesComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadZones();
-            this.loadPolygons();
           },
           error: (err) => {
             this.errorService.showError(err);
@@ -133,9 +126,8 @@ export default class ZonesComponent {
 
   onEditZone(zone: Zone) {
     const allPolygonsExceptCurrent = this.polygons().filter((_, index) => 
-      this.zonesPolygons()[index].iIdZona !== zone.iIdZona
+      this.zones()[index].iIdZona !== zone.iIdZona
     );
-
 
     const dialogRef = this.dialog.open(ZoneEditModalComponent, {
       width: '900px',
@@ -148,7 +140,6 @@ export default class ZonesComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadZones();
-            this.loadPolygons();
           },
           error: (err) => {
             this.errorService.showError(err);
@@ -166,7 +157,6 @@ export default class ZonesComponent {
           next: (res) => {
             this.alertService.showSuccess(res.mensaje);
             this.loadZones();
-            this.loadPolygons();
           },
           error: (err) => {
             this.errorService.showError(err);
