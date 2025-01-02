@@ -37,6 +37,7 @@ export default class BranchesComponent {
   readonly authService = inject(AuthService);
 
   currentBranchUser = this.authService.getIdSucursal();
+  isAdmin = this.authService.isAdmin();
 
   branches = signal<Branch[]>([]);
   isSorting: boolean = false;

@@ -20,10 +20,12 @@
         matTooltip="Editar">
         <mat-icon>edit</mat-icon>
       </div>
+      @if(isAdmin) {
       <div class="branch__card__actions__button branch__card__actions__button--delete" (click)="onDelete()"
         matTooltip="Eliminar">
         <mat-icon>delete</mat-icon>
       </div>
+      }
     </div>
   </div>
 </div>

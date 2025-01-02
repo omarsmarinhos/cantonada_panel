@@ -1,13 +1,16 @@
 <div class="branches">
-  <div class="branches__header">
+  <div class="branches__header" [class.isAdmin]="isAdmin">
     <span class="title">SUCURSALES</span>
+    @if (isAdmin) {
     <button (click)="onAddBranch()">
       <mat-icon>add</mat-icon>
       <span>Agregar</span>
     </button>
+    }
   </div>
   <div class="branches__content">
     <div class="main">
+      @if (isAdmin) {
       <div class="main__buttons" [class.isSorting]="isSorting">
         @if (isSorting) {
         <button class="cancel" (click)="cancelSorting()">
@@ -22,6 +25,7 @@
           }
         </button>
       </div>
+      }
       <div class="main__grid" cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)">
         @for (branch of branches(); track $index) {
         @if (currentBranchUser === null || branch.iIdSucursal === currentBranchUser) {
