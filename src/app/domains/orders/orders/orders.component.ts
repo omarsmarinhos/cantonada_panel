@@ -48,13 +48,12 @@ export default class OrdersComponent {
       this.loadOrders();
       this.webSocketNewOrderSub = this.websocketService.onNewOrder().subscribe({
         next: (data) => {
-          console.log('Nuevo pedido recibido:', data);
           if (data.branchId === parseInt(this.id!)) {
+            console.log('Nuevo pedido recibido:', data);
             this.notificationSound.play();
             this.alertService.showSuccess(`Nuevo Pedido Recibido en ${this.currentBranch}`)
             this.loadOrders();
           }
-
         }
       });
       this.webSocketChangeStatusSub = this.websocketService.onChangeOrderStatus().subscribe({
@@ -100,10 +99,10 @@ export default class OrdersComponent {
   }
 
   ngOnDestroy() {
-    if(this.webSocketNewOrderSub) {
+    if (this.webSocketNewOrderSub) {
       this.webSocketNewOrderSub.unsubscribe();
     }
-    if(this.webSocketChangeStatusSub) {
+    if (this.webSocketChangeStatusSub) {
       this.webSocketChangeStatusSub.unsubscribe();
     }
   }

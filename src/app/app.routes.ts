@@ -36,7 +36,7 @@ export const routes: Routes = [
       {
         path: 'zonas/:id',
         loadComponent: () => import('./domains/zones/zones.component'),
-        canMatch: [adminGuard(["Admin"])]
+        canMatch: [adminGuard(["Admin", "User"]), isAuthorizedForBranch()]
       },
       {
         path: 'categorias',
@@ -76,7 +76,7 @@ export const routes: Routes = [
       {
         path: 'reservas/:id',
         loadComponent: () => import('./domains/reservations-detail/reservations-detail.component'),
-        canMatch: [adminGuard(["Admin", "User"])]
+        canMatch: [adminGuard(["Admin", "User"]), isAuthorizedForBranch()]
       },
       {
         path: 'reclamaciones',
@@ -86,7 +86,7 @@ export const routes: Routes = [
       {
         path: 'reclamaciones/:id',
         loadComponent: () => import('./domains/complaints-detail/complaints-detail.component'),
-        canMatch: [adminGuard(["Admin", "User"])]
+        canMatch: [adminGuard(["Admin", "User"]), isAuthorizedForBranch()]
       },
       {
         path: 'menu',

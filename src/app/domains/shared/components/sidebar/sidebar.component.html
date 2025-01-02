@@ -61,22 +61,18 @@
         </a>
       </li>
       }
-      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="reservas" routerLinkActive="active" class="nav-link">
           <mat-icon>event</mat-icon>
           <span class="nav-text">Reservas</span>
         </a>
       </li>
-      }
-      @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="reclamaciones" routerLinkActive="active" class="nav-link">
           <mat-icon>description</mat-icon>
           <span class="nav-text">Reclamaciones</span>
         </a>
       </li>
-      }
       @if (authService.isAdmin()) {
       <li class="nav-item">
         <a (click)="openSideBar()" routerLink="menu" routerLinkActive="active" class="nav-link">

@@ -78,7 +78,7 @@ export class UserEditModalComponent {
       iIdRol: [this.data.user.iIdRol, [
         Validators.required
       ]],
-      iIdSucursal: [{ value: this.data.user.iIdSucursal, disabled: true }, [
+      iIdSucursal: [{ value: this.data.user.iIdSucursal, disabled: this.data.user.iIdRol === 1 }, [
         Validators.required
       ]],
     });

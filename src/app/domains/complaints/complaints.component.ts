@@ -3,6 +3,7 @@ import { ErrorHandlerService } from '../shared/services/error-handler.service';
 import { ComplaintBranchCardComponent } from "./components/complaint-branch-card/complaint-branch-card.component";
 import { ComplaintService } from '../shared/services/complaint.service';
 import { ComplaintBranchResponse } from '../shared/models/complaint-branch-response.model';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-complaints',
@@ -15,6 +16,9 @@ export default class ComplaintsComponent {
 
   private readonly complaintService = inject(ComplaintService);
   private readonly errorService = inject(ErrorHandlerService);
+  readonly authService = inject(AuthService);
+
+  currentBranchUser = this.authService.getIdSucursal();
 
   branches = signal<ComplaintBranchResponse[]>([]);
 
