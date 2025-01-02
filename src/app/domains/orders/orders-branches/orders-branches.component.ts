@@ -3,6 +3,7 @@ import { OrderService } from '../../shared/services/order.service';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
 import { OrderBranchResponse } from '../../shared/models/order-branch-response.model';
 import { OrderBranchCardComponent } from "../components/order-branch-card/order-branch-card.component";
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-orders-branches',
@@ -14,6 +15,9 @@ import { OrderBranchCardComponent } from "../components/order-branch-card/order-
 export default class OrdersBranchesComponent {
   private readonly orderService = inject(OrderService);
   private readonly errorService = inject(ErrorHandlerService);
+  readonly authService = inject(AuthService);
+
+  currentBranchUser = this.authService.getIdSucursal();
 
   branches = signal<OrderBranchResponse[]>([]);
 

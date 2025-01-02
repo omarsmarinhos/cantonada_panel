@@ -72,6 +72,40 @@ export const adminGuard = (allowedRoles: string[]): CanMatchFn => {
   };
 };
 
+export const isAuthorizedForBranch = (): CanMatchFn => {
+  return (route, segments) => {
+    const router = inject(Router);
+    const authService = inject(AuthService);
+    const alertService = inject(AlertService);
+    const token = authService.user()?.token;
+
+    if (!token) {
+      router.navigate(['/auth']);
+      return false;
+    }
+
+    if (isTokenExpired(token)) {
+      alertService.showWarning("Su tiempo de sesión ha expirado.");
+      router.navigate(['/auth']);
+      return false;
+    }
+
+    const idSucursalUser = authService.getIdSucursal();
+    const requestedBranchId = Number(segments[segments.length - 1].path);
+
+    if (idSucursalUser === null) {
+      return true;
+    }
+
+    if (idSucursalUser === requestedBranchId) {
+      return true;
+    }
+
+    router.navigate(['/']);
+    return false;
+  }
+}
+
 const isTokenExpired = (token: string): boolean => {
   try {
     const decodedToken = jwtDecode<DecodedToken>(token);

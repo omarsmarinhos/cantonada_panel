@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import LayoutComponent from './domains/shared/components/layout/layout.component';
-import { adminGuard, privateGuard, publicGuard } from './core/auth.guard';
+import { adminGuard, isAuthorizedForBranch, privateGuard, publicGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   {
@@ -26,7 +26,7 @@ export const routes: Routes = [
       {
         path: 'pedidos/:id',
         loadComponent: () => import('./domains/orders/orders/orders.component'),
-        canMatch: [adminGuard(["Admin", "User"])]
+        canMatch: [adminGuard(["Admin", "User"]), isAuthorizedForBranch()]
       },
       {
         path: 'promociones',

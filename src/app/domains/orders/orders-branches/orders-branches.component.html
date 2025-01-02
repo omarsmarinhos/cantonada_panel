@@ -6,9 +6,11 @@
     <div class="main">
       <div class="main__grid">
         @for (branch of branches(); track $index) {
+        @if (currentBranchUser === null || branch.iIdSucursal === currentBranchUser) {
         <div class="main__card">
           <app-order-branch-card [branch]="branch"></app-order-branch-card>
         </div>
+        }
         }
       </div>
     </div>
