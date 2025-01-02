@@ -75,7 +75,7 @@ export default class ComplaintsDetailComponent {
 
   loadComplaints() {
     this.complaintService.getComplaints({
-      iPageNumber: 1,
+      iPageNumber: this.currentPage,
       iPageSize: 6,
       iIdSucursal: parseInt(this.id!),
       tSearch: this.searchQuery,

@@ -31,6 +31,34 @@
   height: fit-content;
   display: flex;
   flex-direction: column;
+
+  @include m.tablet {
+    margin: 1rem;
+  }
+
+  @include m.laptop {
+    margin: 2rem;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2rem 0 2rem;
+    gap: 2rem;
+
+    @include m.tablet {
+      flex-direction: row;
+    }
+
+    &__search {
+      flex: 3;
+    }
+
+    &__select {
+      flex: 1;
+    }
+  }
+
   &__grid {
     display: grid;
     gap: 2rem;
@@ -48,5 +76,22 @@
     gap: 2rem;
     padding: 2rem 2rem 0 0;
 
+  }
+}
+
+.pagination {
+  width: fit-content;
+  margin: 2rem auto;
+}
+
+::ng-deep {
+  .my-input .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .orders {
+    .mat-mdc-form-field-icon-suffix {
+      padding: 6px 8px 0 4px !important;
+    }
   }
 }

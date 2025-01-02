@@ -4,8 +4,37 @@
   </div>
   <div class="orders__content">
     <div class="main">
-      <div class="main__buttons">
-
+      <div class="main__header">
+        <div class="main__header__search">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <input type="search" matInput placeholder="Buscar por nombre, email, teléfono, documento"
+              [(ngModel)]="searchQuery" (search)="onSearch()" (keydown.down)="onSearch()">
+            <button matIconSuffix (click)="onSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Estado</mat-label>
+            <mat-select [(value)]="selectedStatus" (selectionChange)="onStatusChange()">
+              <mat-option>Todos</mat-option>
+              <mat-option value="pendiente">Pendiente</mat-option>
+              <mat-option value="entregado">Entregado</mat-option>
+              <mat-option value="anulado">Anulado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Tipo Entrega</mat-label>
+            <mat-select [(value)]="selectedTypeDelivery" (selectionChange)="onTypeChange()">
+              <mat-option>Todos</mat-option>
+              <mat-option value="Entrega por delivery">Entrega por delivery</mat-option>
+              <mat-option value="Recoger en tienda">Recoger en tienda</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
       <div class="main__grid">
         @for (order of orders(); track $index) {
@@ -13,6 +42,11 @@
           <app-order-card [order]="order"></app-order-card>
         </div>
         }
+      </div>
+      <div class="pagination pagination--bottom">
+        <app-pagination [totalItems]="totalItems()" [itemsPerPage]="8" [currentPage]="currentPage"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
       </div>
     </div>
   </div>

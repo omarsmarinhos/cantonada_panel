@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, UpperCasePipe } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { OrderCardComponent } from "../components/order-card/order-card.component";
 import { Component, inject, Input, signal } from "@angular/core";
@@ -10,14 +10,26 @@ import { WebsocketService } from "../../shared/services/websocket.service";
 import { NotificationSoundService } from "../../shared/services/notification-sound.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { PaginationComponent } from "../../customers/components/pagination/pagination.component";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { FormsModule } from "@angular/forms";
+import { CapitalizePipe } from "../../shared/pipes/capitalize.pipe";
 
 @Component({
   selector: 'app-orders',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
-    OrderCardComponent
+    OrderCardComponent,
+    UpperCasePipe,
+    PaginationComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatIconModule
   ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss'
@@ -75,8 +87,8 @@ export default class OrdersComponent {
 
   loadOrders() {
     this.orderService.getOrders({
-      iPageNumber: 1,
-      iPageSize: 12,
+      iPageNumber: this.currentPage,
+      iPageSize: 8,
       iIdSucursal: parseInt(this.id!),
       tSearch: this.searchQuery,
       tEstado: this.selectedStatus,
@@ -96,6 +108,24 @@ export default class OrdersComponent {
 
   goToOrderBranchPage() {
     this.router.navigate(["/pedidos"]);
+  }
+
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
+    this.loadOrders();
+  }
+
+  onStatusChange() {
+    this.loadOrders();
+  }
+
+  onTypeChange() {
+    this.loadOrders();
+  }
+
+  onSearch() {
+    this.currentPage = 1;
+    this.loadOrders();
   }
 
   ngOnDestroy() {
