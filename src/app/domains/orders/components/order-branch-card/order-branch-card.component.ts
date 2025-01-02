@@ -1,13 +1,13 @@
 import { Component, inject, Input } from '@angular/core';
+import { OrderBranchResponse } from '../../../shared/models/order-branch-response.model';
 import { Router } from '@angular/router';
 import { UpperCasePipe } from '@angular/common';
-import { ComplaintBranchResponse } from '../../../shared/models/complaint-branch-response.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-complaint-branch-card',
+  selector: 'app-order-branch-card',
   standalone: true,
   imports: [
     UpperCasePipe,
@@ -15,16 +15,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatBadgeModule,
     MatTooltipModule
   ],
-  templateUrl: './complaint-branch-card.component.html',
-  styleUrl: './complaint-branch-card.component.scss'
+  templateUrl: './order-branch-card.component.html',
+  styleUrl: './order-branch-card.component.scss'
 })
-export class ComplaintBranchCardComponent {
+export class OrderBranchCardComponent {
 
-  @Input({ required: true }) branch!: ComplaintBranchResponse;
+  @Input({ required: true }) branch!: OrderBranchResponse;
 
   private readonly router = inject(Router);
 
-  onGoComplaintsByBranch(iIdSucursal: number) {
-    this.router.navigate(['/reclamaciones', iIdSucursal]);
+  onGotoOrdersByBranch(iIdSucursal: number) {
+    this.router.navigate(['/pedidos', iIdSucursal]);
   }
 }

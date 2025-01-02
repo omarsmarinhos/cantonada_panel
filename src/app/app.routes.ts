@@ -20,7 +20,12 @@ export const routes: Routes = [
       },
       {
         path: 'pedidos',
-        loadComponent: () => import('./domains/orders/orders.component'),
+        loadComponent: () => import('./domains/orders/orders-branches/orders-branches.component'),
+        canMatch: [adminGuard(["Admin", "User"])]
+      },
+      {
+        path: 'pedidos/:id',
+        loadComponent: () => import('./domains/orders/orders/orders.component'),
         canMatch: [adminGuard(["Admin", "User"])]
       },
       {

@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ConfigurationService } from '../shared/services/configuration.service';
 import { ConfigurationResponse } from '../shared/models/ConfigurationResponse.model';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,9 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { AlertService } from '../shared/services/alert.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
 import { AuthService } from '../shared/services/auth.service';
+import { UnitMeasure } from '../shared/models/unit-measure.model';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ProductService } from '../shared/services/product.service';
 
 @Component({
   selector: 'app-configurations',
@@ -23,7 +26,8 @@ import { AuthService } from '../shared/services/auth.service';
     MatSelectModule,
     FormsModule,
     MatGridListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ],
   templateUrl: './configurations.component.html',
   styleUrl: './configurations.component.scss'
@@ -34,6 +38,7 @@ export default class ConfigurationsComponent {
   private readonly fb = inject(FormBuilder);
   private readonly alertService = inject(AlertService);
   private readonly errorService = inject(ErrorHandlerService);
+  private readonly productService = inject(ProductService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   readonly authService = inject(AuthService);
   private breakpointSubscription: Subscription | undefined;
@@ -46,7 +51,10 @@ export default class ConfigurationsComponent {
       recargoConsumo: 0,
       iIdUsuarioFast: 0,
       iIdPrecioAplicar: 0,
-      iIdTerminal: 0
+      iIdTerminal: 0,
+      iIdDeliveryFast: 0,
+      tNombreDelivery: '',
+      tUnidadMedidaDelivery: ''
     },
     configImagenes: []
   };
@@ -64,8 +72,11 @@ export default class ConfigurationsComponent {
 
   aspectRatios: string[] = ['1:1', '4:3', '3:2', '16:9']
   fieldsGeneral: string[] = ['igv', 'recargoConsumo'];
-  fieldsFast: string[] = ['iIdUsuarioFast', 'iIdPrecioAplicar', 'iIdTerminal']
+  fieldsFast: string[] = ['iIdUsuarioFast', 'iIdPrecioAplicar', 'iIdTerminal', 'iIdDeliveryFast', 'tNombreDelivery', 'tUnidadMedidaDelivery']
   fieldsImg: string[] = ['maxWidth', 'maxHeight', 'aspectRatio']
+
+  units = signal<UnitMeasure[]>([]);
+  filteredUnits = signal<UnitMeasure[]>([]);
 
   constructor() {
     console.log(this.isSynchronizedWithFast);
@@ -94,6 +105,16 @@ export default class ConfigurationsComponent {
         Validators.required,
         this.integerValidator]
       ],
+      iIdDeliveryFast: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required,
+        this.integerValidator
+      ]],
+      tNombreDelivery: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required
+      ]],
+      tUnidadMedidaDelivery: [{ value: '', disabled: this.isDisabledGeneral }, [
+        Validators.required
+      ]],
     });
     this.formCategoria = this.fb.group({
       iIdConfigImagen: [''],
@@ -116,6 +137,7 @@ export default class ConfigurationsComponent {
   }
 
   ngOnInit() {
+    this.loadUnits();
     this.loadConfiguration();
     this.breakpointSubscription = this.breakpointObserver.observe(['(min-width: 768px)']).subscribe((state: BreakpointState) => {
       if (state.matches) {
@@ -149,7 +171,10 @@ export default class ConfigurationsComponent {
       recargoConsumo: this.configuration.configuracion.recargoConsumo,
       iIdUsuarioFast: this.configuration.configuracion.iIdUsuarioFast,
       iIdPrecioAplicar: this.configuration.configuracion.iIdPrecioAplicar,
-      iIdTerminal: this.configuration.configuracion.iIdTerminal
+      iIdTerminal: this.configuration.configuracion.iIdTerminal,
+      iIdDeliveryFast: this.configuration.configuracion.iIdDeliveryFast,
+      tNombreDelivery: this.configuration.configuracion.tNombreDelivery,
+      tUnidadMedidaDelivery: this.configuration.configuracion.tUnidadMedidaDelivery
     });
   }
   loadConfigurationCategoria() {
@@ -355,6 +380,36 @@ export default class ConfigurationsComponent {
       return { integerError: 'El valor debe ser un número entero positivo.' };
     }
     return null;
+  }
+
+  loadUnits() {
+    this.productService.getUnits().subscribe({
+      next: (res) => {
+        this.units.set(res);
+        this.filteredUnits.set(res);
+      },
+      error: (err) => {
+        this.errorService.showError(err);
+      }
+    });
+  }
+
+  filterUnits(controlName: string): void {
+    const inputValue = this.formGeneral.get(controlName)?.value?.toLowerCase() || '';
+    this.filteredUnits.set(
+      this.units().filter(unit =>
+        unit.tCodigo.toLowerCase().includes(inputValue) ||
+        unit.tDescripcion.toLowerCase().includes(inputValue)
+      )
+    );
+  }
+
+  validOption(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      const exists = this.units().some(unit => unit.tCodigo === value);
+      return exists ? null : { invalidOption: true };
+    };
   }
 
   ngOnDestroy() {

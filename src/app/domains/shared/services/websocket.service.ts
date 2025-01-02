@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class WebsocketService {
 
-   readonly socketNewOrder: Socket;
-   readonly socketChangeOrderStatus: Socket;
-   socketChangeOrderStatusInit = false;
+  readonly socketNewOrder: Socket;
+  readonly socketChangeOrderStatus: Socket;
+  socketChangeOrderStatusInit = false;
 
   constructor() {
     this.socketNewOrder = io(environment.socketNewOrderUrl, {
@@ -41,6 +41,18 @@ export class WebsocketService {
         observer.next(data);
       });
     });
+  }
+
+  connectSocketNewOrder() {
+    if (this.socketNewOrder.disconnected) {
+      this.socketNewOrder.connect();
+    }
+  }
+
+  connectSocketChangeOrderStatus() {
+    if (this.socketChangeOrderStatus.disconnected) {
+      this.socketChangeOrderStatus.connect();
+    }
   }
 
   disconnectSocketNewOrder() {

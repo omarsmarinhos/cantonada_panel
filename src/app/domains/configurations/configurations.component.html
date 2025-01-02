@@ -38,6 +38,32 @@
               <input matInput type="number" formControlName="iIdTerminal">
             </mat-form-field>
           </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspan4">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Id Delivery Fast</mat-label>
+              <input matInput type="number" formControlName="iIdDeliveryFast">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspan4">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Descripción</mat-label>
+              <input matInput formControlName="tNombreDelivery">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="colspan4">
+            <mat-form-field appearance="outline" style="width: 100%;" class="h-50">
+              <mat-label>Unidad de Medida Delivery</mat-label>
+              <input type="text" matInput [matAutocomplete]="unitsAuto" formControlName="tUnidadMedidaDelivery"
+                (input)="filterUnits('tUnidadMedidaDelivery')" />
+              <mat-autocomplete #unitsAuto="matAutocomplete">
+                @for (unit of filteredUnits(); track $index) {
+                <mat-option [value]="unit.tCodigo">
+                  {{ unit.tCodigo }} - {{ unit.tDescripcion }}
+                </mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </mat-grid-tile>
           }
 
         </mat-grid-list>

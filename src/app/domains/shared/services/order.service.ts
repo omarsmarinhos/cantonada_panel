@@ -2,6 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/Order.model';
+import { OrderBranchResponse } from '../models/order-branch-response.model';
+import { PaginatedRequest } from '../models/paginated-request.model';
+import { PaginatedResponse } from '../models/paginated-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,11 @@ export class OrderService {
 
   constructor() { }
 
-  getOrders() {
-    return this.http.get<Order[]>(`${this.baseUrl}/Pedido`);
+  getOrders(request: PaginatedRequest) {
+    return this.http.post<PaginatedResponse<Order[]>>(`${this.baseUrl}/Pedido`, request);
+  }
+
+  getBranches() {
+    return this.http.get<OrderBranchResponse[]>(`${this.baseUrl}/Pedido`);
   }
 }

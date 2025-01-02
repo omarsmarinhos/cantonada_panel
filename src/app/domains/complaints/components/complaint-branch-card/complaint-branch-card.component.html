@@ -1,5 +1,5 @@
 <div class="complaint__card" (click)="onGoComplaintsByBranch(branch.iIdSucursal)">
-  <div class="complaint__card__notifications">
+  <div class="complaint__card__notifications" matTooltip="Reclamos pendientes">
     <mat-icon class="shadowed-icon" [matBadge]="branch.iPendientes" aria-hidden="false">notifications</mat-icon>
   </div>
   <div class="complaint__card__img">

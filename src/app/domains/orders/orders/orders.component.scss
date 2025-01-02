@@ -1,0 +1,52 @@
+@use './../../../../styles/mixins' as m;
+
+.orders {
+  &__header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 2rem 3rem 2rem 3rem;
+
+    .title {
+      font-size: 2rem;
+      display: block;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+  }
+
+  &__content {
+    background-color: var(--background-content-color);
+    display: flex;
+    border-radius: 0 0 2rem 2rem;
+    padding-bottom: 6rem;
+    min-height: calc(100dvh - 18rem);
+
+    @include m.laptop {
+      min-height: calc(100dvh - 16rem);
+    }
+  }
+}
+
+.main {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  &__grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    margin: 2rem;
+  }
+
+  &__card {
+    border-radius: 8px;
+  }
+
+  &__buttons {
+    display: flex;
+    margin: 0 0 0 auto;
+    gap: 2rem;
+    padding: 2rem 2rem 0 0;
+
+  }
+}

@@ -1,8 +1,11 @@
-@use './../../../styles/mixins' as m;
+@use './../../../../styles/mixins' as m;
 
-.orders {
+.orders-branches {
   &__header {
     border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 2rem 3rem 2rem 3rem;
 
     .title {
@@ -27,26 +30,31 @@
 }
 
 .main {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  margin: 1rem 0 1rem 0;
   width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: column;
+
+  @include m.tablet {
+    margin: 1rem;
+  }
+
+  @include m.laptop {
+    margin: 2rem;
+  }
+
   &__grid {
     display: grid;
     gap: 2rem;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     margin: 2rem;
   }
 
   &__card {
     border-radius: 8px;
-  }
-
-  &__buttons {
-    display: flex;
-    margin: 0 0 0 auto;
-    gap: 2rem;
-    padding: 2rem 2rem 0 0;
-
   }
 }

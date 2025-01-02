@@ -1,0 +1,13 @@
+<div class="order-branch__card" (click)="onGotoOrdersByBranch(branch.iIdSucursal)">
+  <div class="order-branch__card__notifications" matTooltip="Pedidos pendientes">
+    <mat-icon class="shadowed-icon" [matBadge]="branch.iPendientes" aria-hidden="false">notifications</mat-icon>
+  </div>
+  <div class="order-branch__card__img">
+    <img [src]="branch.tImagenUrl" alt="{{branch.tNombre}} img" loading="lazy">
+  </div>
+  <div class="order-branch__card__content">
+    <div class="order-branch__card__title">
+      <span>{{ branch.tNombre | uppercase }}</span>
+    </div>
+  </div>
+</div>
