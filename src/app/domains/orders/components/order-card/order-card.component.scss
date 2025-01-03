@@ -23,9 +23,10 @@
       flex-direction: column;
     }
 
-    &__state {
+    &__status {
+      font-size: 1.2rem;
       padding: 1rem 2rem;
-      background-color: rgb(233, 233, 153);
+      background-color: rgb(231, 231, 197);
       border-radius: .5rem;
     }
 
@@ -104,6 +105,12 @@
       &--customer {
         background-color: var(--secondary-color);
         color: var(--primary-color);
+        flex: 1;
+      }
+
+      &--cancel {
+        background-color: rgb(252, 219, 219);
+        color: var(--red-color);
       }
     }
   }

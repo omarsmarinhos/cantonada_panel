@@ -6,6 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CapitalizePipe } from '../../../shared/pipes/capitalize.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderCardCustomerModalComponent } from '../order-card-customer-modal/order-card-customer-modal.component';
+import { OrderCardCancelOrderModalComponent } from '../order-card-cancel-order-modal/order-card-cancel-order-modal.component';
 
 @Component({
   selector: 'app-order-card',
@@ -32,5 +33,12 @@ export class OrderCardComponent {
       width: '500px'
     });
   }
+
+  openModalCancelOrder(order: Order) {
+    this.dialog.open(OrderCardCancelOrderModalComponent, {
+      data: order,
+      width: '500px'
+    });
+  }  
 
 }

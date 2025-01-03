@@ -19,7 +19,7 @@
           <span>{{order.tTipoEntrega}}</span>
         </div>
       </div>
-      <span class="order__card__header__state">{{order.tEstado}}</span>
+      <span class="order__card__header__status">{{order.tEstado | capitalize}}</span>
     </div>
     @if (order.tTipoEntrega === 'Entrega por delivery') {
     <div class="order__card__location">
@@ -93,8 +93,8 @@
         (click)="openModalCustomerData(order)">
         Datos del cliente
       </button>
-      <button class="order__card__actions__button">
-
+      <button class="order__card__actions__button order__card__actions__button--cancel" (click)="openModalCancelOrder(order)">
+        Anular
       </button>
     </div>
   </div>

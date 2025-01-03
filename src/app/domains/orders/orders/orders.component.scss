@@ -68,6 +68,7 @@
 
   &__card {
     border-radius: 8px;
+    break-inside: avoid;
   }
 
   &__buttons {

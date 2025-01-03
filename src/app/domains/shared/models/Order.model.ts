@@ -24,6 +24,7 @@ export interface Order {
   tRazonSocial?: string;
   tDireccionFiscal?: string;
   dPedido: OrderDetail[];
+  iIdPedidoFast: number;
 }
 
 export interface OrderDetail {

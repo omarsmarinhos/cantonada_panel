@@ -5,6 +5,7 @@ import { Order } from '../models/Order.model';
 import { OrderBranchResponse } from '../models/order-branch-response.model';
 import { PaginatedRequest } from '../models/paginated-request.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
+import { OrderCancelRequest } from '../models/order-cancel-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,9 @@ export class OrderService {
 
   getBranches() {
     return this.http.get<OrderBranchResponse[]>(`${this.baseUrl}/Pedido`);
+  }
+
+  cancelOrder(request: OrderCancelRequest) {
+    return this.http.post<any>(`${this.baseUrl}/Pedido/Anular`, request)
   }
 }
