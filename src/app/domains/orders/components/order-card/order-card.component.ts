@@ -40,5 +40,4 @@ export class OrderCardComponent {
       width: '500px'
     });
   }  
-
 }

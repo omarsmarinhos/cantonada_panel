@@ -65,7 +65,6 @@ export default class ComplaintsDetailComponent {
     this.complaintService.getTypeComplaints().subscribe({
       next: (res) => {
         this.typeComplaints.set(res);
-        console.log(res);
       },
       error: (err) => {
         this.errorService.showError(err);

@@ -1,0 +1,124 @@
+.reservation__card {
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+
+  &.rejected {
+    background-color: #FFC1C1;
+    border-color: #E68A8A;
+  }
+
+  &.approved {
+    background-color: #C1FFC1;
+    border-color: #8AE68A;
+  }
+
+  &.pending {
+    background-color: #C1C1FF;
+    border-color: #8A8AE6;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 2rem;
+    gap: 1rem;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &__info {
+        display: flex;
+        flex-direction: column;
+
+        span {
+          font-size: 1.8rem;
+          font-weight: 600;
+          word-wrap: break-word;
+          word-break: break-word;
+        }
+
+        &__type {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+
+          span {
+            font-size: 1.4rem;
+            font-weight: 400;
+          }
+        }
+      }
+
+      &__status {
+        padding: 1rem 2rem;
+        background-color: var(--white-color);
+        border-radius: .5rem;
+      }
+    }
+
+    &__date {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-size: 1.2rem;
+      }
+    }
+
+    &__data {
+      display: flex;
+
+      span {
+        font-size: 1.4rem;
+      }
+
+      &__key {
+        font-weight: 600;
+        flex: 2;
+      }
+
+      &__value {
+        flex: 3;
+        word-wrap: break-word;
+        word-break: break-word;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: right;
+    gap: 1.5rem;
+    margin: 0 2rem 1rem 0;
+
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: .5rem;
+      font-weight: 700;
+    }
+
+    .btn-details {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+    }
+
+    .btn-resolve {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+    }
+  }
+}
+
+.separator {
+  border: 1px solid var(--border-color);
+}
+
+.pagination {
+  width: fit-content;
+  margin: 2rem auto;
+}

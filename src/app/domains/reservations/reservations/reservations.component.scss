@@ -1,0 +1,100 @@
+@use './../../../../styles/mixins' as m;
+
+.reservations {
+  &__header {
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 3rem 2rem 3rem;
+
+    .title {
+      font-size: 2rem;
+      display: block;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+  }
+
+  &__content {
+    background-color: var(--background-content-color);
+    display: flex;
+    border-radius: 0 0 2rem 2rem;
+    padding-bottom: 6rem;
+    min-height: calc(100dvh - 18rem);
+
+    @include m.laptop {
+      min-height: calc(100dvh - 16rem);
+    }
+  }
+}
+
+.main {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  margin: 1rem 0 1rem 0;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+
+  @include m.tablet {
+    margin: 1rem;
+  }
+
+  @include m.laptop {
+    margin: 2rem;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2rem 0 2rem;
+    gap: 2rem;
+
+    @include m.tablet {
+      flex-direction: row;
+    }
+
+    &__search {
+      flex: 3;
+    }
+
+    &__select {
+      flex: 1;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    margin: 2rem;
+
+    @include m.tablet {
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    }
+  }
+
+  &__card {
+    border-radius: 8px;
+  }
+}
+
+.pagination {
+  width: fit-content;
+  margin: 2rem auto;
+}
+
+::ng-deep {
+  .my-input .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .reservations {
+    .mat-mdc-form-field-icon-suffix {
+      padding: 6px 8px 0 4px !important;
+    }
+  }
+}

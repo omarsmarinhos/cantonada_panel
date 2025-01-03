@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Reserva de {{reservation.tNombre | capitalize}}</h2>
+<mat-dialog-content>
+  <h3>¿Por qué razón se va a anular la reserva?</h3>
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <textarea matInput #answer [(ngModel)]="tRechazo" minlength="10" maxlength="1000" rows="5"
+      [readonly]="reservation.tEstado === 'rechazado'"></textarea>
+    <mat-hint align="end">{{answer.value.length}} / 1000</mat-hint>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions">
+  <button class="btn-modal cancel" (click)="onCancel()">Cancelar</button>
+  @if (reservation.tEstado === 'pendiente') {
+  <button class="btn-modal delete" (click)="onSubmit()">Rechazar</button>
+  }
+</mat-dialog-actions>

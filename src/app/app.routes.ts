@@ -70,12 +70,12 @@ export const routes: Routes = [
       },
       {
         path: 'reservas',
-        loadComponent: () => import('./domains/reservations/reservations.component'),
+        loadComponent: () => import('./domains/reservations/reservations-branches/reservations-branches.component'),
         canMatch: [adminGuard(["Admin", "User"])]
       },
       {
         path: 'reservas/:id',
-        loadComponent: () => import('./domains/reservations-detail/reservations-detail.component'),
+        loadComponent: () => import('./domains/reservations/reservations/reservations.component'),
         canMatch: [adminGuard(["Admin", "User"]), isAuthorizedForBranch()]
       },
       {

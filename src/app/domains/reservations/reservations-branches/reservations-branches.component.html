@@ -1,0 +1,18 @@
+<div class="reservations-branches">
+  <div class="reservations-branches__header">
+    <span class="title">RESERVAS</span>
+  </div>
+  <div class="reservations-branches__content">
+    <div class="main">
+      <div class="main__grid">
+        @for (branch of branches(); track $index) {
+        @if (currentBranchUser === null || branch.iIdSucursal === currentBranchUser) {
+        <div class="main__card">
+          <app-reservation-branch-card [branch]="branch"></app-reservation-branch-card>
+        </div>
+        }
+        }
+      </div>
+    </div>
+  </div>
+</div>

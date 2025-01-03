@@ -1,0 +1,54 @@
+<div class="reservations">
+  <div class="reservations__header">
+    <span class="title">RESERVAS EN {{currentBranch | uppercase}}</span>
+  </div>
+  <div class="reservations__content">
+    <div class="main">
+      <div class="main__header">
+        <div class="main__header__search">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <input type="search" matInput placeholder="Buscar por nombre, email, teléfono, documento"
+              [(ngModel)]="searchQuery" (search)="onSearch()" (keydown.down)="onSearch()">
+            <button matIconSuffix (click)="onSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Estado</mat-label>
+            <mat-select [(value)]="selectedStatus" (selectionChange)="onStatusChange()">
+              <mat-option>Todos</mat-option>
+              <mat-option value="pendiente">Pendiente</mat-option>
+              <mat-option value="aprobado">Aprobado</mat-option>
+              <mat-option value="rechazado">Rechazado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="main__header__select">
+          <mat-form-field appearance="outline" style="width: 100%;" class="h-50 my-input">
+            <mat-label>Motivos de reserva</mat-label>
+            <mat-select [(value)]="selectedTypeReservation" (selectionChange)="onReservationTypeChange()">
+              <mat-option>Todos</mat-option>
+              @for (type of typeReservations(); track $index) {
+              <mat-option [value]="type.iIdMotivoReserva">{{ type.tNombre | capitalize }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="main__grid">
+        @for (reservation of reservations(); track reservation.iIdReserva) {
+        <div class="main__card">
+          <app-reservation-card [reservation]="reservation" (reload)="loadReservations()"></app-reservation-card>
+        </div>
+        }
+      </div>
+      <div class="pagination pagination--bottom">
+        <app-pagination [totalItems]="totalItems()" [itemsPerPage]="6" [currentPage]="currentPage"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>
